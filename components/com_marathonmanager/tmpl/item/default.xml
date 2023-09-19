@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+    <layout title="COM_MARATHONMANAGER_ITEM_VIEW_DEFAULT_TITLE">
+        <message>
+            <![CDATA[COM_MARATHONMANAGER_ITEM_VIEW_DEFAULT_DESC]]>
+        </message>
+    </layout>
+    <fields name="request">
+        <fieldset name="request" addfieldprefix="NXD\Component\Hello\Administrator\Field">
+            <field
+                    name="id"
+                    type="modal_item"
+                    label="COM_MARATHONMANAGER_ITEM_SELECT_LABEL"
+                    required="true"
+                    select="true"
+                    new="true"
+                    edit="true"
+                    clear="true"
+            />
+        </fieldset>
+    </fields>
+</metadata>

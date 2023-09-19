@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_marathonmanager
+ * @copyright   Copyright (c) 2023 NXD | nx-designs
+ *              All rights reserved
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace NXD\Component\Hello\Site\Model;
+
+\defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+
+/**
+ * (DB) Event Model
+ *
+ * @since  1.0.0
+ */
+
+class ItemModel extends BaseDatabaseModel
+{
+	protected $_item = null;
+
+	public function getItem($pk = null): object|bool
+	{
+		$app = Factory::getApplication();
+		$pk = $app->input->getInt('id');
+
+		if($this->_item === null)
+		{
+			$this->_item = array();
+		}
+
+		if(!isset($this->_item[$pk]))
+		{
+			try{
+				$db = $this->getDatabase();
+				$query = $db->getQuery(true);
+
+				$query->select('*')
+					->from($db->quoteName('#__hello_items', 'a'))
+					->where($db->quoteName('a.id') . ' = ' . $db->quote($pk));
+
+				$db->setQuery($query);
+				$data = $db->loadObject();
+
+				if(empty($data))
+				{
+					throw new \Exception(Text::_('COM_MARATHONMANAGER_ITEM_NOT_FOUND'), 404);
+				}
+
+				$this->_item[$pk] = $data;
+			}
+			catch(\Exception $e)
+			{
+				$this->setError($e->getMessage());
+				$this->_item[$pk] = false;
+			}
+		}
+
+		return $this->_item[$pk];
+	}
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="component" method="upgrade">
+    <name>COM_MARATHONMANAGER</name>
+    <creationDate>September 2023</creationDate>
+    <author>NXD</author>
+    <authorEmail>support@nx-designs.ch</authorEmail>
+    <authorUrl>https://www.nx-designs.ch</authorUrl>
+    <copyright>Copyright 2023 by NXD nx-designs</copyright>
+    <license>GNU General Public License version 2 or later;</license>
+    <version>1.0.0</version>
+    <description>COM_MARATHONMANAGER_XML_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
+    <namespace path="src">NXD\Component\MarathonManager</namespace>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="components/com_marathonmanager">
+        <folder>language</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <media folder="media/com_marathonmanager" destination="com_marathonmanager">
+        <filename>joomla.asset.json</filename>
+        <folder>js</folder>
+    </media>
+
+    <!-- Optional: Moves the language files to the right place -->
+    <languages folder="components/com_marathonmanager/language">
+        <language tag="en-GB">en-GB/com_marathonmanager.ini</language>
+    </languages>
+
+    <administration>
+        <!-- Menu entries -->
+        <menu view="events">COM_MARATHONMANAGER</menu>
+        <submenu>
+            <menu link="option=com_marathonmanager">COM_MARATHONMANAGER_MENUITEM_WORLDS_LABEL</menu>
+            <menu link="option=com_marathonmanager&amp;view=static">COM_MARATHONMANAGER_MENUITEM_STATIC_LABEL</menu>
+            <menu link="option=com_marathonmanager&amp;view=events">
+                COM_MARATHONMANAGER_MENUITEM_EVENTS_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_DATABASE_ITEM_ADD_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
+            <menu link="option=com_categories&amp;extension=com_marathonmanager">
+                JCATEGORIES
+                <params>
+                    <menu-quicktask-title>JCATEGORY_ADD</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_categories&amp;&amp;view=category&amp;layout=edit&amp;extension=com_marathonmanager</menu-quicktask>
+                </params>
+            </menu>
+            <menu link="option=com_fields&amp;context=com_marathonmanager.event">JGLOBAL_FIELDS</menu>
+            <menu link="option=com_fields&amp;view=groups&amp;context=com_marathonmanager.event">JGLOBAL_FIELD_GROUPS</menu>
+        </submenu>
+
+        <files folder="administrator/components/com_marathonmanager">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <folder>services</folder>
+            <folder>forms</folder>
+            <folder>language</folder>
+            <folder>src</folder>
+            <folder>sql</folder>
+            <folder>tmpl</folder>
+        </files>
+
+        <!-- Optional: Moves the language files to the right place -->
+        <languages folder="administrator/components/com_marathonmanager/language">
+            <language tag="en-GB">en-GB/com_marathonmanager.ini</language>
+            <language tag="en-GB">en-GB/com_marathonmanager.sys.ini</language>
+        </languages>
+
+    </administration>
+
+    <changelogurl>[CHANGELOG_URL]</changelogurl>
+    <updateservers>
+        <server type="extension" name="hello">[UPDATE_SERVER_URL]</server>
+    </updateservers>
+    <dlid prefix="dlid="></dlid>
+</extension>

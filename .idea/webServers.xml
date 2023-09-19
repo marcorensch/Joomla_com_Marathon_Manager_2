@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2ebae6b7-2eb0-4e9f-9eaa-19d29bd5c6eb" name="Joomla 4" url="http://localhost">
+        <fileTransfer mountedRoot="$USER_HOME$/Sites/joomla4" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

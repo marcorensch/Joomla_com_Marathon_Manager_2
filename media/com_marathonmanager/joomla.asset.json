@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_hello",
+  "version": "1.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_marathonmanager.rule-letters-only",
+      "type": "script",
+      "uri": "com_marathonmanager/rule-letters-only.js",
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "com_marathonmanager.admin-items-modal",
+      "type": "script",
+      "uri": "com_marathonmanager/admin-items-modal.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}

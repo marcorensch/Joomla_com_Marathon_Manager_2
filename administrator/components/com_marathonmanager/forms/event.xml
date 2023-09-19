@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <fieldset
+            addruleprefix="NXD\Component\MarathonManager\Administrator\Rule"
+            addformprefix="NXD\Component\MarathonManager\Administrator\Form"
+    >
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                description="JGLOBAL_FIELD_ID_DESC"
+                readonly="true"
+                class="readonly"
+                default="0"
+        />
+        <field
+                name="title"
+                type="text"
+                label="COM_MARATHONMANAGER_TITLE_LABEL"
+                required="true"
+                size="40"
+        />
+        <field
+                name="alias"
+                type="text"
+                label="COM_MARATHONMANAGER_ALIAS_LABEL"
+                description="COM_MARATHONMANAGER_ALIAS_DESC"
+                size="40"
+        />
+
+        <field
+                name="description"
+                type="editor"
+                label="COM_MARATHONMANAGER_DESCRIPTION_LABEL"
+                filter="safehtml"
+                buttons="true"
+        />
+
+        <field
+                name="earlybird_fee"
+                type="text"
+                label="COM_MARATHONMANAGER_EARLYBIRD_FEE_LABEL"
+                description="COM_MARATHONMANAGER_EARLYBIRD_FEE_DESC"
+                pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                hint="0.00"
+        />
+        <field
+                name="regular_fee"
+                type="text"
+                label="COM_MARATHONMANAGER_REGULAR_FEE_LABEL"
+                description="COM_MARATHONMANAGER_REGULAR_FEE_DESC"
+                pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                hint="0.00"
+        />
+
+        <field
+                name="registration_start_date"
+                type="calendar"
+                label="COM_MARATHONMANAGER_REGISTRATION_START_DATE_LABEL"
+                description="COM_MARATHONMANAGER_REGISTRATION_START_DATE_DESC"
+                translateformat="true"
+                showtime="true"
+                filter="user_utc"
+                default="now"
+        />
+
+        <field
+                name="earlybird_end_date"
+                type="calendar"
+                label="COM_MARATHONMANAGER_EARLYBIRD_ENDDATE_LABEL"
+                description="COM_MARATHONMANAGER_EARLYBIRD_ENDDATE_DESC"
+                translateformat="true"
+                showtime="true"
+                filter="user_utc"
+                default="now + 3 month"
+        />
+
+        <field
+                name="registration_end_date"
+                type="calendar"
+                label="COM_MARATHONMANAGER_REGISTRATION_END_DATE_LABEL"
+                description="COM_MARATHONMANAGER_REGISTRATION_END_DATE_DESC"
+                translateformat="true"
+                showtime="true"
+                filter="user_utc"
+                default="now + 5 month"
+        />
+
+
+        <field
+                name="event_date"
+                type="calendar"
+                label="COM_MARATHONMANAGER_EVENT_DATE_LABEL"
+                description="COM_MARATHONMANAGER_EVENT_DATE_DESC"
+                translateformat="true"
+                showtime="true"
+                filter="user_utc"
+                default="now + 1 year"
+        />
+
+        <field
+                name="image"
+                type="media"
+                label="COM_MARATHONMANAGER_IMAGE_LABEL"
+                description="COM_MARATHONMANAGER_EVENT_IMAGE_DESC"
+                directory="images"
+        />
+        <field
+                name="gallery_content"
+                type="editor"
+                label="COM_MARATHONMANAGER_GALLERY_CONTENT_LABEL"
+                description="COM_MARATHONMANAGER_GALLERY_CONTENT_DESC"
+                filter="safehtml"
+                buttons="true"
+                height="300"
+        />
+        <field
+                name="lastinfos_newsletter_list_id"
+                type="text"
+                label="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_LABEL"
+                description="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_DESC"
+        />
+        <field
+                name="lat"
+                type="text"
+                label="COM_MARATHONMANAGER_LAT_LABEL"
+                description="COM_MARATHONMANAGER_EVENT_LAT_DESC"
+                hint="46.94809"
+        />
+        <field
+                name="lng"
+                type="text"
+                label="COM_MARATHONMANAGER_LNG_LABEL"
+                description="COM_MARATHONMANAGER_EVENT_LNG_DESC"
+                hint="7.44744"
+        />
+        <field
+                name="map_option_id"
+                type="list"
+                label="COM_MARATHONMANAGER_MAP_OPTION_LABEL"
+                description="COM_MARATHONMANAGER_MAP_OPTION_DESC"
+                default="2"
+        >
+            <option value="1">COM_MARATHONMANAGER_MAP_OPTION_NO_MAP</option>
+            <option value="2">COM_MARATHONMANAGER_MAP_OPTION_ONE</option>
+            <option value="3">COM_MARATHONMANAGER_MAP_OPTION_ONE_FREE_ADD_PRICED</option>
+            <option value="4">COM_MARATHONMANAGER_MAP_OPTION_PRICED</option>
+        </field>
+        <field
+                name="price_per_map"
+                type="text"
+                label="COM_MARATHONMANAGER_PRICE_PER_MAP_LABEL"
+                showon="map_option_id:3,4"
+                pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                hint="0.00"
+        />
+
+        <field
+                name="attachments"
+                type="subform"
+                layout="joomla.form.field.subform.repeatable-table"
+                formsource="administrator/components/com_marathonmanager/forms/subform_attachments.xml"
+                multiple="true"
+                min="0"
+        />
+
+        <field
+                name="result_files"
+                type="subform"
+                layout="joomla.form.field.subform.repeatable-table"
+                formsource="administrator/components/com_marathonmanager/forms/subform_result_files.xml"
+                multiple="true"
+                min="0"
+        />
+
+        <field
+                name="street"
+                type="text"
+                label="COM_MARATHONMANAGER_STREET_LABEL"
+        />
+
+        <field
+                name="zip"
+                type="text"
+                label="COM_MARATHONMANAGER_ZIP_LABEL"
+                size="6"
+                filter="integer"
+                hint="3000"
+        />
+        <field
+                name="city"
+                type="text"
+                label="COM_MARATHONMANAGER_CITY_LABEL"
+                hint="Bern"
+        />
+
+
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                description="JFIELD_ACCESS_DESC"
+                size="1"
+        />
+        <field
+                name="catid"
+                type="categoryedit"
+                label="JCATEGORY"
+                extension="com_hello"
+                addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+                required="true"
+                default=""
+        />
+        <field
+                name="published"
+                type="list"
+                label="JSTATUS"
+                default="1"
+                id="published"
+                class="custom-select-color-state"
+                size="1"
+        >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field
+                name="publish_up"
+                type="calendar"
+                label="COM_MARATHONMANAGER_FIELD_PUBLISH_UP_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+                default="now"
+        />
+
+        <field
+                name="publish_down"
+                type="calendar"
+                label="COM_MARATHONMANAGER_FIELD_PUBLISH_DOWN_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+                default="0000-00-00 00:00:00"
+        />
+        <field
+                name="created_by"
+                type="user"
+                label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+        <field
+                name="modified_by"
+                type="user"
+                label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+    </fieldset>
+</form>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                inputmode="search"
+                label="COM_MARATHONMANAGER_SEARCH_LABEL"
+                description="COM_MARATHONMANAGER_SEARCH_LEAGUES_DESC"
+                hint="JSEARCH_FILTER"
+        />
+
+        <field
+                name="published"
+                type="status"
+                label="JOPTION_SELECT_PUBLISHED"
+                onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+        <field
+                name="access"
+                type="accesslevel"
+                label="JOPTION_SELECT_ACCESS"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_ACCESS</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+            name="fullordering"
+            type="list"
+            label="JGLOBAL_SORT_BY"
+            default="a.created_at DESC"
+            onchange="this.form.submit();"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+            <option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+            <option value="a.created ASC">COM_MARATHONMANAGER_FILTER_CREATED_ASC</option>
+            <option value="a.created DESC">COM_MARATHONMANAGER_FILTER_CREATED_DESC</option>
+            <option value="a.event_date ASC">COM_MARATHONMANAGER_FILTER_EVENT_DATE_ASC</option>
+            <option value="a.event_date DESC">COM_MARATHONMANAGER_FILTER_EVENT_DATE_DESC</option>
+            <option value="a.published ASC">JSTATUS_ASC</option>
+            <option value="a.published DESC">JSTATUS_DESC</option>
+<!--            <option value="a.title ASC">JGLOBAL_NAME_ASC</option>-->
+<!--            <option value="a.title DESC">JGLOBAL_NAME_DESC</option>-->
+            <option value="a.created_by ASC">COM_MARATHONMANAGER_FILTER_AUTHOR_ASC</option>
+            <option value="a.created_by DESC">COM_MARATHONMANAGER_FILTER_AUTHOR_DESC</option>
+            <option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+            <option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+            <option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+            <option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+        </field>
+        <field
+            name="limit"
+            type="limitbox"
+            label="JGLOBAL_LIST_LIMIT"
+            default="25"
+            onchange="this.form.submit();"
+        />
+    </fields>
+</form>

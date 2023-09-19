@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <field
+            name="file"
+            type="filelist"
+            hide_none="true"
+            hide_default="true"
+            required="true"
+            directory="documents/marathon_manager/results"
+            label="COM_MARATHONMANAGER_ATTACHMENT_FILE_LABEL"
+            description="COM_MARATHONMANAGER_ATTACHMENT_FILE_DESC"
+    />
+    <field
+            name="label"
+            type="text"
+            label="COM_MARATHONMANAGER_ATTACHMENT_FILE_LABEL_LABEL"
+            description="COM_MARATHONMANAGER_ATTACHMENT_FILE_LABEL_DESC"
+    />
+</form>
