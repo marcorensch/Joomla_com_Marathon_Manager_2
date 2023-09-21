@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
  * @since  1.0.0
  */
 
-class EventsController extends AdminController
+class ArrivaloptionsController extends AdminController
 {
 	/**
 	 * @throws \Exception
@@ -34,7 +34,7 @@ class EventsController extends AdminController
 	/**
 	 * Proxy for getModel.
 	 */
-	public function getModel($name = 'Event', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Arrivaloption', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

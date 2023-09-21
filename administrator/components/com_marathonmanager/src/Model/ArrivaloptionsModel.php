@@ -20,12 +20,12 @@ use Joomla\Utilities\ArrayHelper;
 // The use of the list model allows us to simply extend the list model and just ask for the data we need.
 
 /**
- * Methods supporting a list of Hello events records.
+ * Methods supporting a list of arrival option records.
  *
  * @since  1.0
  */
 
-class EventsModel extends ListModel
+class ArrivaloptionsModel extends ListModel
 {
 	public function __construct($config = [])
 	{
@@ -38,12 +38,10 @@ class EventsModel extends ListModel
                 'published', 'a.published',
                 'access', 'a.access', 'access_level',
                 'ordering', 'a.ordering',
-                'language', 'a.language',
                 'created_by', 'a.created_by',
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
                 'modified', 'a.modified',
-                'event_date', 'a.event_date',
             );
 
             $assoc = Associations::isEnabled();
@@ -62,10 +60,10 @@ class EventsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.title','a.alias','a.event_date', 'a.ordering', 'a.access', 'a.catid', 'a.published', 'a.publish_up', 'a.publish_down'])
+			$db->quoteName(['a.id','a.title','a.alias','a.ordering', 'a.icon', 'a.access', 'a.catid', 'a.published', 'a.publish_up', 'a.publish_down'])
 		);
 		// From the table
-		$query->from($db->quoteName('#__com_marathonmanager_events','a'));
+		$query->from($db->quoteName('#__com_marathonmanager_arrival_options','a'));
 
 		// Join over the asset groups
 		$query->select($db->quoteName('ag.title','access_level'))
@@ -80,12 +78,6 @@ class EventsModel extends ListModel
 				'LEFT',
 				$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
 			);
-
-        // Filter the language
-        if ($language = $this->getState('filter.language'))
-        {
-            $query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
-        }
 
         // Filter by access level.
         if ($access = $this->getState('filter.access'))
@@ -138,7 +130,7 @@ class EventsModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.event_date');
+        $orderCol  = $this->state->get('list.ordering', 'a.created');
         $orderDirn = $this->state->get('list.direction', 'desc');
 
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title')

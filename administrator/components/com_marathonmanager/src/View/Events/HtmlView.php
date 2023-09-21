@@ -12,8 +12,10 @@ namespace NXD\Component\MarathonManager\Administrator\View\Events;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Helper\ContentHelper;
 
@@ -41,18 +43,50 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_marathonmanager');
+        $user          = Factory::getApplication()->getIdentity();
 
 		ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_EVENTS_TITLE'), 'fas fa-calendar-alt');
+        $toolbar = Toolbar::getInstance();
 
-		// Add New Button if user has permissions to create
-		if($canDo->get('core.create')){
-			ToolbarHelper::addNew('event.add');
-		}
 
-		// Add Options Button if user has permissions to edit
-		if($canDo->get('core.options')){
-			ToolbarHelper::preferences('com_marathonmanager');
-		}
+        // Show Buttons only if the user is allowed to do so
+        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0)
+        {
+            $toolbar->addNew('event.add');
+        }
+        if ($canDo->get('core.edit.state'))
+        {
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('fa fa-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
+
+            $childBar = $dropdown->getChildToolbar();
+            $childBar->publish('events.publish')->listCheck(true);
+            $childBar->unpublish('events.unpublish')->listCheck(true);
+            $childBar->archive('events.archive')->listCheck(true);
+
+
+            if ($user->authorise('core.admin'))
+            {
+                $childBar->checkin('events.checkin')->listCheck(true);
+            }
+
+            if ($this->state->get('filter.published') != -2)
+            {
+                $childBar->trash('events.trash')->listCheck(true);
+            }
+        }
+
+        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+        {
+            $toolbar->delete('events.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        }
 
 	}
 }

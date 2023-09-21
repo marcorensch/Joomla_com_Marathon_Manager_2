@@ -66,7 +66,9 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_arrival_options`
 (
     `id`           int(11)          NOT NULL AUTO_INCREMENT,
     `title`        varchar(255)     NOT NULL,
+    `icon`         varchar(255)              DEFAULT NULL,
     `alias`        varchar(400)     NOT NULL DEFAULT '',
+    `catid`        int(11)          NOT NULL DEFAULT '0',
     `state`        tinyint(3)       NOT NULL DEFAULT 0,
     `published`    tinyint(1)       NOT NULL DEFAULT '1',
     `publish_up`   DATETIME,
@@ -76,7 +78,15 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_arrival_options`
     `access`       int(10) unsigned NOT NULL DEFAULT '0',
     `created`      DATETIME         NOT NULL DEFAULT NOW(),
     `modified`     DATETIME         NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (`id`)
+    `ordering`     int(11)          NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `idx_access` (`access`),
+    KEY `idx_catid` (`catid`),
+    KEY `idx_state` (`published`),
+    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_catid` FOREIGN KEY (`catid`) REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_created_by` FOREIGN KEY (`created_by`) REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_modified_by` FOREIGN KEY (`modified_by`) REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events_arrival_options`

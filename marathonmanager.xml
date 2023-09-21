@@ -50,8 +50,13 @@
         <!-- Menu entries -->
         <menu view="events">COM_MARATHONMANAGER</menu>
         <submenu>
-            <menu link="option=com_marathonmanager">COM_MARATHONMANAGER_MENUITEM_WORLDS_LABEL</menu>
-            <menu link="option=com_marathonmanager&amp;view=static">COM_MARATHONMANAGER_MENUITEM_STATIC_LABEL</menu>
+            <menu link="option=com_marathonmanager&amp;view=arrivaloptions">
+                COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTIONS_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTION_ADD_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=arrivaloption&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
             <menu link="option=com_marathonmanager&amp;view=events">
                 COM_MARATHONMANAGER_MENUITEM_EVENTS_LABEL
                 <params>

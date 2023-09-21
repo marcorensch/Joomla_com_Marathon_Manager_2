@@ -262,5 +262,11 @@
                 class="readonly"
                 filter="unset"
         />
+        <field
+                name="ordering"
+                type="ordering"
+                label="JFIELD_ORDERING_LABEL"
+                content_type="com_marathonmanager.event"
+        />
     </fieldset>
 </form>

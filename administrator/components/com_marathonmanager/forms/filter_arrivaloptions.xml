@@ -39,12 +39,8 @@
             <option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
             <option value="a.created ASC">COM_MARATHONMANAGER_FILTER_CREATED_ASC</option>
             <option value="a.created DESC">COM_MARATHONMANAGER_FILTER_CREATED_DESC</option>
-            <option value="a.event_date ASC">COM_MARATHONMANAGER_FILTER_EVENT_DATE_ASC</option>
-            <option value="a.event_date DESC">COM_MARATHONMANAGER_FILTER_EVENT_DATE_DESC</option>
             <option value="a.published ASC">JSTATUS_ASC</option>
             <option value="a.published DESC">JSTATUS_DESC</option>
-<!--            <option value="a.title ASC">JGLOBAL_NAME_ASC</option>-->
-<!--            <option value="a.title DESC">JGLOBAL_NAME_DESC</option>-->
             <option value="a.created_by ASC">COM_MARATHONMANAGER_FILTER_AUTHOR_ASC</option>
             <option value="a.created_by DESC">COM_MARATHONMANAGER_FILTER_AUTHOR_DESC</option>
             <option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
