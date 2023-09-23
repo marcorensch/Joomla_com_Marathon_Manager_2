@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
                 ];
             }
         } else {
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
 
             if ($itemEditable)
             {
