@@ -3,6 +3,7 @@
     <fieldset
             addruleprefix="NXD\Component\MarathonManager\Administrator\Rule"
             addformprefix="NXD\Component\MarathonManager\Administrator\Form"
+            addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
     >
         <field
                 name="id"
@@ -194,6 +195,12 @@
                 hint="Bern"
         />
 
+        <field name="arrival_options"
+               type="ArrivalOptions"
+               label="COM_MARATHONMANAGER_ARRIVALOPTIONS_LABEL"
+               description="COM_MARATHONMANAGER_ARRIVALOPTIONS_DESC"
+               layout="joomla.form.field.list-fancy-select"
+               multiple="true" />
 
         <field
                 name="access"

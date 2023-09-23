@@ -31,6 +31,8 @@ $wa->addInlineStyle('.control-group .control-label{width:100%;} .control-group .
 $layout = 'edit';
 $tmpl = $input->get('tmpl', '', 'CMD') === 'component' ? '&tmpl=component' : '';
 $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $tmpl . '&id=' . (int)$this->item->id);
+
+echo '<pre>' . var_export($this->item, true) . '</pre>';
 ?>
 
 <form action="<?php echo $action; ?>" method="post" name="adminForm" id="item-form" class="form-validate form-vertical">
@@ -58,6 +60,8 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                         <?php echo $this->getForm()->renderField('registration_start_date'); ?>
                         <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
                         <?php echo $this->getForm()->renderField('registration_end_date'); ?>
+                        <?php echo $this->getForm()->renderField('arrival_options'); ?>
+
                     </div>
                 </fieldset>
             </div>

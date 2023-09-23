@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 
+use Joomla\Registry\Registry;
+
 class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
 
@@ -139,6 +141,14 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             {
                 $app->enqueueMessage($msg, 'warning');
             }
+        }
+
+        // Handle Arrival Options
+        if (isset($data['arrival_options']) && is_array($data['arrival_options']))
+        {
+            $registry = new Registry;
+            $registry->loadArray($data['arrival_options']);
+            $data['arrival_options'] = (string) $registry;
         }
 
         return parent::save($data);
