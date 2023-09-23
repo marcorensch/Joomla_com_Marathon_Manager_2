@@ -81,7 +81,6 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_EVENT_DETAILS_FIELDSET_LABEL'); ?></legend>
                     <div>
                         <?php echo $this->getForm()->renderField('event_date'); ?>
-                        <?php echo $this->getForm()->renderField('arrival_options'); ?>
                         <?php echo $this->getForm()->renderField('lastinfos_newsletter_list_id'); ?>
                         <div class="row">
                             <div class="col-lg-8">
@@ -103,6 +102,13 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                         <?php echo $this->getForm()->renderField('registration_start_date'); ?>
                         <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
                         <?php echo $this->getForm()->renderField('registration_end_date'); ?>
+                    </div>
+                </fieldset>
+                <fieldset id="arrival-data" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_ARRIVAL'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('arrival_options'); ?>
+                        <?php echo $this->getForm()->renderField('arrival_dates'); ?>
                     </div>
                 </fieldset>
             </div>

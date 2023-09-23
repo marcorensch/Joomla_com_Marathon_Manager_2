@@ -6,7 +6,7 @@
             hide_none="true"
             hide_default="true"
             required="true"
-            directory="documents/marathon_manager/results"
+            directory="media/com_marathonmanager/results"
             label="COM_MARATHONMANAGER_ATTACHMENT_FILE_LABEL"
             description="COM_MARATHONMANAGER_ATTACHMENT_FILE_DESC"
     />

@@ -47,6 +47,7 @@ class ArrivalOptionsField extends ListField{
         $query = $db->getQuery(true);
         $query->select('id, title');
         $query->from('#__com_marathonmanager_arrival_options');
+        $query->where('published = 1');
         $query->order('ordering ASC');
         $db->setQuery($query);
         $dbValues = $db->loadObjectList();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <field
+            name="arrival_date_option"
+            type="calendar"
+            translateformat="true"
+            showtime="true"
+            size="22"
+            filter="user_utc"
+            default="now"
+            label="COM_MARATHONMANAGER_ARRIVAL_DATE_OPTION_LABEL"
+    />
+    <field name="note" label="COM_MARATHONMANAGER_NOTE_LABEL" type="textarea"/>
+</form>

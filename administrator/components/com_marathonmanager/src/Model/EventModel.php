@@ -151,6 +151,18 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             $data['arrival_options'] = (string) $registry;
         }
 
+        // Handle Subforms on save in foreach loop
+        $subforms = ['arrival_dates', 'attachments', 'result_files'];
+        foreach ($subforms as $subform)
+        {
+            if (isset($data[$subform]) && is_array($data[$subform]))
+            {
+                $registry = new Registry;
+                $registry->loadArray($data[$subform]);
+                $data[$subform] = (string) $registry;
+            }
+        }
+
         return parent::save($data);
     }
 }

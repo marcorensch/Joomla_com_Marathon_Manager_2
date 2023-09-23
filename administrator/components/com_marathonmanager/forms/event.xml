@@ -157,6 +157,16 @@
         />
 
         <field
+                name="arrival_dates"
+                label="COM_MARATHONMANAGER_ARRIVAL_DATES_LABEL"
+                type="subform"
+                layout="joomla.form.field.subform.repeatable"
+                formsource="administrator/components/com_marathonmanager/forms/subform_arrival_dates.xml"
+                multiple="true"
+                min="0"
+        />
+
+        <field
                 name="attachments"
                 type="subform"
                 layout="joomla.form.field.subform.repeatable-table"
@@ -232,6 +242,7 @@
             <option value="2">JARCHIVED</option>
             <option value="-2">JTRASHED</option>
         </field>
+
         <field
                 name="publish_up"
                 type="calendar"

@@ -3,6 +3,17 @@
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
+      <paths name="Deployment">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path=".idea" />
+            <excludedPath path=".git" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
       <paths name="Joomla 4">
         <serverdata>
           <mappings>
