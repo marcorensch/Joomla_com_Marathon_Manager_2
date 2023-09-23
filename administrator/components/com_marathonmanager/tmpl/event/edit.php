@@ -32,7 +32,6 @@ $layout = 'edit';
 $tmpl = $input->get('tmpl', '', 'CMD') === 'component' ? '&tmpl=component' : '';
 $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $tmpl . '&id=' . (int)$this->item->id);
 
-echo '<pre>' . var_export($this->item, true) . '</pre>';
 ?>
 
 <form action="<?php echo $action; ?>" method="post" name="adminForm" id="item-form" class="form-validate form-vertical">
@@ -52,31 +51,9 @@ echo '<pre>' . var_export($this->item, true) . '</pre>';
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
-                <fieldset id="registration-data" class="options-form">
-                    <legend><?php echo Text::_('COM_MARATHONMANAGER_REGISTRATION'); ?></legend>
-                    <div>
-                        <?php echo $this->getForm()->renderField('earlybird_fee'); ?>
-                        <?php echo $this->getForm()->renderField('regular_fee'); ?>
-                        <?php echo $this->getForm()->renderField('registration_start_date'); ?>
-                        <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
-                        <?php echo $this->getForm()->renderField('registration_end_date'); ?>
-                        <?php echo $this->getForm()->renderField('arrival_options'); ?>
-
-                    </div>
-                </fieldset>
-            </div>
-            <div class="col-lg-6">
                 <fieldset id="location-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_LOCATION'); ?></legend>
                     <div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <?php echo $this->getForm()->renderField('lat'); ?>
-                            </div>
-                            <div class="col-lg-6">
-                                <?php echo $this->getForm()->renderField('lng'); ?>
-                            </div>
-                        </div>
                         <?php echo $this->getForm()->renderField('street'); ?>
                         <div class="row">
                             <div class="col col-lg-2">
@@ -90,18 +67,46 @@ echo '<pre>' . var_export($this->item, true) . '</pre>';
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?php echo $this->getForm()->renderField('lat'); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?php echo $this->getForm()->renderField('lng'); ?>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
                 <fieldset id="event-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_EVENT_DETAILS_FIELDSET_LABEL'); ?></legend>
                     <div>
                         <?php echo $this->getForm()->renderField('event_date'); ?>
+                        <?php echo $this->getForm()->renderField('arrival_options'); ?>
                         <?php echo $this->getForm()->renderField('lastinfos_newsletter_list_id'); ?>
-                        <?php echo $this->getForm()->renderField('map_option_id'); ?>
-                        <?php echo $this->getForm()->renderField('price_per_map'); ?>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <?php echo $this->getForm()->renderField('map_option_id'); ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?php echo $this->getForm()->renderField('price_per_map'); ?>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
             </div>
+            <div class="col-lg-6">
+                <fieldset id="registration-data" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_REGISTRATION'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('earlybird_fee'); ?>
+                        <?php echo $this->getForm()->renderField('regular_fee'); ?>
+                        <?php echo $this->getForm()->renderField('registration_start_date'); ?>
+                        <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
+                        <?php echo $this->getForm()->renderField('registration_end_date'); ?>
+                    </div>
+                </fieldset>
+            </div>
+
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
@@ -124,7 +129,7 @@ echo '<pre>' . var_export($this->item, true) . '</pre>';
                 <fieldset id="registration-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_ATTACHMENTS_FIELDSET_LABEL'); ?></legend>
                     <div>
-                        <p><?php echo Text::_('COM_MARATHONMANAGER_ATTACHMENTS_DESC');?></p>
+                        <p><?php echo Text::_('COM_MARATHONMANAGER_ATTACHMENTS_DESC'); ?></p>
                         <?php echo $this->getForm()->renderField('attachments'); ?>
                     </div>
                 </fieldset>
@@ -133,7 +138,7 @@ echo '<pre>' . var_export($this->item, true) . '</pre>';
                 <fieldset id="registration-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_RESULTS_FIELDSET_LABEL'); ?></legend>
                     <div>
-                        <p><?php echo Text::_('COM_MARATHONMANAGER_RESULT_FILES_DESC');?></p>
+                        <p><?php echo Text::_('COM_MARATHONMANAGER_RESULT_FILES_DESC'); ?></p>
                         <?php echo $this->getForm()->renderField('result_files'); ?>
                     </div>
                 </fieldset>
