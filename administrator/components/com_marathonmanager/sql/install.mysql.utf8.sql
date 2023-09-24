@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events`
     `modified`                     DATETIME         NOT NULL DEFAULT NOW(),
     `ordering`                     int(11)          NOT NULL DEFAULT '0',
     `catid`                        int(11)          NOT NULL DEFAULT '0',
+    `arrival_options`              text                      DEFAULT NULL,
+    `team_categories`              text                      DEFAULT NULL,
+    `arrival_dates`                text                      DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
     KEY `idx_catid` (`catid`),
@@ -89,14 +92,30 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_arrival_options`
     CONSTRAINT `fk_com_marathonmanager_events_arrival_options_modified_by` FOREIGN KEY (`modified_by`) REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events_arrival_options`
+CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_team_categories`
 (
-    `id`                int(11) NOT NULL AUTO_INCREMENT,
-    `event_id`          int(11) NOT NULL DEFAULT '0',
-    `arrival_option_id` int(11) NOT NULL DEFAULT '0',
+    `id`           int(11)          NOT NULL AUTO_INCREMENT,
+    `title`        varchar(255)     NOT NULL,
+    `alias`        varchar(400)     NOT NULL DEFAULT '',
+    `catid`        int(11)          NOT NULL DEFAULT '0',
+    `adminid`      int(11)          NOT NULL DEFAULT '0',
+    `state`        tinyint(3)       NOT NULL DEFAULT 0,
+    `published`    tinyint(1)       NOT NULL DEFAULT '1',
+    `publish_up`   DATETIME,
+    `publish_down` DATETIME,
+    `created_by`   int(11)          NOT NULL DEFAULT '0',
+    `modified_by`  int(11)          NOT NULL DEFAULT '0',
+    `access`       int(10) unsigned NOT NULL DEFAULT '0',
+    `created`      DATETIME         NOT NULL DEFAULT NOW(),
+    `modified`     DATETIME         NOT NULL DEFAULT NOW(),
+    `ordering`     int(11)          NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_event_id` FOREIGN KEY (`event_id`) REFERENCES `#__com_marathonmanager_events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_com_marathonmanager_events_arrival_options_arrival_option_id` FOREIGN KEY (`arrival_option_id`) REFERENCES `#__com_marathonmanager_arrival_options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
-
+    KEY `idx_access` (`access`),
+    KEY `idx_catid` (`catid`),
+    KEY `idx_state` (`published`),
+    CONSTRAINT `fk_com_marathonmanager_team_categories_catid` FOREIGN KEY (`catid`) REFERENCES `#__categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_team_categories_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_team_categories_created_by` FOREIGN KEY (`created_by`) REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_com_marathonmanager_team_categories_modified_by` FOREIGN KEY (`modified_by`) REFERENCES `#__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
