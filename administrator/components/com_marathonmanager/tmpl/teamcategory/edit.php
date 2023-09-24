@@ -57,6 +57,8 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <?php echo $this->getForm()->renderField('created_by'); ?>
                 <?php echo $this->getForm()->renderField('modified_by'); ?>
                 <?php echo $this->getForm()->renderField('catid'); ?>
+                <?php echo $this->getForm()->renderField('created'); ?>
+                <?php echo $this->getForm()->renderField('modified'); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>

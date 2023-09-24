@@ -71,6 +71,13 @@
                     <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
                 </params>
             </menu>
+            <menu link="option=com_marathonmanager&amp;view=languages">
+                COM_MARATHONMANAGER_MENUITEM_LANGUAGES_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_LANGUAGE_NEW_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=language&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
             <menu link="option=com_categories&amp;extension=com_marathonmanager">
                 JCATEGORIES
                 <params>

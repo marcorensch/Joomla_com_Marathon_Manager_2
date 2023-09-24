@@ -293,5 +293,23 @@
                 label="JFIELD_ORDERING_LABEL"
                 content_type="com_marathonmanager.event"
         />
+
+        <field name="created"
+               label="COM_MARATHONMANAGER_CREATED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc" />
+
+        <field name="modified"
+               label="COM_MARATHONMANAGER_MODIFIED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc" />
     </fieldset>
 </form>

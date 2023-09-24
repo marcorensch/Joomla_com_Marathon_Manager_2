@@ -15,12 +15,6 @@
                 default="0"
         />
         <field
-                name="adminid"
-                type="number"
-                label="COM_MARATHONMANAGER_ADMIN_ID_LABEL"
-                description="COM_MARATHONMANAGER_ADMIN_ID_DESC"
-        />
-        <field
                 name="title"
                 type="text"
                 label="COM_MARATHONMANAGER_TITLE_LABEL"
@@ -34,6 +28,17 @@
                 description="COM_MARATHONMANAGER_ALIAS_DESC"
                 size="40"
         />
+
+        <field
+                name="tag"
+                type="text"
+                label="COM_MARATHONMANAGER_TAG_LABEL"
+                required="true"
+                size="40"
+        />
+
+        <field name="image" type="media" label="COM_MARATHONMANAGER_LANGUAGE_FLAG_LABEL" />
+
 
         <field
                 name="access"
@@ -80,13 +85,6 @@
                 label="JFIELD_ORDERING_LABEL"
                 content_type="com_marathonmanager.arrivaloption"
         />
-        <field name="catid"
-               type="categoryedit"
-               label="JCATEGORY"
-               extension="com_marathonmanager"
-               addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-               required="true"
-               default=""/>
 
         <field name="created"
                label="COM_MARATHONMANAGER_CREATED_DATE"
@@ -95,7 +93,7 @@
                showtime="true"
                size="22"
                readonly="true"
-               filter="user_utc"/>
+               filter="user_utc" />
 
         <field name="modified"
                label="COM_MARATHONMANAGER_MODIFIED_DATE"
@@ -104,6 +102,7 @@
                showtime="true"
                size="22"
                readonly="true"
-               filter="user_utc"/>
+               filter="user_utc" />
+
     </fieldset>
 </form>

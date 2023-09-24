@@ -37,13 +37,21 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
-        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'description']); ?>
+        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details']); ?>
+
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <?php echo $this->getForm()->renderField('image'); ?>
+            </div>
+            <div class="col-lg-6">
+                <?php echo $this->getForm()->renderField('tag'); ?>
+            </div>
+        </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
         <div class="row">
-            <div class="col-lg-6">
-                <?php echo $this->getForm()->renderField('icon'); ?>
-            </div>
             <div class="col-lg-6">
                 <?php echo $this->getForm()->renderField('access'); ?>
                 <?php echo $this->getForm()->renderField('published'); ?>
@@ -51,6 +59,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <?php echo $this->getForm()->renderField('publish_down'); ?>
                 <?php echo $this->getForm()->renderField('created_by'); ?>
                 <?php echo $this->getForm()->renderField('modified_by'); ?>
+                <?php echo $this->getForm()->renderField('catid'); ?>
                 <?php echo $this->getForm()->renderField('created'); ?>
                 <?php echo $this->getForm()->renderField('modified'); ?>
             </div>
