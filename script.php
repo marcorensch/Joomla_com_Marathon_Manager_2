@@ -29,7 +29,7 @@ class Com_MarathonmanagerInstallerScript
     public function install($parent): bool
     {
         echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL');
-        $this->installCategory('Uncategorised');
+        if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
         $this->createMediaDirectories();
         return true;
     }
@@ -37,6 +37,7 @@ class Com_MarathonmanagerInstallerScript
     public function update($parent): bool
     {
         echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UPDATE');
+        if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
         $this->createMediaDirectories();
         return true;
     }
@@ -69,7 +70,7 @@ class Com_MarathonmanagerInstallerScript
     /**
      * @throws Exception
      */
-    private function installCategory($categoryTitle)
+    private function installCategory($categoryTitle): bool
     {
         if (!$categoryTitle) return false;
         $alias = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -100,23 +101,43 @@ class Com_MarathonmanagerInstallerScript
         // Bind data to the table
         if (!$category->bind($data)) {
             Factory::getApplication()->enqueueMessage($category->getError(), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
             return false;
         }
 
         // Check the data.
         if (!$category->check()) {
             Factory::getApplication()->enqueueMessage($category->getError(), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
+
             return false;
         }
 
         // Store the data.
         if (!$category->store(true)) {
             Factory::getApplication()->enqueueMessage($category->getError(), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
+
             return false;
         }
 
+        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_TRUE', $categoryTitle), 'notice');
+
         return true;
 
+    }
+
+    private function checkIfCategoryExists($categoryTitle){
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('id');
+        $query->from('#__categories');
+        $query->where('title = ' . $db->quote($categoryTitle));
+        $query->where('extension = ' . $db->quote('com_marathonmanager'));
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        if($result) return true;
+        return false;
     }
 
     private function createMediaDirectories(): void

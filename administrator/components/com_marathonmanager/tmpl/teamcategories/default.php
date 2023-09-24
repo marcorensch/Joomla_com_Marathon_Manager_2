@@ -19,7 +19,7 @@ use Joomla\CMS\Session\Session;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-$route = Route::_('index.php?option=com_marathonmanager&view=teamcategories');
+$route = Route::_('index.php?option=com_marathonmanager&view=events');
 $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -27,7 +27,7 @@ $saveOrder = $listOrder === 'a.ordering';
 $saveOrderingUrl = '';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=teamcategories.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -117,6 +117,13 @@ if ($saveOrder && !empty($this->items)) {
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
+                                    <div class="small">
+                                        <?php
+                                        if ($item->category_title) {
+                                            echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title);
+                                        }
+                                        ?>
+                                    </div>
                                 </th>
                                 <th scope="row" class="has-context">
                                     <?php

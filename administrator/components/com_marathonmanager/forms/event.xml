@@ -223,7 +223,7 @@
                 name="catid"
                 type="categoryedit"
                 label="JCATEGORY"
-                extension="com_hello"
+                extension="com_marathonmanager"
                 addfieldprefix="Joomla\Component\Categories\Administrator\Field"
                 required="true"
                 default=""
