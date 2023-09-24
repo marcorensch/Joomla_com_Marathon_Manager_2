@@ -212,6 +212,13 @@
                layout="joomla.form.field.list-fancy-select"
                multiple="true" />
 
+        <field name="team_categories"
+               type="TeamCategories"
+               label="COM_MARATHONMANAGER_TEAMCATEGORIES_LABEL"
+               description="COM_MARATHONMANAGER_TEAMCATEGORIES_DESC"
+               layout="joomla.form.field.list-fancy-select"
+               multiple="true" />
+
         <field
                 name="access"
                 type="accesslevel"

@@ -37,7 +37,15 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
-        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'description']); ?>
+        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'base']); ?>
+
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <?php echo $this->getForm()->renderField('adminid'); ?>
+            </div>
+        </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
         <div class="row">
@@ -48,6 +56,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <?php echo $this->getForm()->renderField('publish_down'); ?>
                 <?php echo $this->getForm()->renderField('created_by'); ?>
                 <?php echo $this->getForm()->renderField('modified_by'); ?>
+                <?php echo $this->getForm()->renderField('catid'); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>

@@ -143,23 +143,15 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
-        // Handle Arrival Options
-        if (isset($data['arrival_options']) && is_array($data['arrival_options']))
+        // Handle Subforms & MultiSelect Fields on save in foreach loop
+        $multiSelectFields = ['arrival_dates', 'attachments', 'result_files', 'arrival_options', 'team_categories'];
+        foreach ($multiSelectFields as $fieldName)
         {
-            $registry = new Registry;
-            $registry->loadArray($data['arrival_options']);
-            $data['arrival_options'] = (string) $registry;
-        }
-
-        // Handle Subforms on save in foreach loop
-        $subforms = ['arrival_dates', 'attachments', 'result_files'];
-        foreach ($subforms as $subform)
-        {
-            if (isset($data[$subform]) && is_array($data[$subform]))
+            if (isset($data[$fieldName]) && is_array($data[$fieldName]))
             {
                 $registry = new Registry;
-                $registry->loadArray($data[$subform]);
-                $data[$subform] = (string) $registry;
+                $registry->loadArray($data[$fieldName]);
+                $data[$fieldName] = (string) $registry;
             }
         }
 

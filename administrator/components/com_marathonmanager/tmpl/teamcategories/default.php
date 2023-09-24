@@ -19,7 +19,7 @@ use Joomla\CMS\Session\Session;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-$route = Route::_('index.php?option=com_marathonmanager&view=events');
+$route = Route::_('index.php?option=com_marathonmanager&view=teamcategories');
 $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -27,7 +27,7 @@ $saveOrder = $listOrder === 'a.ordering';
 $saveOrderingUrl = '';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=teamcategories.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -62,9 +62,6 @@ if ($saveOrder && !empty($this->items)) {
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
-                            </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_DATE'); ?>
                             </th>
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
                                 <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
@@ -109,7 +106,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'events.', true, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'teamcategories.', true, 'cb', $item->publish_up, $item->publish_down); ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"
@@ -117,18 +114,6 @@ if ($saveOrder && !empty($this->items)) {
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
-                                    <div class="small">
-                                        <?php
-                                        if ($item->category_title) {
-                                            echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title);
-                                        }
-                                        ?>
-                                    </div>
-                                </th>
-                                <th scope="row" class="has-context">
-                                    <?php
-                                    echo HtmlHelper::date($item->event_date, Text::_('DATE_FORMAT_FILTER_DATETIME'));
-                                    ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
                                     <?php echo $item->access_level; ?>

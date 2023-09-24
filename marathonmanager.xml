@@ -53,14 +53,21 @@
             <menu link="option=com_marathonmanager&amp;view=arrivaloptions">
                 COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTIONS_LABEL
                 <params>
-                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTION_ADD_LABEL</menu-quicktask-title>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTION_NEW_LABEL</menu-quicktask-title>
                     <menu-quicktask>index.php?option=com_marathonmanager&amp;view=arrivaloption&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
+            <menu link="option=com_marathonmanager&amp;view=teamcategories">
+                COM_MARATHONMANAGER_MENUITEM_TEAMCATEGORIES_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_TEAMCATEGORY_NEW_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=teamcategory&amp;layout=edit</menu-quicktask>
                 </params>
             </menu>
             <menu link="option=com_marathonmanager&amp;view=events">
                 COM_MARATHONMANAGER_MENUITEM_EVENTS_LABEL
                 <params>
-                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_DATABASE_ITEM_ADD_LABEL</menu-quicktask-title>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_EVENT_NEW_LABEL</menu-quicktask-title>
                     <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
                 </params>
             </menu>

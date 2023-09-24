@@ -126,10 +126,6 @@ class TeamcategoriesModel extends ListModel
         $orderCol  = $this->state->get('list.ordering', 'a.created');
         $orderDirn = $this->state->get('list.direction', 'desc');
 
-        if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
-        {
-            $orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
-        }
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;

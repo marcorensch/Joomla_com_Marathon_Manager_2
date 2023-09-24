@@ -90,6 +90,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 <?php echo $this->getForm()->renderField('price_per_map'); ?>
                             </div>
                         </div>
+                        <?php echo $this->getForm()->renderField('team_categories'); ?>
                     </div>
                 </fieldset>
             </div>
