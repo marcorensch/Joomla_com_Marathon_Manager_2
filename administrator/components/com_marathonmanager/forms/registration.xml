@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <fieldset
+            addruleprefix="NXD\Component\MarathonManager\Administrator\Rule"
+            addformprefix="NXD\Component\MarathonManager\Administrator\Form"
+            addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
+    >
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                description="JGLOBAL_FIELD_ID_DESC"
+                readonly="true"
+                class="readonly"
+                default="0"
+        />
+        <field
+                name="team_name"
+                type="text"
+                label="COM_MARATHONMANAGER_TEAM_NAME_LABEL"
+                required="true"
+                size="40"
+        />
+        <field
+                name="alias"
+                type="text"
+                label="COM_MARATHONMANAGER_ALIAS_LABEL"
+                description="COM_MARATHONMANAGER_ALIAS_DESC"
+                size="40"
+        />
+
+        <field
+                name="street"
+                type="text"
+                label="COM_MARATHONMANAGER_STREET_LABEL"
+        />
+
+        <field
+                name="zip"
+                type="text"
+                label="COM_MARATHONMANAGER_ZIP_LABEL"
+                size="6"
+                filter="integer"
+                hint="3000"
+        />
+        <field
+                name="city"
+                type="text"
+                label="COM_MARATHONMANAGER_CITY_LABEL"
+                hint="Bern"
+        />
+
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                description="JFIELD_ACCESS_DESC"
+                size="1"
+        />
+
+        <field
+                name="payment_status"
+                type="list"
+                label="JSTATUS"
+                default="1"
+                id="payment_status"
+                class="custom-select-color-state"
+                size="1"
+        >
+            <option value="1">Bezahlt</option>
+            <option value="0">Nicht Bezahlt</option>
+        </field>
+
+        <field name="participants" label="COM_MARATHONMANAGER_FIELD_PARTICIPANTS_LABEL" type="subform" min="1"
+               layout="joomla.form.field.subform.repeatable"
+               formsource="administrator/components/com_marathonmanager/forms/subform_participants.xml"
+               multiple="true"/>
+
+        <field
+                name="created_by"
+                type="user"
+                label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+        <field
+                name="modified_by"
+                type="user"
+                label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+        <field
+                name="ordering"
+                type="ordering"
+                label="JFIELD_ORDERING_LABEL"
+                content_type="com_marathonmanager.event"
+        />
+
+        <field name="created"
+               label="COM_MARATHONMANAGER_CREATED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc"/>
+
+        <field name="modified"
+               label="COM_MARATHONMANAGER_MODIFIED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc"/>
+
+        <field
+                name="catid"
+                type="categoryedit"
+                label="JCATEGORY"
+                extension="com_marathonmanager"
+                addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+                required="true"
+                default=""
+        />
+
+    </fieldset>
+</form>

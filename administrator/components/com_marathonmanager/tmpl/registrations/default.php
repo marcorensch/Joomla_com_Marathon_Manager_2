@@ -19,7 +19,7 @@ use Joomla\CMS\Session\Session;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-$route = Route::_('index.php?option=com_marathonmanager&view=teamcategories');
+$route = Route::_('index.php?option=com_marathonmanager&view=registrations');
 $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -27,7 +27,7 @@ $saveOrder = $listOrder === 'a.ordering';
 $saveOrderingUrl = '';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=teamcategories.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=registrations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -61,7 +61,10 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_NAME'); ?>
+                            </th>
+                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_CATEGORY'); ?>
                             </th>
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
                                 <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
@@ -106,11 +109,11 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'teamcategories.', true, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'registrations.', true, 'cb', $item->publish_up, $item->publish_down); ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=teamcategory.edit&id=' . (int)$item->id); ?>"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=registration.edit&id=' . (int)$item->id); ?>"
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>

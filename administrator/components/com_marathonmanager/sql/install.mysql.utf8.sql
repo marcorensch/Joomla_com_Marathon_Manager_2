@@ -147,6 +147,8 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_languages`
 CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
 (
     `id`                int(11)      NOT NULL AUTO_INCREMENT,
+    `team_name`         varchar(255) NOT NULL DEFAULT '',
+    `alias`             varchar(400) NOT NULL DEFAULT '',
     `event_id`          int(11)               DEFAULT NULL,
     `user_id`           int(11)               DEFAULT NULL,
     `team_category_id`  int(11)               DEFAULT NULL,
