@@ -71,6 +71,16 @@
                     <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
                 </params>
             </menu>
+            <menu link="option=com_marathonmanager&amp;view=registrations">
+                COM_MARATHONMANAGER_MENUITEM_REGISTRATIONS_LABEL
+            </menu>
+            <menu link="option=com_marathonmanager&amp;view=countries">
+                COM_MARATHONMANAGER_MENUITEM_COUNTRIES_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_COUNTRY_NEW_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=country&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
             <menu link="option=com_marathonmanager&amp;view=languages">
                 COM_MARATHONMANAGER_MENUITEM_LANGUAGES_LABEL
                 <params>
@@ -78,13 +88,7 @@
                     <menu-quicktask>index.php?option=com_marathonmanager&amp;view=language&amp;layout=edit</menu-quicktask>
                 </params>
             </menu>
-            <menu link="option=com_categories&amp;extension=com_marathonmanager">
-                JCATEGORIES
-                <params>
-                    <menu-quicktask-title>JCATEGORY_ADD</menu-quicktask-title>
-                    <menu-quicktask>index.php?option=com_categories&amp;&amp;view=category&amp;layout=edit&amp;extension=com_marathonmanager</menu-quicktask>
-                </params>
-            </menu>
+
             <menu link="option=com_fields&amp;context=com_marathonmanager.event">JGLOBAL_FIELDS</menu>
             <menu link="option=com_fields&amp;view=groups&amp;context=com_marathonmanager.event">JGLOBAL_FIELD_GROUPS</menu>
         </submenu>

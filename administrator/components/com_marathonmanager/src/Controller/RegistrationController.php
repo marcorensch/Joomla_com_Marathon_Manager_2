@@ -12,8 +12,12 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 class RegistrationController extends FormController
 {
@@ -42,5 +46,40 @@ class RegistrationController extends FormController
         $url = 'index.php?option=com_marathonmanager&view=registrations';
         $this->setRedirect(Route::_($url, false));
 
+    }
+
+    // Ajax calls
+    /**
+     * Get the available team categories for the selected event
+     */
+    public function getTeamCategories(){
+        Session::checkToken();
+        $event_id = $this->input->get('event_id', 0, 'int');
+        $model = $this->getModel('Event');
+        $teamcategories = $model->getEventEnabledTeamCategories($event_id);
+        $options = array();
+        foreach ($teamcategories as $option)
+        {
+            $options[] = HTMLHelper::_('select.option', $option->id, $option->title);
+        }
+        echo json_encode($options);
+        exit;
+    }
+
+    /**
+     * Get the available arrival dates for the selected event
+     */
+    public function getArrivalDates(){
+        Session::checkToken();
+        $event_id = $this->input->get('event_id', 0, 'int');
+        $model = $this->getModel('Event');
+        $arrivaldates = $model->getEventArrivalDates($event_id);
+        $options = array();
+        foreach ($arrivaldates as $option)
+        {
+            $options[] = HTMLHelper::_('select.option', $option->id, HtmlHelper::date($option->date, Text::_('DATE_FORMAT_LC5')));
+        }
+        echo json_encode($options);
+        exit;
     }
 }

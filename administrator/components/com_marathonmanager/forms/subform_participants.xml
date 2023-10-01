@@ -41,6 +41,7 @@
                 type="email"
                 label="COM_MARATHONMANAGER_FIELD_EMAIL_LABEL"
                 required="false"
+                hint="email.address@example.com"
         />
     </fieldset>
 </form>

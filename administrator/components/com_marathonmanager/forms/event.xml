@@ -160,6 +160,7 @@
                 name="arrival_dates"
                 label="COM_MARATHONMANAGER_ARRIVAL_DATES_LABEL"
                 type="subform"
+                class="nxd-external-table"
                 layout="joomla.form.field.subform.repeatable"
                 formsource="administrator/components/com_marathonmanager/forms/subform_arrival_dates.xml"
                 multiple="true"

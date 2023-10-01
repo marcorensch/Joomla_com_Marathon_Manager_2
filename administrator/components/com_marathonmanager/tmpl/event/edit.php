@@ -27,6 +27,29 @@ $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_marathonmanager.rule-letters-only');
 $wa->addInlineStyle('.control-group .control-label{width:100%;} .control-group .controls{min-width:10px}');
+$wa->addInlineScript('
+// Add Eventlistener for Row Add - Subform needs to have class "nxd-external-table"
+document.addEventListener("DOMContentLoaded", function(event) {
+    //get subform by name attribute
+    $subform = document.querySelector(".subform-repeatable.nxd-external-table");
+    //add Eventlistener to subform
+    $subform.addEventListener("subform-row-add", function(event) {
+        updateOrderingValues($subform);
+    });
+    $subform.addEventListener("dragend", function() {
+        updateOrderingValues($subform);
+    });
+});
+
+function updateOrderingValues($subform){
+    let $subFormRows = $subform.querySelectorAll(".subform-repeatable-group");
+        for (let i = 0; i < $subFormRows.length; i++){
+            let $row = $subFormRows[i];
+            let $orderingInput = $row.querySelector("input.ordering");
+            $orderingInput.value = i+1;
+        }
+};
+');
 
 $layout = 'edit';
 $tmpl = $input->get('tmpl', '', 'CMD') === 'component' ? '&tmpl=component' : '';

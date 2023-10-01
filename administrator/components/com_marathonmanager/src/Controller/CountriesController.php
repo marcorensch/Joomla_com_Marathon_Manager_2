@@ -14,7 +14,6 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactory;
-use Joomla\CMS\Session\Session;
 
 /**
  * Events Controller
@@ -22,7 +21,7 @@ use Joomla\CMS\Session\Session;
  * @since  1.0.0
  */
 
-class TeamcategoriesController extends AdminController
+class CountriesController extends AdminController
 {
 	/**
 	 * @throws \Exception
@@ -35,9 +34,8 @@ class TeamcategoriesController extends AdminController
 	/**
 	 * Proxy for getModel.
 	 */
-	public function getModel($name = 'Teamcategory', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Country', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-
 }

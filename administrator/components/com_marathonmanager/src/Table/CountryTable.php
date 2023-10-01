@@ -17,12 +17,12 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Database\DatabaseDriver;
 
-class EventTable extends Table
+class CountryTable extends Table
 {
 	public function __construct(DatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_marathonmanager.event';
-		parent::__construct('#__com_marathonmanager_events', 'id', $db);
+		$this->typeAlias = 'com_marathonmanager.country';
+		parent::__construct('#__com_marathonmanager_countries', 'id', $db);
 	}
 
 	public function generateAlias(): string
@@ -45,15 +45,15 @@ class EventTable extends Table
 		}
 
 		// Check publish down date is not earlier than publish up
-//		if ($this->published_up && $this->published_down && $this->published_down < $this->published_up)
-//		{
-//			throw new \Exception(Text::_('JGLOBAL_FINISH_PUBLISH_AFTER_START'));
-//			return false;
-//		}
+		if ($this->published_up && $this->published_down && $this->published_down < $this->published_up)
+		{
+			throw new \Exception(Text::_('JGLOBAL_FINISH_PUBLISH_AFTER_START'));
+			return false;
+		}
 
 		// Set publish_up, publish_down to null if not set
-//		$this->publish_up = (!$this->publish_up) ? null : $this->publish_up;
-//		$this->publish_down = (!$this->publish_down) ? null : $this->publish_down;
+		$this->publish_up = (!$this->publish_up) ? null : $this->publish_up;
+		$this->publish_down = (!$this->publish_down) ? null : $this->publish_down;
 
 		return true;
 	}

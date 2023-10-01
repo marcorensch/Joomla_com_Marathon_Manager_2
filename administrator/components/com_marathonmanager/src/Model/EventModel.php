@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
@@ -51,16 +52,26 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
 			}
 		}
 
-
 		$this->preprocessData($this->typeAlias, $data);
 
 		return $data;
 	}
 
+
 	protected function prepareTable($table)
 	{
 		$table->generateAlias();
 	}
+
+    public function getItem($pk = null)
+    {
+        $item = parent::getItem($pk);
+
+        // Load the "linked arrival dates" data
+        if($item->id > 0) $item->arrival_dates = $this->getArrivalDates($item->id);
+
+        return $item;
+    }
 
     public function save($data)
     {
@@ -144,7 +155,7 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         // Handle Subforms & MultiSelect Fields on save in foreach loop
-        $multiSelectFields = ['arrival_dates', 'attachments', 'result_files', 'arrival_options', 'team_categories'];
+        $multiSelectFields = ['attachments', 'result_files', 'arrival_options', 'team_categories'];
         foreach ($multiSelectFields as $fieldName)
         {
             if (isset($data[$fieldName]) && is_array($data[$fieldName]))
@@ -155,6 +166,94 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
-        return parent::save($data);
+        $status = parent::save($data);
+
+        // Handle Subforms that stores values in helper table
+        if($data['arrival_dates']) {
+            $arrivaLOptions = $data['arrival_dates'];
+            error_log(print_r($arrivaLOptions, true));
+            foreach ($arrivaLOptions as $key => $option) {
+                if($option['id'] == 0) {
+                    $this->storeNewArrivalOption($option, $data['id']);
+                }else{
+                    $this->updateArrivalOption($option);
+                }
+            }
+        }
+
+        return $status;
+    }
+
+    private function getArrivalDates($eventId){
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('id, date, ordering')
+            ->from('#__com_marathonmanager_arrival_dates')
+            ->where('event_id = ' . $eventId)
+            ->order('ordering ASC')
+            ->order('id ASC');
+        $db->setQuery($query);
+        return $db->loadObjectList();
+    }
+
+    private function storeNewArrivalOption($option, $eventId): void
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $columns = array('event_id','date', 'ordering');
+        $values = array($db->quote($eventId), $db->quote($option['date']), $db->quote(intval($option['ordering'])));
+        $query->insert($db->quoteName('#__com_marathonmanager_arrival_dates'))
+            ->columns($db->quoteName($columns))
+            ->values(implode(',', $values));
+        $db->setQuery($query);
+        $db->execute();
+    }
+
+    private function updateArrivalOption($option){
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $fields = array(
+            $db->quoteName('date') . ' = ' . $db->quote($option['date']),
+            $db->quoteName('ordering') . ' = ' . $db->quote(intval($option['ordering']))
+        );
+        $conditions = array(
+            $db->quoteName('id') . ' = ' . $db->quote($option['id'])
+        );
+        $query->update($db->quoteName('#__com_marathonmanager_arrival_dates'))->set($fields)->where($conditions);
+        $db->setQuery($query);
+        $db->execute();
+    }
+
+    public function getEventEnabledTeamCategories($eventId){
+        $ids = [];
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('team_categories')
+            ->from('#__com_marathonmanager_events')
+            ->where('id = ' . $eventId);
+        $db->setQuery($query);
+        $dbValues = $db->loadAssocList();
+        $array = json_decode($dbValues[0]['team_categories']);
+        foreach ($array as $item) array_push($ids, $item);
+        $commaSeparatedListOfIds = implode(',', $ids);
+
+        $query = $db->getQuery(true);
+        $query->select('id, title')
+            ->from('#__com_marathonmanager_team_categories')
+            ->where('published = 1');
+            if($commaSeparatedListOfIds) $query->where('id IN (' . $commaSeparatedListOfIds . ')');
+        $db->setQuery($query);
+        return $db->loadObjectList();
+    }
+
+    public function getEventArrivalDates($eventId){
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('id, date');
+        $query->from('#__com_marathonmanager_arrival_dates');
+        $query->where('event_id = ' . $eventId);
+        $query->order('ordering ASC');
+        $db->setQuery($query);
+        return $db->loadObjectList();
     }
 }

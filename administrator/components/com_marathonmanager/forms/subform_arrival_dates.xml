@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <form>
+    <field name="id" type="hidden" label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" readonly="true" class="readonly" default="0"/>
     <field
-            name="arrival_date_option"
+            name="date"
             type="calendar"
             translateformat="true"
             showtime="true"
@@ -10,5 +11,5 @@
             default="now"
             label="COM_MARATHONMANAGER_ARRIVAL_DATE_OPTION_LABEL"
     />
-    <field name="note" label="COM_MARATHONMANAGER_NOTE_LABEL" type="textarea"/>
+    <field name="ordering" type="hidden" class="ordering" readonly="true" />
 </form>

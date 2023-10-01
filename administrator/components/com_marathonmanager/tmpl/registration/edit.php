@@ -26,6 +26,74 @@ $this->useCoreUI = true;
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 $wa->addInlineStyle('.control-group .control-label{width:100%;} .control-group .controls{min-width:10px}');
+$wa->addInlineScript('
+SELECTED_EVENT_ID = ' . $this->item->event_id . ';
+function eventChange(newId){
+    $alertBox = document.querySelector("#eventChangedInfoBox");
+    $categorySelect = document.querySelector("#jform_team_category_id");
+    $arrivalDate = document.querySelector("#jform_arrival_date");
+    if(newId != SELECTED_EVENT_ID){
+        $alertBox.classList.remove("d-none");
+        $categorySelect.attributes["disabled"] = "disabled";
+        $arrivalDate.attributes["disabled"] = "disabled";
+    }else{
+        $alertBox.classList.add("d-none");
+        $categorySelect.removeAttribute("disabled");
+        $arrivalDate.removeAttribute("disabled");
+    }
+    updateCategories(newId);
+    updateArrivalDates(newId);
+}
+function updateCategories(eventId){
+    let xhttpCategories = new XMLHttpRequest();
+    xhttpCategories.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let categories = JSON.parse(this.responseText);
+            updateCategorySelection(categories);
+        }
+    };
+    xhttpCategories.open("GET", "index.php?option=com_marathonmanager&task=registration.getTeamCategories&format=raw&event_id=" + eventId, true);
+    xhttpCategories.send();
+}
+
+function updateArrivalDates(newId){
+    let xhttpArrivalDates = new XMLHttpRequest();
+    xhttpArrivalDates.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let arrivalDates = JSON.parse(this.responseText);
+            updateArrivalDateSelection(arrivalDates);
+        }
+    };
+    xhttpArrivalDates.open("GET", "index.php?option=com_marathonmanager&task=registration.getArrivalDates&format=raw&event_id=" + newId, true);
+    xhttpArrivalDates.send();
+}
+
+function updateArrivalDateSelection(dates){
+   let arrivalDateSelect = document.querySelector("#jform_arrival_date");
+    arrivalDateSelect.innerHTML = "";
+    dates.forEach(function(date){
+        let option = document.createElement("option");
+        option.value = date.value;
+        option.text = date.text;
+        option.innerHTML = date.text;
+        option.disabled = date.disable;
+        arrivalDateSelect.appendChild(option);
+    });
+}
+
+function updateCategorySelection(categories){
+    let categorySelect = document.querySelector("#jform_team_category_id");
+    categorySelect.innerHTML = "";
+    categories.forEach(function(category){
+        let option = document.createElement("option");
+        option.value = category.value;
+        option.text = category.text;
+        option.innerHTML = category.text;
+        option.disabled = category.disable;
+        categorySelect.appendChild(option);
+    });
+}
+');
 
 $layout = 'edit';
 $tmpl = $input->get('tmpl', '', 'CMD') === 'component' ? '&tmpl=component' : '';
@@ -46,30 +114,43 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'base']); ?>
 
-
-
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row gx-5">
             <div class="col-lg-4 col-xxl-6">
-                <fieldset id="fieldset-payment" class="options-form">
-                    <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_EVENT_FIELDSET_LABEL') ?></legend>
-                    <div class="row">
-                        <div class="col-xl-6">
-                        <?php echo $this->getForm()->renderField('event_id'); ?>
-                        </div>
-                        <div class="col-xl-6">
-                        <?php echo $this->getForm()->renderField('team_category_id'); ?>
-                        </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <fieldset id="fieldset-event" class="options-form">
+                            <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_EVENT_FIELDSET_LABEL') ?></legend>
+                            <div>
+                                <?php echo $this->getForm()->renderField('event_id'); ?>
+                                <div id="eventChangedInfoBox" class="d-none alert alert-warning" role="alert">
+                                    <?php echo Text::_('COM_MARATHONMANAGER_FIELD_EVENT_CHANGED_INFO'); ?>
+                                </div>
+                                <?php echo $this->getForm()->renderField('team_category_id'); ?>
+                                <?php echo $this->getForm()->renderField('arrival_date'); ?>
+                            </div>
+                        </fieldset>
                     </div>
-                </fieldset>
+                    <div class="col-lg-6">
+                        <fieldset id="fieldset-contact" class="options-form">
+                            <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_CONTACT_FIELDSET_LABEL') ?></legend>
+                            <div>
+                                <?php echo $this->getForm()->renderField('contact_phone'); ?>
+                                <?php echo $this->getForm()->renderField('contact_email'); ?>
+                                <?php echo $this->getForm()->renderField('team_language'); ?>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
                 <fieldset id="fieldset-payment" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_PAYMENT_FIELDSET_LABEL') ?></legend>
                     <div class="row">
                         <div class="col-xl-8">
-                        <?php echo $this->getForm()->renderField('reference'); ?>
+                            <?php echo $this->getForm()->renderField('reference'); ?>
                         </div>
                         <div class="col-xl-4">
-                        <?php echo $this->getForm()->renderField('payment_status'); ?>
+                            <?php echo $this->getForm()->renderField('payment_status'); ?>
                         </div>
                     </div>
                 </fieldset>

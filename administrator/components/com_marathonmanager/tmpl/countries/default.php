@@ -10,7 +10,6 @@
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -20,18 +19,15 @@ use Joomla\CMS\Session\Session;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-$route = Route::_('index.php?option=com_marathonmanager&view=registrations');
-$user = Factory::getApplication()->getIdentity();
-$canEdit = $user->authorise('core.edit', 'com_marathonmanager');
-$canSetPaymentStatus = $user->authorise('marathonmanager.edit.payment', 'com_marathonmanager');
-
+$route = Route::_('index.php?option=com_marathonmanager&view=countries');
+$canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder === 'a.ordering';
 $saveOrderingUrl = '';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=registrations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=countries.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -61,28 +57,25 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_NAME', 'a.team_name', $listDirn, $listOrder); ?>
+                            <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
+                                <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
-                            <th scope="col" style="min-width: 100px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_CATEGORY'); ?>
+                            <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
+                                <?php echo TEXT::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_IMAGE'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT'); ?>
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_COUNTRY'); ?>
                             </th>
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_REGISTRATION_DATE', 'a.created', $listDirn, $listOrder); ?>
+                                <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
                             </th>
-                            <th scope="col" style="min-width: 50px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_REFERENCE'); ?>
-                            </th>
-                            <th scope="col" style="width: 10%; min-width: 85px" class="d-none d-md-table-cell">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PAYMENT_STATUS', 'a.payment_status', $listDirn, $listOrder); ?>
+                            <th scope="col" style="">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_ID'); ?>
                             </th>
                         </tr>
                         </thead>
                         <tbody
-                            <?php if ($saveOrder && $saveOrderingUrl) : ?>
+                            <?php if ($saveOrder && $saveOrderingUrl) :?>
                                 class="js-draggable"
                                 data-url="<?php echo $saveOrderingUrl; ?>"
                                 data-direction="<?php echo strtolower($listDirn); ?>"
@@ -93,18 +86,14 @@ if ($saveOrder && !empty($this->items)) {
                         $n = count($this->items);
                         foreach ($this->items as $i => $item):
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>"
-                                <?php if($canEdit):?>
-                                data-draggable-group="listItems"
-                                <?php endif;?>
-                            >
+                            <tr class="row<?php echo $i % 2; ?>" data-draggable-group="listItems">
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                                 </td>
                                 <td class="text-center d-none d-md-table-cell">
                                     <?php
                                     $iconClass = '';
-                                    if (!$canEdit) {
+                                    if (!$canChange) {
                                         $iconClass = ' inactive';
                                     } elseif (!$saveOrder) {
                                         $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
@@ -113,48 +102,35 @@ if ($saveOrder && !empty($this->items)) {
                                     <span class="sortable-handler <?php echo $iconClass ?>">
                                             <span class="icon-ellipsis-v" aria-hidden="true"></span>
                                         </span>
-                                    <?php if ($canEdit && $saveOrder) : ?>
+                                    <?php if ($canChange && $saveOrder) : ?>
                                         <input type="text" name="order[]" size="5"
                                                value="<?php echo $item->ordering; ?>"
                                                class="width-20 text-area-order hidden">
                                     <?php endif; ?>
                                 </td>
-
-                                <th scope="row" class="has-context">
-                                    <?php if($canEdit):?>
-                                    <a class="hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=registration.edit&id=' . (int)$item->id); ?>"
-                                       title="<?php echo Text::_('JACTION_EDIT'); ?>">
-                                        <?php echo $this->escape($item->team_name); ?>
-                                    </a>
-                                    <?php else:?>
-                                        <?php echo $this->escape($item->team_name); ?>
-                                    <?php endif;?>
-                                </th>
-                                <td class="">
-                                    <?php echo $item->team_category ?>
-                                </td>
-
-                                <td>
-                                    <?php echo $item->event_name ?>
-                                </td>
-
-                                <td>
-                                    <?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
-                                </td>
-                                <td>
-                                    <?php echo $item->reference ?>
+                                <td class="text-center">
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'languages.', true, 'cb'); ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php
-                                    $task = $item->payment_status == 1 ? 'setunpaid' : 'setpaid';
-                                    $class = $item->payment_status == 1 ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-danger';
-                                    $label = $item->payment_status == 0 ? 'COM_MARATHONMANAGER_TABLE_LABEL_PAYMENT_SET_STATUS_PAID' : 'COM_MARATHONMANAGER_TABLE_LABEL_PAYMENT_SET_STATUS_UNPAID';
-                                    $action = Text::_($label);
-                                    echo '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . 'registration.' . $task . '\')" title="' . $action . '">';
-                                    echo '<i class="' . $class . ' fa-lg" title="' . Text::_($label) . '"></i>';
-                                    echo '</a>';
-                                    ?>
+                                    <?php if($item->image):
+                                        $itemImage = HTMLHelper::_('cleanImageURL', $item->image);
+                                        $cleanImgUrl = $this->escape($itemImage->url);
+                                        ?>
+                                        <img src="<?php echo JUri::root() . $cleanImgUrl; ?>" width="80" />
+                                    <?php endif; ?>
+                                </td>
+                                <th scope="row" class="has-context">
+                                    <a class="hasTooltip"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=country.edit&id=' . (int)$item->id); ?>"
+                                       title="<?php echo Text::_('JACTION_EDIT'); ?>">
+                                        <?php echo $this->escape($item->title); ?>
+                                    </a>
+                                </th>
+                                <td class="small d-none d-md-table-cell">
+                                    <?php echo $item->access_level; ?>
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    <?php echo $item->id; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

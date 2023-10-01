@@ -25,6 +25,7 @@
         <field
                 name="reference"
                 type="text"
+                disabled="true"
                 label="COM_MARATHONMANAGER_REFERENCE_LABEL"
                 description="COM_MARATHONMANAGER_REFERENCE_DESC"
                 size="40"
@@ -39,45 +40,55 @@
         />
 
         <field
-                name="street"
+                name="contact_phone"
                 type="text"
-                label="COM_MARATHONMANAGER_STREET_LABEL"
+                label="COM_MARATHONMANAGER_FIELD_PHONE_LABEL"
+                hint="+41..."
+                required="true"
         />
 
         <field
-                name="zip"
+                name="contact_email"
                 type="text"
-                label="COM_MARATHONMANAGER_ZIP_LABEL"
-                size="6"
-                filter="integer"
-                hint="3000"
+                label="COM_MARATHONMANAGER_FIELD_EMAIL_LABEL"
+                hint="email.address@example.com"
+                required="true"
         />
-        <field
-                name="city"
-                type="text"
-                label="COM_MARATHONMANAGER_CITY_LABEL"
-                hint="Bern"
+
+        <field name="arrival_date"
+               type="EventArrivalDates"
+                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
         />
+
+        <field name="team_language"
+               type="teamlanguages"
+               label="JFIELD_LANGUAGE_LABEL"
+        />
+
 
         <field name="event_id"
                type="events"
                label="COM_MARATHONMANAGER_FIELD_EVENT_LABEL"
-               required="true"/>
+               required="true"
+               onchange="eventChange(this.value);"
+
+        />
 
         <field name="payment_status"
                type="radio"
                layout="joomla.form.field.radio.switcher"
                default="0"
-                label="COM_MARATHONMANAGER_FIELD_PAYMENT_STATUS_LABEL"
+               label="COM_MARATHONMANAGER_FIELD_PAYMENT_STATUS_LABEL"
         >
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
 
         <field name="team_category_id"
-               type="teamcategories"
+               type="eventteamcategories"
                label="COM_MARATHONMANAGER_FIELD_TEAM_CATEGORY_LABEL"
-               required="true"/>
+               required="true"
+        />
         <field
                 name="payment_status"
                 type="list"

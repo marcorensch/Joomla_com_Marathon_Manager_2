@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Administrator\View\Language;
+namespace NXD\Component\MarathonManager\Administrator\View\Country;
 
 \defined('_JEXEC') or die;
 
@@ -22,62 +22,60 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 
 class HtmlView extends BaseHtmlView
 {
-	protected $form;
-	protected $item;
+    protected $form;
+    protected $item;
+
     public function display($tpl = null): void
     {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+        $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
 
-		$this->addToolbar();
+        $this->addToolbar();
 
         parent::display($tpl);
     }
 
-	protected function addToolbar(): void
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    protected function addToolbar(): void
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
         $user = Factory::getApplication()->getIdentity();
         $userId = $user->id;
         $canDo = ContentHelper::getActions('com_marathonmanager', 'category', $this->item->catid);
-		$isNew = (!$this->item->id);
+        $isNew = (!$this->item->id);
         $toolbarButtons = [];
-        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_LANGUAGE_NEW') : Text::_('COM_MARATHONMANAGER_LANGUAGE_EDIT'), 'fas fa-flag');
+        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_COUNTRY_NEW') : Text::_('COM_MARATHONMANAGER_COUNTRY_EDIT'), 'fas fa-globe');
 
         // Build the actions for new and existing records.
         if ($isNew) {
             if (count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
-                ToolbarHelper::apply('language.apply');
+                ToolbarHelper::apply('country.apply');
                 $toolbarButtons = [
-                    ['save2new', 'language.save2new'],
-                    ['save', 'language.save'],
-                    ['save2copy', 'language.save2copy']
+                    ['save2new', 'country.save2new'],
+                    ['save', 'country.save'],
+                    ['save2copy', 'country.save2copy']
                 ];
             }
         } else {
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
 
-            if ($itemEditable)
-            {
-                ToolbarHelper::apply('language.apply');
-                $toolbarButtons[] = ['save', 'language.save'];
+            if ($itemEditable) {
+                ToolbarHelper::apply('country.apply');
+                $toolbarButtons[] = ['save', 'country.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create'))
-                {
-                    $toolbarButtons[] = ['save2new', 'language.save2new'];
+                if ($canDo->get('core.create')) {
+                    $toolbarButtons[] = ['save2new', 'country.save2new'];
                 }
 
                 // If checked out, we can still save
-                if ($canDo->get('core.create'))
-                {
-                    $toolbarButtons[] = ['save2copy', 'language.save2copy'];
+                if ($canDo->get('core.create')) {
+                    $toolbarButtons[] = ['save2copy', 'country.save2copy'];
                 }
 
             }
         }
 
         ToolbarHelper::saveGroup($toolbarButtons);
-		ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
+        ToolbarHelper::cancel('country.cancel', 'JTOOLBAR_CLOSE');
 
-	}
+    }
 }
