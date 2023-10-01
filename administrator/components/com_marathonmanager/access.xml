@@ -9,6 +9,7 @@
         <action name="core.edit" title="JACTION_EDIT"/>
         <action name="core.edit.state" title="JACTION_EDITSTATE" />
         <action name="core.edit.own" title="JACTION_EDITOWN" />
+        <action name="marathonmanager.edit.payment" title="COM_MARATHONMANAGER_ACL_EDITPAYMENT" />
     </section>
 
     <section name="category">

@@ -11,7 +11,9 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
@@ -34,7 +36,6 @@ class RegistrationsModel extends ListModel
             $config['filter_fields'] = array(
                 'id', 'a.id',
                 'team_name', 'a.team_name',
-                'published', 'a.published',
                 'access', 'a.access', 'access_level',
                 'ordering', 'a.ordering',
                 'created_by', 'a.created_by',
@@ -60,7 +61,7 @@ class RegistrationsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.team_name','a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created'])
+			$db->quoteName(['a.id','a.team_name','a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created', 'a.reference'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_registrations','a'));
@@ -72,6 +73,18 @@ class RegistrationsModel extends ListModel
 				$db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access')
 			);
 
+        // Join over the event name
+        $query->select($db->quoteName('e.title','event_name'))
+            ->join(
+                'LEFT',
+                $db->quoteName('#__com_marathonmanager_events', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('a.event_id')
+            );
+        // Join over the team categories
+        $query->select($db->quoteName('tc.title','team_category'))
+            ->join(
+                'LEFT',
+                $db->quoteName('#__com_marathonmanager_team_categories', 'tc') . ' ON ' . $db->quoteName('tc.id') . ' = ' . $db->quoteName('a.team_category_id')
+            );
         // Filter by access level.
         if ($access = $this->getState('filter.access'))
         {

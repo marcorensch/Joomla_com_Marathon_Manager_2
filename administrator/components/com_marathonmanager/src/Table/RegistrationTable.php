@@ -11,6 +11,8 @@ namespace NXD\Component\MarathonManager\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
@@ -27,10 +29,29 @@ class RegistrationTable extends Table
 
 	public function generateAlias(): string
 	{
-		$this->alias = ApplicationHelper::stringURLSafe($this->title);
+		$this->alias = ApplicationHelper::stringURLSafe($this->team_name);
 
 		return $this->alias;
 	}
+
+    public function generateReference($data): string
+    {
+        if(empty($data['event_date'])) {
+            $data['event_date'] = Date::getInstance()->toSql();
+        }
+        if(empty($data['event_id'])) {
+            $data['event_id'] = 0;
+        }
+        if(empty($data['created_by'])) {
+            $data['created_by'] = Factory::getApplication()->getIdentity()->id;
+        }
+        $params = ComponentHelper::getParams('com_marathonmanager');
+        $prefix = $params->get('registration_reference_prefix', 'REG');
+        $eventYear = Date::getInstance($data['event_date'])->format('yd');
+        $this->reference = strtoupper(ApplicationHelper::stringURLSafe($prefix . '-' . $eventYear . $data['event_id'] . $data['created_by']));
+
+        return $this->reference;
+    }
 
 	/**
 	 * @throws \Exception

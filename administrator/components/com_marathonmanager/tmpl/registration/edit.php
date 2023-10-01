@@ -51,6 +51,10 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
+                <?php echo $this->getForm()->renderField('reference'); ?>
+                <?php echo $this->getForm()->renderField('payment_status'); ?>
+                <?php echo $this->getForm()->renderField('event_id'); ?>
+                <?php echo $this->getForm()->renderField('team_category_id'); ?>
                 <?php echo $this->getForm()->renderField('participants'); ?>
             </div>
         </div>

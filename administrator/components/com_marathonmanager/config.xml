@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
     <fieldset
-            name="hello"
-            label="COM_MARATHONMANAGER_CONFIG_WORLDS_LABEL"
-            description="COM_MARATHONMANAGER_CONFIG_WORLDS_DESC"
+            name="basics"
+            label="COM_MARATHONMANAGER_CONFIG_BASICS_LABEL"
+            description="COM_MARATHONMANAGER_CONFIG_BASICS_DESC"
     >
         <field
                 name="show_footer"
@@ -28,6 +28,20 @@
         </field>
     </fieldset>
     <fieldset
+            name="registrations"
+            label="COM_MARATHONMANAGER_CONFIG_REGISTRATIONS_LABEL"
+    >
+        <field
+                name="registration_reference_prefix"
+                type="text"
+                label="COM_MARATHONMANAGER_CONFIG_REFERENCE_PREFIX_LABEL"
+                description="COM_MARATHONMANAGER_CONFIG_REFERENCE_PREFIX_DESC"
+                size="40"
+                default=""
+                hint="COM_MARATHONMANAGER_CONFIG_REFERENCE_PREFIX_HINT"
+        />
+    </fieldset>
+    <fieldset
             name="permissions"
             label="JCONFIG_PERMISSIONS_LABEL"
             description="JCONFIG_PERMISSIONS_DESC"
@@ -35,11 +49,12 @@
         <field
                 name="rules"
                 type="rules"
-                component="com_hello"
+                component="com_marathonmanager"
                 label="JCONFIG_PERMISSIONS_LABEL"
                 filter="rules"
                 validate="rules"
                 section="component"
         />
+
     </fieldset>
 </config>

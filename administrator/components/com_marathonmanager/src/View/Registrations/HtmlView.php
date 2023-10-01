@@ -91,8 +91,10 @@ class HtmlView extends BaseHtmlView
 
 
         // Add Options Button if user has permissions to edit
-        if ($canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_marathonmanager');
+
+        if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
+        {
+            $toolbar->preferences('com_marathonmanager');
         }
 
     }

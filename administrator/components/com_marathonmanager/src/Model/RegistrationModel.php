@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
 
-	public $typeAlias = 'com_marathonmanager.event';
+	public $typeAlias = 'com_marathonmanager.registration';
 
 	/**
 	 * @inheritDoc
@@ -85,7 +85,7 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
             {
                 $origTable->load($input->getInt('a_id'));
 
-                if ($origTable->title === $data['title'])
+                if ($origTable->team_name === $data['team_name'])
                 {
                     /**
                      * If title of article is not changed, set alias to original article alias so that Joomla! will generate
@@ -103,10 +103,10 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
                 $origTable->load($input->getInt('id'));
             }
 
-            if ($data['title'] == $origTable->title)
+            if ($data['team_name'] == $origTable->title)
             {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title'] = $title;
+                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['team_name']);
+                $data['team_name'] = $title;
                 $data['alias'] = $alias;
             }
             elseif ($data['alias'] == $origTable->alias)
@@ -120,11 +120,11 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
         {
             if ($app->get('unicodeslugs') == 1)
             {
-                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['team_name']);
             }
             else
             {
-                $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+                $data['alias'] = OutputFilter::stringURLSafe($data['team_name']);
             }
 
             $table = $this->getTable();
@@ -134,13 +134,20 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
                 $msg = Text::_('COM_MARATHONMANAGER_SAVE_WARNING');
             }
 
-            list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            list($team_name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['team_name']);
             $data['alias'] = $alias;
 
             if (isset($msg))
             {
                 $app->enqueueMessage($msg, 'warning');
             }
+        }
+
+        // Generate Reference Number
+        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['reference'] == null)
+        {
+            $table = $this->getTable();
+            $data['reference'] = $table->generateReference($data);
         }
 
         // Handle Subforms & MultiSelect Fields on save in foreach loop
@@ -156,5 +163,16 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         return parent::save($data);
+    }
+
+    public function setPaymentStatus($arrayOfIds, $status): void
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->update($db->quoteName('#__com_marathonmanager_registrations'));
+        $query->set($db->quoteName('payment_status') . ' = ' . $status);
+        $query->where($db->quoteName('id') . ' IN (' . implode(',', $arrayOfIds) . ')');
+        $db->setQuery($query);
+        $db->execute();
     }
 }

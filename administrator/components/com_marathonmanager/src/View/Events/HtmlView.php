@@ -82,5 +82,10 @@ class HtmlView extends BaseHtmlView
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
+
+        if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
+        {
+            $toolbar->preferences('com_marathonmanager');
+        }
     }
 }
