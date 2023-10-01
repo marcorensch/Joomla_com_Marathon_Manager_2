@@ -91,9 +91,10 @@
             <option value="0">Nicht Bezahlt</option>
         </field>
 
-        <field name="participants" label="COM_MARATHONMANAGER_FIELD_PARTICIPANTS_LABEL" type="subform" min="1"
+        <field name="participants" type="subform" min="1"
                layout="joomla.form.field.subform.repeatable"
                formsource="administrator/components/com_marathonmanager/forms/subform_participants.xml"
+               groupByFieldset="true"
                multiple="true"/>
 
         <field
