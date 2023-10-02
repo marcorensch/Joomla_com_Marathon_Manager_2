@@ -61,6 +61,7 @@ class CreatedByUserField extends SpacerField {
         );
 
         $createdByUserID = $this->form->getValue('created_by');
+        if(!$createdByUserID) return '';
         $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($createdByUserID);
         $name = $user->name ?: $user->username;
         $link = 'index.php?option=com_users&task=user.edit&id=' . $user->id;

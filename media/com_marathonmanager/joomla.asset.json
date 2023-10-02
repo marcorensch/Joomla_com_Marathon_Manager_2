@@ -14,6 +14,17 @@
       ]
     },
     {
+      "name": "com_marathonmanager.rule-checked",
+      "type": "script",
+      "uri": "com_marathonmanager/rule-checked.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "com_marathonmanager.admin-items-modal",
       "type": "script",
       "uri": "com_marathonmanager/admin-items-modal.js",
