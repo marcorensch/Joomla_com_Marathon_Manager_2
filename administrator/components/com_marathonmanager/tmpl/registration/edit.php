@@ -74,7 +74,7 @@ function updateArrivalDateSelection(dates){
     dates.forEach(function(date){
         let option = document.createElement("option");
         option.value = date.value;
-        option.text = date.text;
+        option.text = date.text;ö
         option.innerHTML = date.text;
         option.disabled = date.disable;
         arrivalDateSelect.appendChild(option);

@@ -118,7 +118,7 @@ class RegistrationsModel extends ListModel
             $query->where($db->quoteName('a.team_category_id') . ' IN (' . $teamCategoryID . ')');
         }
 
-        // Filter by search title
+        // Filter by search team name / Reference
         $search = $this->getState('filter.search');
         if (!empty($search))
         {
@@ -130,6 +130,7 @@ class RegistrationsModel extends ListModel
             {
                 $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
                 $query->where('(' . $db->quoteName('a.team_name') . ' LIKE ' . $search . ')');
+                $query->orWhere('(' . $db->quoteName('a.reference') . ' LIKE ' . $search . ')');
             }
         }
 
