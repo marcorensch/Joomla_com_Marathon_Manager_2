@@ -128,6 +128,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 </div>
                                 <?php echo $this->getForm()->renderField('team_category_id'); ?>
                                 <?php echo $this->getForm()->renderField('arrival_date'); ?>
+                                <?php echo $this->getForm()->renderField('maps_count'); ?>
                             </div>
                         </fieldset>
                     </div>
@@ -135,6 +136,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                         <fieldset id="fieldset-contact" class="options-form">
                             <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_CONTACT_FIELDSET_LABEL') ?></legend>
                             <div>
+                                <?php echo $this->getForm()->renderField('createdbyuserinfo'); ?>
                                 <?php echo $this->getForm()->renderField('contact_phone'); ?>
                                 <?php echo $this->getForm()->renderField('contact_email'); ?>
                                 <?php echo $this->getForm()->renderField('team_language'); ?>

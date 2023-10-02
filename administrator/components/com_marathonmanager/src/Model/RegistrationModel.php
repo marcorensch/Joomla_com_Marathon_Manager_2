@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 
 class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
@@ -51,10 +53,9 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
 			}
 		}
 
+        $this->preprocessData($this->typeAlias, $data);
 
-		$this->preprocessData($this->typeAlias, $data);
-
-		return $data;
+        return $data;
 	}
 
 	protected function prepareTable($table)

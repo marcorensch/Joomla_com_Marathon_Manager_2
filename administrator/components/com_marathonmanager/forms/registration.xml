@@ -57,8 +57,16 @@
 
         <field name="arrival_date"
                type="EventArrivalDates"
-                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
+               label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
         />
+
+        <field name="maps_count"
+               type="number"
+               label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL"
+               description="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_DESC"
+        />
+
+        <field name="createdbyuserinfo" type="createdbyuser" />
 
         <field name="team_language"
                type="teamlanguages"
