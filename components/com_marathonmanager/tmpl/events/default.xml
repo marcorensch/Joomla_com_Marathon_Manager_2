@@ -6,35 +6,45 @@
         </message>
     </layout>
     <fields name="params">
-        <fieldset name="options" label="COM_MARATHONMANAGER_FIELDSET_OPTIONS_LABEL">
+        <fieldset name="events_display" label="COM_MARATHONMANAGER_FIELDSET_DISPLAY_LABEL">
             <field
-                    name="cols"
+                    name="events_cols"
                     type="number"
                     default="1"
+                    min="1"
+                    max="6"
                     label="COM_MARATHONMANAGER_FIELD_COLS_LABEL"
             />
             <field
-                    name="cols_s"
+                    name="events_cols_s"
                     type="number"
                     default="2"
+                    min="1"
+                    max="6"
                     label="COM_MARATHONMANAGER_FIELD_COLS_S_LABEL"
             />
             <field
-                    name="cols_m"
+                    name="events_cols_m"
                     type="number"
                     default="3"
+                    min="1"
+                    max="6"
                     label="COM_MARATHONMANAGER_FIELD_COLS_M_LABEL"
             />
             <field
-                    name="cols_l"
+                    name="events_cols_l"
                     type="number"
                     default="4"
+                    min="1"
+                    max="6"
                     label="COM_MARATHONMANAGER_FIELD_COLS_L_LABEL"
             />
             <field
-                    name="cols_xl"
+                    name="events_cols_xl"
                     type="number"
                     default="5"
+                    min="1"
+                    max="6"
                     label="COM_MARATHONMANAGER_FIELD_COLS_XL_LABEL"
             />
         </fieldset>

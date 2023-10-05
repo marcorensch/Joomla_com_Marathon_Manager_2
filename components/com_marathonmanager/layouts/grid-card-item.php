@@ -8,18 +8,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\Hello\Site\View\World;
-
 \defined('_JEXEC') or die;
+$event = $displayData['event'];
+$params = $displayData['params'];
+?>
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+<div>
+    <div class="uk-card uk-card-default">
+        <?php echo $event->title; ?>
+    </div>
+</div>
 
-class HtmlView extends BaseHtmlView
-{
-	public function display($tpl = null): void
-	{
-		$this->msg = $this->get('Msg');
-
-		parent::display($tpl);
-	}
-}

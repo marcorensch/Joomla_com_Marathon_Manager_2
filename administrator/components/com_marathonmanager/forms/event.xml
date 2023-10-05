@@ -270,7 +270,6 @@
                 showtime="true"
                 size="22"
                 filter="user_utc"
-                default="0000-00-00 00:00:00"
         />
         <field
                 name="created_by"

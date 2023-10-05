@@ -25,6 +25,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 class EventModel extends BaseDatabaseModel
 {
 	protected $_item = null;
+    protected $params = null;
 
 	public function getItem($pk = null): object|bool
 	{

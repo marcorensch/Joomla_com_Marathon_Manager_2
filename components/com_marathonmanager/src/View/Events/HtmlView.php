@@ -17,11 +17,13 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class HtmlView extends BaseHtmlView
 {
 	protected $items;
+    protected $params;
+
 	public function display($tpl = null): void
 	{
-		$this->items = $this->get('Events');
-
-        error_log(var_export($this->items, 1));
+        $state = $this->get('State');
+        $this->items = $this->get('Events');
+        $this->params = $state->get('params');
 
 		parent::display($tpl);
 	}
