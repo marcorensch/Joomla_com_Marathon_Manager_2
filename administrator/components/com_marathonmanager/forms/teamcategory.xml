@@ -15,10 +15,15 @@
                 default="0"
         />
         <field
-                name="adminid"
+                name="marathon_id"
                 type="number"
-                label="COM_MARATHONMANAGER_ADMIN_ID_LABEL"
-                description="COM_MARATHONMANAGER_ADMIN_ID_DESC"
+                label="COM_MARATHONMANAGER_MARATHON_ID_LABEL"
+                description="COM_MARATHONMANAGER_MARATHON_ID_DESC"
+        />
+        <field name="group_id"
+               type="number"
+               label="COM_MARATHONMANAGER_FIELD_GROUP_ID_LABEL"
+               description="COM_MARATHONMANAGER_FIELD_GROUP_ID_DESC"
         />
         <field
                 name="title"

@@ -108,7 +108,8 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_team_categories`
     `title`        varchar(255) NOT NULL,
     `alias`        varchar(400) NOT NULL DEFAULT '',
     `catid`        int(11)               DEFAULT NULL,
-    `adminid`      int(11)               DEFAULT NULL,
+    `marathon_id`  int(11)               DEFAULT NULL,
+    `group_id`     int(11)               DEFAULT NULL,
     `state`        tinyint(3)   NOT NULL DEFAULT 0,
     `published`    tinyint(1)   NOT NULL DEFAULT '1',
     `publish_up`   DATETIME,
@@ -120,14 +121,13 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_team_categories`
     `modified`     DATETIME     NOT NULL DEFAULT NOW(),
     `ordering`     int(11)      NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_adminid` (`adminid`),
     KEY `idx_access` (`access`),
     KEY `idx_catid` (`catid`),
     KEY `idx_state` (`published`),
     CONSTRAINT `fk_com_marathonmanager_team_categories_catid` FOREIGN KEY (`catid`) REFERENCES `#__categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_com_marathonmanager_team_categories_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_com_marathonmanager_team_categories_created_by` FOREIGN KEY (`created_by`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_com_marathonmanager_team_categories_modified_by` FOREIGN KEY (`modified_by`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `fk_com_marathonmanager_team_categories_modified_by` FOREIGN KEY (`modified_by`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 );
 
 CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_languages`

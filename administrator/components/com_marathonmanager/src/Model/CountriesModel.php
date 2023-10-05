@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 // The use of the list model allows us to simply extend the list model and just ask for the data we need.
 
 /**
- * Methods supporting a list of Hello events records.
+ * Methods supporting a list of Country records.
  *
  * @since  1.0
  */
@@ -130,4 +130,9 @@ class CountriesModel extends ListModel
 
 		return $query;
 	}
+
+    public function getItems()
+    {
+        return parent::getItems();
+    }
 }

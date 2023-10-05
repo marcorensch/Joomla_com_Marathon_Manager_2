@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 // The use of the list model allows us to simply extend the list model and just ask for the data we need.
 
 /**
- * Methods supporting a list of Hello events records.
+ * Methods supporting a list of Team category records.
  *
  * @since  1.0
  */
@@ -60,7 +60,7 @@ class TeamcategoriesModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.title','a.alias', 'a.ordering', 'a.access', 'a.catid', 'a.published', 'a.publish_up', 'a.publish_down'])
+			$db->quoteName(['a.id','a.title','a.alias','a.marathon_id','a.group_id', 'a.ordering', 'a.access', 'a.catid', 'a.published'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_team_categories','a'));
@@ -130,4 +130,9 @@ class TeamcategoriesModel extends ListModel
 
 		return $query;
 	}
+
+    public function getItems()
+    {
+        return parent::getItems();
+    }
 }

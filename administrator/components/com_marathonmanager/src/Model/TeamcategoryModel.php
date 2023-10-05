@@ -68,6 +68,12 @@ class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
         $input = $app->getInput();
         $user  = $app->getIdentity();
 
+        // Set parent to null if empty
+        if (empty($data['parent_id']))
+        {
+            $data['parent_id'] = null;
+        }
+
         // new element tasks
         if (!isset($data['id']) || (int) $data['id'] === 0)
         {

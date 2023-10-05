@@ -8,11 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\Hello\Site\Model;
+namespace NXD\Component\MarathonManager\Site\Model;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
@@ -21,7 +22,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  * @since  1.0.0
  */
 
-class ItemModel extends BaseDatabaseModel
+class EventModel extends BaseDatabaseModel
 {
 	protected $_item = null;
 
@@ -42,7 +43,7 @@ class ItemModel extends BaseDatabaseModel
 				$query = $db->getQuery(true);
 
 				$query->select('*')
-					->from($db->quoteName('#__hello_items', 'a'))
+					->from($db->quoteName('#__com_marathonmanager_events', 'a'))
 					->where($db->quoteName('a.id') . ' = ' . $db->quote($pk));
 
 				$db->setQuery($query);
@@ -50,7 +51,7 @@ class ItemModel extends BaseDatabaseModel
 
 				if(empty($data))
 				{
-					throw new \Exception(Text::_('COM_MARATHONMANAGER_ITEM_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_MARATHONMANAGER_EVENT_NOT_FOUND'), 404);
 				}
 
 				$this->_item[$pk] = $data;

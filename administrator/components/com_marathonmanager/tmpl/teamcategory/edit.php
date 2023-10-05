@@ -42,7 +42,8 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
-                <?php echo $this->getForm()->renderField('adminid'); ?>
+                <?php echo $this->getForm()->renderField('marathon_id'); ?>
+                <?php echo $this->getForm()->renderField('group_id'); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>

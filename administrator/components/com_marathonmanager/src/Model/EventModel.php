@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
@@ -168,20 +169,63 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
 
         $status = parent::save($data);
 
-        // Handle Subforms that stores values in helper table
+        if($status) $this->handleArrivalDates($data);
+
+        return $status;
+    }
+
+    private function getEventIdByAlias($alias){
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select('id');
+        $query->from('#__com_marathonmanager_events');
+        $query->where('alias = ' . $db->quote($alias));
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function handleArrivalDates($data): void
+    {
+        // Check if we have an ID if not we have added a new event get the id by alias
+        $eventId = $data['id'] ?: $this->getEventIdByAlias($data['alias']);
+
+        $storedArrivalDates = $this->getArrivalDates($eventId); // Get the already stored arrival dates before potentially add new ones
+        $updatedArrivalDates = [];
+
         if($data['arrival_dates']) {
-            $arrivaLOptions = $data['arrival_dates'];
-            error_log(print_r($arrivaLOptions, true));
-            foreach ($arrivaLOptions as $key => $option) {
-                if($option['id'] == 0) {
-                    $this->storeNewArrivalOption($option, $data['id']);
+            $arrival_dates = $data['arrival_dates'];
+            foreach ($arrival_dates as $key => $date_option) {
+                if($date_option['id'] == 0) {
+                    $this->storeNewArrivalOption($date_option, $eventId);
                 }else{
-                    $this->updateArrivalOption($option);
+                    $this->updateArrivalOption($date_option);
+                    $updatedArrivalDates[] = $date_option['id'];
                 }
             }
         }
 
-        return $status;
+        // Delete all arrival dates that are not in the updated arrival dates array
+        foreach ($storedArrivalDates as $date) {
+            if(!in_array($date->id, $updatedArrivalDates)){
+                if(!$this->deleteArrivalOption($date->id)){
+                    Factory::getApplication()->enqueueMessage('Could not delete arrival date ' . HtmlHelper::date($date->date, Text::_('DATE_FORMAT_FILTER_DATETIME')), 'error');
+                }
+            }
+        }
+    }
+
+    private function deleteArrivalOption($id){
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $conditions = array(
+            $db->quoteName('id') . ' = ' . $db->quote($id)
+        );
+        $query->delete($db->quoteName('#__com_marathonmanager_arrival_dates'))->where($conditions);
+        $db->setQuery($query);
+        return $db->execute();
     }
 
     private function getArrivalDates($eventId){

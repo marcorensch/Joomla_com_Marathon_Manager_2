@@ -106,12 +106,15 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'teamcategories.', true, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'teamcategories.', true, 'cb'); ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"
                                        href="<?php echo Route::_('index.php?option=com_marathonmanager&task=teamcategory.edit&id=' . (int)$item->id); ?>"
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
+                                        <?php if($item->marathon_id && $item->group_id):?>
+                                            <?php echo $this->escape($item->marathon_id); ?>.<?php echo $this->escape($item->group_id); ?>
+                                        <?php endif; ?>
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
                                 </th>

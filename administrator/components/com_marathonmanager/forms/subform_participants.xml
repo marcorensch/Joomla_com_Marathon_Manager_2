@@ -28,7 +28,7 @@
     </fieldset>
     <fieldset name="fs_loc" class="col-lg-6">
         <field name="residence" type="text" required="true" label="COM_MARATHONMANAGER_FIELD_RESIDENCE_LABEL"/>
-        <field name="country" type="countryselection" label="COM_MARATHONMANAGER_FIELD_COUNTRY_LABEL"/>
+        <field name="country" type="nxdcountries" label="COM_MARATHONMANAGER_FIELD_COUNTRY_LABEL"/>
     </fieldset>
     <fieldset name="fs_pt" class="col-lg-6">
         <field name="public_transport_reduction" type="list" default="no" label="COM_MARATHONMANAGER_FIELD_PTRED_LABEL">

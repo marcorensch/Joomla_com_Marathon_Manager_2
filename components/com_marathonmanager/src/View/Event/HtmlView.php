@@ -8,22 +8,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\Hello\Site\View\Items;
+namespace NXD\Component\MarathonManager\Site\View\Event;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
-
 class HtmlView extends BaseHtmlView
 {
-	protected $items;
+	protected $item;
 	public function display($tpl = null): void
 	{
-		$state = $this->get('State');
-		$this->params = $state->get('params');
-
-		$this->items = $this->get('Events');
+		$this->item = $this->get('Event');
 
 		parent::display($tpl);
 	}

@@ -13,19 +13,5 @@
 
 ?>
 
-<h1>SimplePage</h1>
-<?php
-$layout = $this->layout;
-
-switch ($layout)
-{
-	default:
-	case 'list':
-		echo '<h2>List Layout</h2>';
-		break;
-
-	case 'grid':
-		echo '<h2>Grid Layout</h2>';
-		break;
-
-}
+Items:
+<?php echo '<pre>' . var_export( $this->items, 1) . '</pre>'; ?>

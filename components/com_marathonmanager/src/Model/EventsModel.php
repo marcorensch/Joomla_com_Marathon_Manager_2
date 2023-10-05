@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\Hello\Site\Model;
+namespace NXD\Component\MarathonManager\Site\Model;
 
 \defined('_JEXEC') or die;
 
@@ -22,11 +22,12 @@ use Joomla\CMS\Language\Text;
  * @since  1.0.0
  */
 
-class ItemsModel extends BaseDatabaseModel
+class EventsModel extends BaseDatabaseModel
 {
 	protected $_items = null;
 
-	public function getItems(){
+	public function getEvents(){
+        error_log('getEvents');
 		$app = Factory::getApplication();
 
 		if($this->_items === null)
@@ -37,21 +38,31 @@ class ItemsModel extends BaseDatabaseModel
 		try{
 			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
-			$now = Factory::getDate()->toSql();
+            $nowDate = Factory::getDate()->toSql();
 
 			$query->select('*')
-				->from($db->quoteName('#__hello_items', 'a'))
-				->where($db->quoteName('a.published') . ' = 1')
-				->where('(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= ' . $db->quote($now) . ')')
-				->where('(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= ' . $db->quote($now) . ')');
+				->from($db->quoteName('#__com_marathonmanager_events', 'a'))
+				->where($db->quoteName('a.published') . ' = 1');
+
+            // Publish up/down
+            $query->where(
+                [
+                    '(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
+                    '(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)',
+                ]
+            )
+                ->bind(':publishUp', $nowDate)
+                ->bind(':publishDown', $nowDate);
 
 			$db->setQuery($query);
 			$data = $db->loadObjectList();
 
 			if(empty($data))
 			{
-				throw new \Exception(Text::_('COM_MARATHONMANAGER_ITEMS_NOT_FOUND'), 404);
+				throw new \Exception(Text::_('COM_MARATHONMANAGER_EVENTS_NOT_FOUND'), 404);
 			}
+
+            $query->clear();
 
 			$this->_items = $data;
 		}

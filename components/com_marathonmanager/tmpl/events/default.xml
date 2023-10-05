@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+    <layout title="COM_MARATHONMANAGER_EVENTS_VIEW_DEFAULT_TITLE">
+        <message>
+            <![CDATA[COM_MARATHONMANAGER_EVENTS_VIEW_DEFAULT_DESC]]>
+        </message>
+    </layout>
+    <fields name="params">
+        <fieldset name="options" label="COM_MARATHONMANAGER_FIELDSET_OPTIONS_LABEL">
+            <field
+                    name="cols"
+                    type="number"
+                    default="1"
+                    label="COM_MARATHONMANAGER_FIELD_COLS_LABEL"
+            />
+            <field
+                    name="cols_s"
+                    type="number"
+                    default="2"
+                    label="COM_MARATHONMANAGER_FIELD_COLS_S_LABEL"
+            />
+            <field
+                    name="cols_m"
+                    type="number"
+                    default="3"
+                    label="COM_MARATHONMANAGER_FIELD_COLS_M_LABEL"
+            />
+            <field
+                    name="cols_l"
+                    type="number"
+                    default="4"
+                    label="COM_MARATHONMANAGER_FIELD_COLS_L_LABEL"
+            />
+            <field
+                    name="cols_xl"
+                    type="number"
+                    default="5"
+                    label="COM_MARATHONMANAGER_FIELD_COLS_XL_LABEL"
+            />
+        </fieldset>
+    </fields>
+</metadata>

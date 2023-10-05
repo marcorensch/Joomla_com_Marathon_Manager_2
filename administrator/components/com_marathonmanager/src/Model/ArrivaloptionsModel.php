@@ -141,4 +141,9 @@ class ArrivaloptionsModel extends ListModel
 
 		return $query;
 	}
+
+    public function getItems()
+    {
+        return parent::getItems();
+    }
 }
