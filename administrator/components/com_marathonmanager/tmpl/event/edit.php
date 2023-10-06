@@ -121,11 +121,11 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <fieldset id="registration-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_REGISTRATION'); ?></legend>
                     <div>
-                        <?php echo $this->getForm()->renderField('earlybird_fee'); ?>
-                        <?php echo $this->getForm()->renderField('regular_fee'); ?>
                         <?php echo $this->getForm()->renderField('registration_start_date'); ?>
-                        <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
                         <?php echo $this->getForm()->renderField('registration_end_date'); ?>
+                        <?php echo $this->getForm()->renderField('regular_fee'); ?>
+                        <?php echo $this->getForm()->renderField('earlybird_end_date'); ?>
+                        <?php echo $this->getForm()->renderField('earlybird_fee'); ?>
                     </div>
                 </fieldset>
                 <fieldset id="arrival-data" class="options-form">

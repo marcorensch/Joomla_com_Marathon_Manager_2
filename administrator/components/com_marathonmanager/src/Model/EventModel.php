@@ -167,9 +167,14 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
-        // set null for publish_up and publish_down if empty
-        if(empty($data['publish_up'])) $data['publish_up'] = null;
-        if(empty($data['publish_down'])) $data['publish_down'] = null;
+        $defaultNullFields = ['publish_up', 'publish_down', 'registration_start_date', 'registration_end_date', 'event_date', 'earlybird_fee','price_per_map','lastinfos_newsletter_list_id'];
+        foreach ($defaultNullFields as $fieldName)
+        {
+            if (isset($data[$fieldName]) && empty($data[$fieldName]))
+            {
+                $data[$fieldName] = null;
+            }
+        }
 
         $status = parent::save($data);
 

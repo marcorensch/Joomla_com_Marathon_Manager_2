@@ -6,11 +6,10 @@
             description="COM_MARATHONMANAGER_CONFIG_BASICS_DESC"
     >
         <field
-                name="show_footer"
+                name="debug"
                 type="radio"
                 layout="joomla.form.field.radio.switcher"
-                label="COM_MARATHONMANAGER_CONFIG_SHOW_FOOTER_LABEL"
-                description="COM_MARATHONMANAGER_CONFIG_SHOW_FOOTER_DESC"
+                label="COM_MARATHONMANAGER_CONFIG_DEBUG_LABEL"
                 default="0"
         >
             <option value="0">JNO</option>

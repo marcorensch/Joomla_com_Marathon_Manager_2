@@ -39,7 +39,7 @@ class EventsModel extends BaseDatabaseModel
             $query = $db->getQuery(true);
             $nowDate = Factory::getDate()->toSql();
 
-            $query->select(array('a.id','a.title','a.image','a.event_date','a.registration_start_date','a.registration_end_date'))
+            $query->select(array('a.id','a.title','a.image','a.event_date','a.registration_start_date','a.registration_end_date','a.city'))
                 ->from($db->quoteName('#__com_marathonmanager_events', 'a'))
                 ->where($db->quoteName('a.published') . ' = 1');
 
