@@ -17,12 +17,16 @@ $params = new Registry($this->params);
 $items = $this->items;
 
 // Grid Columns
-$gridColumnsClassString = 'uk-child-width-1-' . $this->params->get('events_cols', 1) . ' ';
+$gridColumnsClassString = ' uk-child-width-1-' . $this->params->get('events_cols', 1) . ' ';
 $gridColumnsClassString .= 'uk-child-width-1-' . $this->params->get('events_cols_s', 2) . '@s ';
 $gridColumnsClassString .= 'uk-child-width-1-' . $this->params->get('events_cols_m', 3) . '@m ';
 $gridColumnsClassString .= 'uk-child-width-1-' . $this->params->get('events_cols_l', 4) . '@l ';
 $gridColumnsClassString .= 'uk-child-width-1-' . $this->params->get('events_cols_xl', 5) . '@xl ';
 
+$gridGap = ' uk-grid-' . $this->params->get('events_grid_gap', 'medium');
+
+$gridAlignement = ' uk-flex-' . $this->params->get('events_grid_alignement', 'center');
+$gridClasses = $gridColumnsClassString . $gridGap . $gridAlignement;
 ?>
 
 <?php
@@ -42,10 +46,11 @@ if($params->get('debug',0))
 <section class="uk-section">
     <div class="uk-container">
         <div class="uk-position-relative">
-            <div class="uk-flex-center <?php echo $gridColumnsClassString; ?> " uk-grid>
+            <div class="<?php echo $gridClasses; ?> " uk-grid uk-height-match=".uk-card-body">
                 <?php foreach ($this->items as $event): ?>
                     <?php
                     $item = $event;
+                    $item->url = JRoute::_('index.php?option=com_marathonmanager&view=event&id=' . $item->id);
                     $layout = new FileLayout('grid-card-item', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
                     echo $layout->render(compact('item', 'params'));
                     ?>

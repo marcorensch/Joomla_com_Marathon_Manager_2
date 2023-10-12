@@ -7,46 +7,83 @@
     </layout>
     <fields name="params">
         <fieldset name="events_display" label="COM_MARATHONMANAGER_FIELDSET_DISPLAY_LABEL">
-            <field
-                    name="events_cols"
-                    type="number"
-                    default="1"
-                    min="1"
-                    max="6"
-                    label="COM_MARATHONMANAGER_FIELD_COLS_LABEL"
-            />
-            <field
-                    name="events_cols_s"
-                    type="number"
-                    default="2"
-                    min="1"
-                    max="6"
-                    label="COM_MARATHONMANAGER_FIELD_COLS_S_LABEL"
-            />
-            <field
-                    name="events_cols_m"
-                    type="number"
-                    default="3"
-                    min="1"
-                    max="6"
-                    label="COM_MARATHONMANAGER_FIELD_COLS_M_LABEL"
-            />
-            <field
-                    name="events_cols_l"
-                    type="number"
-                    default="4"
-                    min="1"
-                    max="6"
-                    label="COM_MARATHONMANAGER_FIELD_COLS_L_LABEL"
-            />
-            <field
-                    name="events_cols_xl"
-                    type="number"
-                    default="5"
-                    min="1"
-                    max="6"
-                    label="COM_MARATHONMANAGER_FIELD_COLS_XL_LABEL"
-            />
+            <fieldset name="columns" label="Columns" class="col-lg-6">
+                <field
+                        name="events_cols"
+                        type="number"
+                        default="1"
+                        min="1"
+                        max="6"
+                        label="COM_MARATHONMANAGER_FIELD_COLS_LABEL"
+                />
+                <field
+                        name="events_cols_s"
+                        type="number"
+                        default="2"
+                        min="1"
+                        max="6"
+                        label="COM_MARATHONMANAGER_FIELD_COLS_S_LABEL"
+                />
+                <field
+                        name="events_cols_m"
+                        type="number"
+                        default="3"
+                        min="1"
+                        max="6"
+                        label="COM_MARATHONMANAGER_FIELD_COLS_M_LABEL"
+                />
+                <field
+                        name="events_cols_l"
+                        type="number"
+                        default="4"
+                        min="1"
+                        max="6"
+                        label="COM_MARATHONMANAGER_FIELD_COLS_L_LABEL"
+                />
+                <field
+                        name="events_cols_xl"
+                        type="number"
+                        default="5"
+                        min="1"
+                        max="6"
+                        label="COM_MARATHONMANAGER_FIELD_COLS_XL_LABEL"
+                />
+                <field name="events_grid_gap"
+                       type="list"
+                       default="medium"
+                       label="COM_MARATHONMANAGER_FIELD_GRID_GAP_LABEL"
+                >
+                    <option value="small">COM_MARATHONMANAGER_FIELD_OPT_GRID_GAP_SMALL</option>
+                    <option value="medium">COM_MARATHONMANAGER_FIELD_OPT_GRID_GAP_MEDIUM</option>
+                    <option value="large">COM_MARATHONMANAGER_FIELD_OPT_GRID_GAP_LARGE</option>
+                </field>
+                <field name="events_grid_alignement"
+                       type="list"
+                       default="left"
+                       label="COM_MARATHONMANAGER_FIELD_GRID_ALIGN_LABEL"
+                >
+                    <option value="left">COM_MARATHONMANAGER_OPT_LEFT</option>
+                    <option value="center">COM_MARATHONMANAGER_OPT_CENTER</option>
+                    <option value="right">COM_MARATHONMANAGER_OPT_RIGHT</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="elements" label="Elements" class="col-lg-6">
+                <field name="element_cls"
+                       type="textarea"
+                       label="COM_MARATHONMANAGER_FIELD_CUSTOM_CLS_LBL"
+                       description="COM_MARATHONMANAGER_FIELD_GRID_ELEMENT_CUSTOM_CLS_DES"
+                       hint="my-class another-class"
+                />
+                <field name="preview_aspect_ratio"
+                       type="text"
+                       label="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_LBL"
+                       description="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_DES"
+                       hint="px:px"
+                />
+            </fieldset>
+
+
         </fieldset>
     </fields>
 </metadata>

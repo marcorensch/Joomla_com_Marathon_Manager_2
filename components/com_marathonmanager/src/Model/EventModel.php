@@ -64,6 +64,25 @@ class EventModel extends BaseDatabaseModel
 			}
 		}
 
+        //Check if current user is already registered for this event
+        $user = Factory::getApplication()->getIdentity();
+        $this->_item[$pk]->alreadyRegistered = $this->isRegistered($pk, $user->id);
+
 		return $this->_item[$pk];
 	}
+
+    private function isRegistered($eventId, $userId): bool
+    {
+        if(empty($userId)) return false;
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select('a.id')
+            ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
+            ->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId))
+            ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId));
+        $query->setLimit(1);
+        $db->setQuery($query);
+
+        return !empty($db->loadResult());
+    }
 }

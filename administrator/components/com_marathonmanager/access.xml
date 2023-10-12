@@ -10,6 +10,9 @@
         <action name="core.edit.state" title="JACTION_EDITSTATE" />
         <action name="core.edit.own" title="JACTION_EDITOWN" />
         <action name="marathonmanager.edit.payment" title="COM_MARATHONMANAGER_ACL_EDITPAYMENT" />
+        <action name="registration.create" title="COM_MARATHONMANAGER_ACL_CREATE_REGISTRATION" />
+        <action name="registration.delete" title="COM_MARATHONMANAGER_ACL_DELETE_REGISTRATION" />
+        <action name="registration.edit" title="COM_MARATHONMANAGER_ACL_EDIT_REGISTRATION" />
     </section>
 
     <section name="category">

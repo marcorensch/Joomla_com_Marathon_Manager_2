@@ -19,7 +19,7 @@ class HtmlView extends BaseHtmlView
 	protected $item;
 	public function display($tpl = null): void
 	{
-		$this->item = $this->get('Event');
+		$this->item = $this->get('Item');
 
 		parent::display($tpl);
 	}
