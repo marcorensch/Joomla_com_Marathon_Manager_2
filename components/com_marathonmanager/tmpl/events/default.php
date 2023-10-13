@@ -9,6 +9,7 @@
  */
 
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 \defined('_JEXEC') or die;
@@ -50,7 +51,8 @@ if($params->get('debug',0))
                 <?php foreach ($this->items as $event): ?>
                     <?php
                     $item = $event;
-                    $item->url = JRoute::_('index.php?option=com_marathonmanager&view=event&id=' . $item->id);
+                    $item->url = Route::_('index.php?option=com_marathonmanager&view=event&id=' . $item->id);
+                    echo '<pre>' . var_export($item->url, true) . '</pre>';
                     $layout = new FileLayout('grid-card-item', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
                     echo $layout->render(compact('item', 'params'));
                     ?>

@@ -30,13 +30,16 @@ $wa->addInlineStyle('
 $event = $this->item;
 $today = date('Y-m-d H:i:s');
 
+// Set Page Header
+$document = Factory::getApplication()->getDocument();
+$document->setTitle($event->title);
+
 $user = Factory::getApplication()->getIdentity();
 $canCreateRegistration = $user->authorise('registration.create', 'com_marathonmanager');
 
 $isLoggedIn = !empty($user->id);
 
 $registrationOpen = ($event->registration_start_date < $today) && ($event->registration_end_date > $today);
-
 
 // Create the required menu options
 $menuOptions = array();

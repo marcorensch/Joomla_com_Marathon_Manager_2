@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package     Joomla.Site
+ * @param array $displaydata containing the data to display
+ *
  * @subpackage  com_marathonmanager
  * @copyright   Copyright (c) 2023 NXD | nx-designs
  *              All rights reserved
  *
- * @var         $displaydata array containing the data to display
- *
+ * @package     Joomla.Site
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
