@@ -54,7 +54,7 @@ class EventTeamCategoriesField extends ListField{
         if(!$this->event_id) return array();
         $dbValues = $this->getEventEnabledTeamCategories($this->event_id);
 
-        $options[] = HTMLHelper::_('select.option', "", Text::_('COM_MARATHONMANAGER_FIELD_OPT_NOT_SET'));
+        $options[] = HTMLHelper::_('select.option', "", Text::_('COM_MARATHONMANAGER_FIELD_TEAM_CATEGORY_NOT_SET'));
 
         foreach ($dbValues as $option)
         {
@@ -76,6 +76,7 @@ class EventTeamCategoriesField extends ListField{
         $query->where('id = ' . $eventId);
         $db->setQuery($query);
         $dbValues = $db->loadAssocList();
+        if(!$dbValues) return array();
         $array = json_decode($dbValues[0]['team_categories']);
         foreach ($array as $item) array_push($ids, $item);
         $commaSeparatedListOfIds = implode(',', $ids);

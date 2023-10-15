@@ -8,17 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Site\View\Event;
+namespace NXD\Component\MarathonManager\Site\View\Registration;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use NXD\Component\MarathonManager\Site\Model\EventModel;
 
 class HtmlView extends BaseHtmlView
 {
-    protected $item;
-
     /**
      * The Form object
      *
@@ -26,14 +25,23 @@ class HtmlView extends BaseHtmlView
      */
     protected $form;
 
+    /**
+     * The event object for this registration
+     *
+     * @var  EventModel
+     */
+    protected $event;
+
     public function display($tpl = null): void
     {
-        $this->item = $this->get('Item');
+        $this->event = $this->get('Event');
+        $this->form = $this->get('Form');
+        $this->return_page = $this->get('ReturnPage');
 
-        if ($this->item) {
+        if ($this->event) {
             parent::display($tpl);
         } else {
-            throw new \Exception('Item not found', 404);
+            throw new \Exception('Event not found', 404);
         }
 
     }

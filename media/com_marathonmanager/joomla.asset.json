@@ -34,6 +34,24 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "com_marathonmanager.form-edit",
+      "type": "script",
+      "uri": "com_marathonmanager/form-edit.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "1"
+    },
+    {
+      "name": "com_marathonmanager.form-edit",
+      "type": "style",
+      "uri": "com_marathonmanager/form-edit.css",
+      "version": "1"
     }
   ]
 }

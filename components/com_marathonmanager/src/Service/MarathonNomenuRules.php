@@ -22,7 +22,7 @@ use RuntimeException;
  *
  * @since  3.4
  */
-class EventsNomenuRules implements RulesInterface
+class MarathonNomenuRules implements RulesInterface
 {
     /**
      * Router this rule belongs to
@@ -31,6 +31,7 @@ class EventsNomenuRules implements RulesInterface
      * @since 3.4
      */
     protected $router;
+    protected $itemId;
 
     /**
      * Class constructor.
@@ -71,12 +72,15 @@ class EventsNomenuRules implements RulesInterface
      */
     public function parse(&$segments, &$vars)
     {
-        // with this url: http://localhost/events/event-n/event-title.html
-        // segments: [[0] => event-n, [1] => event-title]
-        // vars: [[option] => com_marathonmanager, [view] => events, [id] => 0]
+        error_log('::parse() - $segments: ' . print_r($segments, true));
+        error_log('::parse() - $vars: ' . print_r($vars, true));
 
-        $vars['view'] = 'event';
-        $vars['id'] = substr($segments[0], strpos($segments[0], '-') + 1);
+        if(isset($segments[2])){
+            $vars['layout'] = $segments[2];
+        }
+        $vars['view'] = $segments[0];
+        $vars['id'] = $vars['event_id'] = $this->getItemIdForAlias($segments[1]);
+        array_shift($segments);
         array_shift($segments);
         array_shift($segments);
         return;
@@ -94,28 +98,25 @@ class EventsNomenuRules implements RulesInterface
      */
     public function build(&$query, &$segments)
     {
-        // content of $query ($segments is empty or [[0] => mywalk-3])
-        // when called by the menu: [[option] => com_mywalks, [Itemid] => 126]
-        // when called by the component: [[option] => com_mywalks, [view] => mywalk, [id] => 1, [Itemid] => 126]
-        // when called from a module: [[option] => com_mywalks, [view] => mywalks, [format] => html, [Itemid] => 126]
-        // when called from breadcrumbs: [[option] => com_mywalks, [view] => mywalks, [Itemid] => 126]
 
-        // the url should look like this: /site-root/mywalks/walk-n/walk-title.html
-
-
-
-        // if the view is not mywalk - the single walk view
-        if (!isset($query['view']) || (isset($query['view']) && $query['view'] !== 'event') || isset($query['format']))
+        // if the view is not event / registration, or the format is set, return
+        $views = ['event', 'registration'];
+        if ( !isset($query['view']) || (isset($query['view']) && (!in_array($query['view'], $views))) || isset($query['format']))
         {
             return;
         }
-        $alias = $this->getAliasForEvent($query['id']);
-        error_log('alias: ' . var_export($alias, true));
-        if($alias){
 
+        $eventId = $query['id'] ?? $query['event_id'];
+        $alias = $this->getAliasForEvent($eventId);
+        if($alias){
+            $segments[] = $query['view'];
             $segments[] = $alias;
         }else {
-            $segments[] = $query['view'] . '-' . $query['id'];
+            return;
+        }
+        if(isset($query['layout'])){
+            $segments[] = $query['layout'];
+            unset($query['layout']);
         }
         // the last part of the url may be missing
         if (isset($query['slug'])) {
@@ -124,6 +125,28 @@ class EventsNomenuRules implements RulesInterface
         }
         unset($query['view']);
         unset($query['id']);
+        unset($query['event_id']);
+    }
+
+    private function getItemIdForAlias($alias){
+        if(empty($alias)){
+            return false;
+        }
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        try
+        {
+            $query->select($db->quoteName('id'))
+                ->from($db->quoteName('#__com_marathonmanager_events'))
+                ->where($db->quoteName('alias') . ' = :alias')
+                ->bind(':alias', $alias, ParameterType::STRING);
+            $db->setQuery($query);
+            return $db->loadResult();
+        }
+        catch (RuntimeException $e)
+        {
+            return false;
+        }
     }
 
     private function getAliasForEvent($id){
@@ -140,7 +163,6 @@ class EventsNomenuRules implements RulesInterface
                 ->where($db->quoteName('id') . ' = :id')
                 ->bind(':id', $id, ParameterType::INTEGER);
             $db->setQuery($query);
-            $app->enqueueMessage('NICE', 'default');
             return $db->loadResult();
         }
         catch (RuntimeException $e)

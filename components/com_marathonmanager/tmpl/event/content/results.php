@@ -10,3 +10,10 @@
  */
 
 \defined('_JEXEC') or die;
+
+?>
+
+
+<div class="uk-padding">
+    <h2>Results</h2>
+</div>

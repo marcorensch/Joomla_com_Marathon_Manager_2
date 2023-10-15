@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fieldset name="teamdata"
+              addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
+    >
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field name="event_id"
+               type="hidden"
+        />
+        <field
+                name="created_by"
+                type="hidden"
+        />
+        <field
+                name="team_name"
+                type="text"
+                label="COM_MARATHONMANAGER_TEAM_NAME_LABEL"
+                required="true"
+                size="40"
+        />
+        <field name="arrival_date"
+               type="EventArrivalDates"
+               label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
+               required="true"
+        />
+
+        <field name="team_category_id"
+               type="eventteamcategories"
+               label="COM_MARATHONMANAGER_FIELD_TEAM_CATEGORY_LABEL"
+               required="true"
+        />
+    </fieldset>
+    <fieldset name="contact">
+        <field
+                name="contact_phone"
+                type="text"
+                label="COM_MARATHONMANAGER_FIELD_PHONE_LABEL"
+                hint="+41..."
+                required="true"
+        />
+
+        <field
+                name="contact_email"
+                type="email"
+                label="COM_MARATHONMANAGER_FIELD_EMAIL_LABEL"
+                hint="email.address@example.com"
+                required="true"
+        />
+        <field name="team_language"
+               type="teamlanguages"
+               label="JFIELD_LANGUAGE_LABEL"
+        />
+    </fieldset>
+</form>

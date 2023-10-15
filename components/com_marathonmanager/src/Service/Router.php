@@ -13,17 +13,13 @@ namespace NXD\Component\MarathonManager\Site\Service;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
-use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
-//use Joomla\CMS\Component\Router\Rules\NomenuRules;
-use NXD\Component\MarathonManager\Site\Service\EventsNomenuRules as NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\ParameterType;
 
 /**
  * Routing class from com_marathonmanager
@@ -89,12 +85,15 @@ class Router extends RouterView
         $this->registerView($category);
 
         $events = new RouterViewConfiguration('events');
-        $events->setKey('id');
         $this->registerView($events);
 
         $event = new RouterViewConfiguration('event');
         $event->setKey('id');
         $this->registerView($event);
+
+        $registration = new RouterViewConfiguration('registration');
+        $registration->setKey('event_id');
+        $this->registerView($registration);
 
 //        $this->registerView(new RouterViewConfiguration('featured'));
         $form = new RouterViewConfiguration('form');
@@ -105,7 +104,7 @@ class Router extends RouterView
 
         $this->attachRule(new MenuRules($this));
         $this->attachRule(new StandardRules($this));
-        $this->attachRule(new NomenuRules($this));
+        $this->attachRule(new MarathonNomenuRules($this));
     }
 
 }

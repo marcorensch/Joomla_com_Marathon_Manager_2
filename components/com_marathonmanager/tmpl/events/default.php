@@ -52,7 +52,6 @@ if($params->get('debug',0))
                     <?php
                     $item = $event;
                     $item->url = Route::_('index.php?option=com_marathonmanager&view=event&id=' . $item->id);
-                    echo '<pre>' . var_export($item->url, true) . '</pre>';
                     $layout = new FileLayout('grid-card-item', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
                     echo $layout->render(compact('item', 'params'));
                     ?>

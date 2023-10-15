@@ -13,10 +13,4 @@
 
 ?>
 
-<section class="uk-section marathonmanager-event-description-text-section">
-    <div class="uk-container marathonmanager-event-description-text-container">
-        <div class="uk-margin marathonmanager-event-description-text">
-            <?php echo $event->description; ?>
-        </div>
-    </div>
-</section>
+<?php echo $event->description; ?>

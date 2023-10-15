@@ -1,0 +1,17 @@
+.control-group {
+    & span.form-control-feedback{
+        float: right;
+        font-weight: bolder;
+        color: red;
+    }
+
+    & label.invalid{
+        color: red;
+    }
+
+    & input.invalid,
+    & textarea.invalid,
+    & select.form-control-danger.invalid {
+        border: 2px solid red;
+    }
+}

@@ -13,10 +13,5 @@
 
 ?>
 
-<section class="uk-section marathonmanager-event-description-text-section">
-    <div class="uk-container marathonmanager-event-description-text-container">
-        <div class="uk-margin marathonmanager-event-description-text">
-            <?php echo $event->gallery_content; ?>
-        </div>
-    </div>
-</section>
+
+<?php echo $event->gallery_content; ?>

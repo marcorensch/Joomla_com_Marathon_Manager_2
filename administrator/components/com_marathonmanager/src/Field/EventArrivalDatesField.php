@@ -58,9 +58,12 @@ class EventArrivalDatesField extends ListField{
         $db->setQuery($query);
         $dbValues = $db->loadObjectList();
 
+        $options[] = HTMLHelper::_('select.option', "", Text::_('COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_NOT_SET'));
+
+
         foreach ($dbValues as $option)
         {
-            $options[] = HTMLHelper::_('select.option', $option->id, HtmlHelper::date($option->date, Text::_('DATE_FORMAT_LC5')));
+            $options[] = HTMLHelper::_('select.option', $option->date, HtmlHelper::date($option->date, Text::_('DATE_FORMAT_LC5')));
         }
 
         // Merge any additional options in the XML definition.
