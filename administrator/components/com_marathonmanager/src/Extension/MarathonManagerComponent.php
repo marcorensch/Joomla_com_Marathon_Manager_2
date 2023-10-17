@@ -25,7 +25,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Menu\AbstractMenu;
-use NXD\Component\Hello\Administrator\Service\HTML\AdministratorService;
+use NXD\Component\MarathonManager\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
 class MarathonManagerComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface, RouterServiceInterface

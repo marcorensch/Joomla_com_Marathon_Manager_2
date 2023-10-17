@@ -9,7 +9,7 @@
  * @source      https://blog.astrid-guenther.de/en/die-daten-der-datenbank-im-frontend-nutzen/
  */
 
-namespace NXD\Component\Hello\Administrator\Field\Modal;
+namespace NXD\Component\MarathonManager\Administrator\Field\Modal;
 
 \defined('_JEXEC') or die;
 

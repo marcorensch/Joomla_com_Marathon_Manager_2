@@ -32,18 +32,34 @@ class AcyMailingListSelectionField extends ListField
     protected function getOptions(): array
     {
         $options = [];
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
-        $query->select('id, name');
-        $query->from('#__acym_list');
-        $query->order('creation_date DESC, name ASC');
-        $db->setQuery($query);
-        $dbValues = $db->loadObjectList();
-
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_DEFAULT_SELECT_ACYMAILING_LIST'));
 
-        foreach ($dbValues as $option) {
-            $options[] = HTMLHelper::_('select.option', $option->id, $option->name);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        try {
+            $db->transactionStart();
+            $query = $db->getQuery(true);
+            $query->select('id, name');
+            $query->from('#__acym_list');
+            $query->order('creation_date DESC, name ASC');
+            $db->setQuery($query);
+            $dbValues = $db->loadObjectList();
+
+            $db->transactionCommit();
+
+        } catch (\Exception $e) {
+            $app = Factory::getApplication();
+            if($e->getCode() == 1146){
+                $msg = "AcyMailing is not installed.";
+            }else{
+                $msg = $e->getMessage();
+            }
+            $app->enqueueMessage($msg, 'warning');
+        }
+
+        if (!empty($dbValues)) {
+            foreach ($dbValues as $option) {
+                $options[] = HTMLHelper::_('select.option', $option->id, $option->name);
+            }
         }
 
         return array_merge(parent::getOptions(), $options);

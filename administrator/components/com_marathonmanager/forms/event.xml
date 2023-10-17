@@ -53,6 +53,7 @@
                 description="COM_MARATHONMANAGER_REGULAR_FEE_DESC"
                 pattern="^[0-9]+(\.[0-9]{1,2})?$"
                 required="true"
+                default="0"
                 hint="0.00"
         />
 
@@ -156,6 +157,7 @@
                 showon="map_option_id:3,4"
                 pattern="^[0-9]+(\.[0-9]{1,2})?$"
                 hint="0.00"
+                default="0.00"
         />
 
         <field
@@ -223,7 +225,6 @@
                multiple="true"/>
 
         <field name="privacy_policy_article_id"
-               required="true"
                type="NxdArticleSelection"
                filter="legal,registration,privacy,policy,terms,services,conditions"
                label="COM_MARATHONMANAGER_PRIVACY_POLICY_ARTICLE_ID_LABEL"

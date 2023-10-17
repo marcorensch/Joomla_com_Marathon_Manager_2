@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS `#__hello_items`;
+-- Placeholder file
