@@ -129,6 +129,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 </div>
                                 <?php echo $this->getForm()->renderField('team_category_id'); ?>
                                 <?php echo $this->getForm()->renderField('arrival_date'); ?>
+                                <?php echo $this->getForm()->renderField('arrival_option_id'); ?>
                                 <div class="row">
                                     <div class="col-xl-7">
                                         <?php echo $this->getForm()->renderField('maps_count'); ?>

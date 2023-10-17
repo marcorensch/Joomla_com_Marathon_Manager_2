@@ -25,6 +25,14 @@
                label="COM_MARATHONMANAGER_FIELD_GROUP_ID_LABEL"
                description="COM_MARATHONMANAGER_FIELD_GROUP_ID_DESC"
         />
+        <field name="max_participants"
+               type="number"
+               default="1"
+               min="1"
+               max="99"
+               label="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_LABEL"
+               description="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_DESC"
+        />
         <field
                 name="title"
                 type="text"

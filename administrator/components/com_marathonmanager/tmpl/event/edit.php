@@ -116,6 +116,12 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                         <?php echo $this->getForm()->renderField('team_categories'); ?>
                     </div>
                 </fieldset>
+                <fieldset id="event-data" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_EVENT_LEGAL_LABEL'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('privacy_policy_article_id'); ?>
+                    </div>
+                </fieldset>
             </div>
             <div class="col-lg-6">
                 <fieldset id="registration-data" class="options-form">

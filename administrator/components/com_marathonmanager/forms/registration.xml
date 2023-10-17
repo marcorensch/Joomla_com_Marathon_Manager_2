@@ -60,6 +60,11 @@
                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
         />
 
+        <field name="arrival_option_id"
+               type="ArrivalOptionsFromEvent"
+               label="COM_MARATHONMANAGER_FIELD_ARRIVAL_TYPE_LABEL"
+        />
+
         <field name="maps_count"
                type="number"
                label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL"

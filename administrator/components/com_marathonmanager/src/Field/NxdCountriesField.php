@@ -16,6 +16,7 @@ namespace NXD\Component\MarathonManager\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Form\FormHelper;
 
@@ -51,10 +52,15 @@ class NxdCountriesField extends ListField{
         $db->setQuery($query);
         $dbValues = $db->loadObjectList();
 
+        $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_OPT_SELECT_COUNTRY'));
+
         foreach ($dbValues as $option)
         {
             $options[] = HTMLHelper::_('select.option', $option->id, $option->title);
         }
+
+        $options[] = HTMLHelper::_('select.option', 'other', Text::_('COM_MARATHONMANAGER_FIELD_OPT_OTHER'));
+
 
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $options);

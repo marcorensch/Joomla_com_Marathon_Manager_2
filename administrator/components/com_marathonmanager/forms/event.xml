@@ -120,6 +120,8 @@
                 type="AcyMailingListSelection"
                 label="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_LABEL"
                 description="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_DESC"
+                layout="joomla.form.field.list-fancy-select"
+
         />
         <field
                 name="lat"
@@ -211,14 +213,24 @@
                label="COM_MARATHONMANAGER_ARRIVALOPTIONS_LABEL"
                description="COM_MARATHONMANAGER_ARRIVALOPTIONS_DESC"
                layout="joomla.form.field.list-fancy-select"
-               multiple="true" />
+               multiple="true"/>
 
         <field name="team_categories"
                type="TeamCategories"
                label="COM_MARATHONMANAGER_TEAMCATEGORIES_LABEL"
                description="COM_MARATHONMANAGER_TEAMCATEGORIES_DESC"
                layout="joomla.form.field.list-fancy-select"
-               multiple="true" />
+               multiple="true"/>
+
+        <field name="privacy_policy_article_id"
+               required="true"
+               type="NxdArticleSelection"
+               filter="legal,registration,privacy,policy,terms,services,conditions"
+               label="COM_MARATHONMANAGER_PRIVACY_POLICY_ARTICLE_ID_LABEL"
+               description="COM_MARATHONMANAGER_PRIVACY_POLICY_ARTICLE_ID_DESC"
+               layout="joomla.form.field.list-fancy-select"
+               default=""
+        />
 
         <field
                 name="access"
@@ -301,7 +313,7 @@
                showtime="true"
                size="22"
                readonly="true"
-               filter="user_utc" />
+               filter="user_utc"/>
 
         <field name="modified"
                label="COM_MARATHONMANAGER_MODIFIED_DATE"
@@ -310,6 +322,6 @@
                showtime="true"
                size="22"
                readonly="true"
-               filter="user_utc" />
+               filter="user_utc"/>
     </fieldset>
 </form>

@@ -10,6 +10,7 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 \defined('_JEXEC') or die;
@@ -47,7 +48,13 @@ $wa->useStyle('com_marathonmanager.form-edit');
         </div>
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                Rechtliches
+                <h3 class="uk-h4"><i uk-icon="pencil"></i> Legal Agreements</h3>
+                <?php
+                if(isset($this->event->privacy_policy_article_id)) {
+                    echo $this->form->renderField('privacy_policy');
+                    echo Text::_('COM_MARATHONMANAGER_PRIVACY_POLICY_TEXT', $this->event->privacy_policy_article_id);
+                }
+                ?>
             </div>
         </div>
     </div>
