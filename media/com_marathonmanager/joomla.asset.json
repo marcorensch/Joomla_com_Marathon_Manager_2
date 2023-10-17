@@ -50,8 +50,7 @@
     {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
-      "uri": "com_marathonmanager/form-edit.css",
-      "version": "1"
+      "uri": "com_marathonmanager/form-edit.css"
     }
   ]
 }

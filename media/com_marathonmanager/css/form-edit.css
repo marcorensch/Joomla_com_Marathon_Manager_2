@@ -15,3 +15,15 @@
         border: 2px solid red;
     }
 }
+
+div.subform-repeatable-group[data-base-name="participants"] {
+
+    padding: 20px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 6px;
+
+    & div.row {
+        margin-top: 20px;
+    }
+
+}

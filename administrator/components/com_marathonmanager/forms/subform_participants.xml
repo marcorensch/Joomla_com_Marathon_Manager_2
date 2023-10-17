@@ -3,13 +3,7 @@
       addformprefix="NXD\Component\MarathonManager\Administrator\Form"
       addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
 >
-    <fieldset name="fs_gender" class="col-lg-3">
-        <field name="gender" type="list" multiple="false" label="COM_MARATHONMANAGER_FIELD_GENDER_LABEL">
-            <option value="w">COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN</option>
-            <option value="m">COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN</option>
-            <option value="d">COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS</option>
-        </field>
-    </fieldset>
+
     <fieldset name="fs_fn" class="col-lg-4">
         <field
                 name="first_name"
@@ -18,7 +12,7 @@
                 required="true"
         />
     </fieldset>
-    <fieldset name="fs_ln" class="col-lg-5">
+    <fieldset name="fs_ln" class="col-lg-4">
         <field
                 name="last_name"
                 type="text"
@@ -26,12 +20,24 @@
                 required="true"
         />
     </fieldset>
+    <fieldset name="fs_gender" class="col-lg-2">
+        <field name="gender" type="list" multiple="false" label="COM_MARATHONMANAGER_FIELD_GENDER_LABEL">
+            <option value="">COM_MARATHONMANAGER_FIELD_OPT_SELECT</option>
+            <option value="w">COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN</option>
+            <option value="m">COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN</option>
+            <option value="d">COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS</option>
+        </field>
+    </fieldset>
+    <fieldset name="fs_age" class="col-lg-2">
+        <field name="age" type="number" default="6" label="COM_MARATHONMANAGER_FIELD_AGE_LABEL" min="6" max="100" />
+    </fieldset>
     <fieldset name="fs_loc" class="col-lg-6">
         <field name="residence" type="text" required="true" label="COM_MARATHONMANAGER_FIELD_RESIDENCE_LABEL"/>
         <field name="country" type="nxdcountries" label="COM_MARATHONMANAGER_FIELD_COUNTRY_LABEL"/>
     </fieldset>
     <fieldset name="fs_pt" class="col-lg-6">
-        <field name="public_transport_reduction" type="list" default="no" label="COM_MARATHONMANAGER_FIELD_PTRED_LABEL">
+        <field name="public_transport_reduction" type="list" multiple="false" default="" label="COM_MARATHONMANAGER_FIELD_PTRED_LABEL">
+            <option value="">COM_MARATHONMANAGER_FIELD_OPT_SELECT</option>
             <option value="no">JNo</option>
             <option value="ga">COM_MARATHONMANAGER_FIELD_PTRED_OPT_GA</option>
             <option value="ht">COM_MARATHONMANAGER_FIELD_PTRED_OPT_HT</option>

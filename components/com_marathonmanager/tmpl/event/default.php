@@ -10,6 +10,7 @@
 
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
@@ -65,20 +66,14 @@ if ($registrationOpen) $menuOptions[] = new EventContentModel('Register', 'regis
 $menuOptions[] = new EventContentModel('Results', 'results', 'list');
 $menuOptions[] = new EventContentModel('Gallery', 'gallery', 'image');
 
+$event = $this->item;
+$layout = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+
+
 ?>
 
-    <section class="nxd-section">
-        <div class="uk-container uk-container-expand">
-            <div class="uk-border-rounded uk-overflow-hidden">
-                <header class="uk-cover-container uk-height-large">
-                    <?php echo LayoutHelper::render('joomla.html.image', ['src' => $event->image, 'alt' => $event->title, 'uk-cover' => 'true']); ?>
-                    <div class="uk-overlay uk-overlay-primary uk-position-bottom">
-                        <h1 class="uk-h1"><?php echo $event->title; ?></h1>
-                    </div>
-                </header>
-            </div>
-        </div>
-    </section>
+<?php echo $layout->render(compact('event'));?>
+
 <?php if ($menuOptions): ?>
     <section class="nxd-section uk-margin-small-top">
         <div class="uk-background-muted uk-border-rounded">

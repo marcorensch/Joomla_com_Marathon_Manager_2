@@ -28,24 +28,25 @@ $wa->useStyle('com_marathonmanager.form-edit');
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
     <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" uk-grid>
         <div>
-            <div class="uk-card uk-card-default uk-card-body">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="users"></i> Team</h3>
                 <?php echo $this->form->renderFieldset('teamdata'); ?>
             </div>
         </div>
         <div>
-            <div class="uk-card uk-card-default uk-card-body">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="mail"></i> Kontakt</h3>
                 <?php echo $this->form->renderFieldset('contact'); ?>
             </div>
         </div>
         <div class="uk-width-1-1@m">
-            <div class="uk-card uk-card-default uk-card-body">
-                Runners
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                <h3 class="uk-h4"><i uk-icon="users"></i> Participants</h3>
+                <?php echo $this->form->renderFieldset('participants'); ?>
             </div>
         </div>
         <div class="uk-width-1-1@m">
-            <div class="uk-card uk-card-default uk-card-body">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 Rechtliches
             </div>
         </div>

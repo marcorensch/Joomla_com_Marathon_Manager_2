@@ -54,4 +54,13 @@
                label="JFIELD_LANGUAGE_LABEL"
         />
     </fieldset>
+    <fieldset name="participants">
+        <field name="participants"
+               type="subform"
+               min="1"
+               layout="joomla.form.field.subform.repeatable"
+               formsource="administrator/components/com_marathonmanager/forms/subform_participants.xml"
+               groupByFieldset="true"
+               multiple="true"/>
+    </fieldset>
 </form>
