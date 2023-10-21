@@ -37,7 +37,6 @@ if($params->get('debug',0))
     echo $debugLayout->render(compact('items', 'params'));
 }
 ?>
-
 <section class="uk-section uk-padding-remove">
     <div class="uk-card uk-card-small uk-card-body">
         <h1>Events</h1>

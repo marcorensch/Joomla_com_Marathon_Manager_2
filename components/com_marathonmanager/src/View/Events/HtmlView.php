@@ -25,6 +25,11 @@ class HtmlView extends BaseHtmlView
         $this->items = $this->get('Events');
         $this->params = $state->get('params');
 
+        if (!count($this->items)) {
+            $tpl = 'empty';     // results in default_empty.php
+        }
+
 		parent::display($tpl);
+
 	}
 }

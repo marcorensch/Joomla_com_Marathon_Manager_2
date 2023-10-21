@@ -56,10 +56,6 @@ class EventsModel extends BaseDatabaseModel
             $db->setQuery($query);
             $data = $db->loadObjectList();
 
-            if (empty($data)) {
-                throw new \Exception(Text::_('COM_MARATHONMANAGER_EVENTS_NOT_FOUND'), 404);
-            }
-
             if(!empty($data->params)) {
                 $registry = new Registry($data->params);
 
@@ -70,8 +66,8 @@ class EventsModel extends BaseDatabaseModel
 
             $this->_items = $data;
         } catch (\Exception $e) {
-            $this->setError($e->getMessage());
-            $this->_items = false;
+            $app->enqueueMessage($e->getMessage(), 'error');
+            $this->_items = [];
         }
 
         return $this->_items;

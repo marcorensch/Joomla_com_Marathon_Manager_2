@@ -20,7 +20,6 @@ $previewAspectRatio = explode(':', $params->get('preview_aspect_ratio', '16:9'))
 $previewAspectRatio[0] = $previewAspectRatio[0] * 10000;
 $previewAspectRatio[1] = $previewAspectRatio[1] * 10000;
 ?>
-
 <div class="nxd-event-card-container">
     <div class="uk-card uk-card-default uk-card-hover uk-card-small uk-position-relative <?php echo $cardClasses; ?> nxd-event-card">
         <div class="uk-cover-container nxd-event-card-image-container">
