@@ -35,6 +35,7 @@
         <folder>src</folder>
         <folder>tmpl</folder>
         <folder>layouts</folder>
+        <folder>forms</folder>
     </files>
 
     <media folder="media/com_marathonmanager" destination="com_marathonmanager">
