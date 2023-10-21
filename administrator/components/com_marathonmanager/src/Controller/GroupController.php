@@ -14,9 +14,9 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\FormController;
 
-class TeamcategoryController extends FormController
+class GroupController extends FormController
 {
 	// Optional: Declare  view name
-	protected $view_list = 'teamcategories';
-	protected $default_view = 'teamcategory';
+	protected $view_list = 'groups';
+	protected $default_view = 'group';
 }

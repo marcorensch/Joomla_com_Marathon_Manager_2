@@ -22,7 +22,7 @@ use Joomla\CMS\Session\Session;
  * @since  1.0.0
  */
 
-class TeamcategoriesController extends AdminController
+class CoursesController extends AdminController
 {
 	/**
 	 * @throws \Exception
@@ -35,7 +35,7 @@ class TeamcategoriesController extends AdminController
 	/**
 	 * Proxy for getModel.
 	 */
-	public function getModel($name = 'Teamcategory', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Course', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

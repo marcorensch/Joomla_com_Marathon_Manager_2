@@ -17,17 +17,17 @@ use Joomla\CMS\Language\Text;
 
 use Joomla\Registry\Registry;
 
-class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
+class CourseModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
 
-	public $typeAlias = 'com_marathonmanager.event';
+	public $typeAlias = 'com_marathonmanager.course';
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getForm($data = [], $loadData = true)
 	{
-		$form = $this->loadForm($this->typeAlias, 'teamcategory', ['control' => 'jform', 'load_data' => $loadData]);
+		$form = $this->loadForm($this->typeAlias, 'course', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if(empty($form)){
 			return false;
@@ -40,15 +40,10 @@ class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
 	{
 		$app = Factory::getApplication();
 
-		$data = $app->getUserState('com_marathonmanager.edit.teamcategory.data', []);
+		$data = $app->getUserState('com_marathonmanager.edit.course.data', []);
 
 		if (empty($data)) {
 			$data = $this->getItem();
-
-			// Prime some default values.
-			if ($this->getState('event.id') == 0) {
-				$data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.teamcategories.filter.category_id'), 'int'));
-			}
 		}
 
 
@@ -67,12 +62,6 @@ class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
         $app   = Factory::getApplication();
         $input = $app->getInput();
         $user  = $app->getIdentity();
-
-        // Set parent to null if empty
-        if (empty($data['parent_id']))
-        {
-            $data['parent_id'] = null;
-        }
 
         // new element tasks
         if (!isset($data['id']) || (int) $data['id'] === 0)
@@ -111,7 +100,7 @@ class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
 
             if ($data['title'] == $origTable->title)
             {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                list($title, $alias) = $this->generateNewTitle(null, $data['alias'], $data['title']);
                 $data['title'] = $title;
                 $data['alias'] = $alias;
             }
@@ -135,12 +124,12 @@ class TeamcategoryModel extends \Joomla\CMS\MVC\Model\AdminModel
 
             $table = $this->getTable();
 
-            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']]))
+            if ($table->load(['alias' => $data['alias']]))
             {
                 $msg = Text::_('COM_MARATHONMANAGER_SAVE_WARNING');
             }
 
-            list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            list($title, $alias) = $this->generateNewTitle(null, $data['alias'], $data['title']);
             $data['alias'] = $alias;
 
             if (isset($msg))

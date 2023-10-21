@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Administrator\View\Teamcategory;
+namespace NXD\Component\MarathonManager\Administrator\View\Group;
 
 \defined('_JEXEC') or die;
 
@@ -37,19 +37,19 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = (!$this->item->id);
         $user = Factory::getApplication()->getIdentity();
-        $canDo = ContentHelper::getActions('com_marathonmanager', 'category', $this->item->catid);
+        $canDo = ContentHelper::getActions('com_marathonmanager');
         $toolbarButtons = [];
-        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_TEAMCATEGORY_NEW') : Text::_('COM_MARATHONMANAGER_TEAMCATEGORY_EDIT'), 'fas fa-folder-open');
+        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_GROUP_NEW') : Text::_('COM_MARATHONMANAGER_GROUP_EDIT'), 'fas fa-folder-open');
 
         // Build the actions for new and existing records.
         if ($isNew) {
             if ($canDo->get('core.create')) {
-                ToolbarHelper::apply('teamcategory.apply');
+                ToolbarHelper::apply('group.apply');
                 $toolbarButtons = [
 
-                    ['save2new', 'teamcategory.save2new'],
-                    ['save', 'teamcategory.save'],
-                    ['save2copy', 'evteamcategoryent.save2copy']
+                    ['save2new', 'group.save2new'],
+                    ['save', 'group.save'],
+                    ['save2copy', 'group.save2copy']
                 ];
             }
         } else {
@@ -57,18 +57,18 @@ class HtmlView extends BaseHtmlView
 
             if ($itemEditable)
             {
-                ToolbarHelper::apply('teamcategory.apply');
-                $toolbarButtons[] = ['save', 'teamcategory.save'];
+                ToolbarHelper::apply('group.apply');
+                $toolbarButtons[] = ['save', 'course.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
                 if ($canDo->get('core.create'))
                 {
-                    $toolbarButtons[] = ['save2new', 'teamcategory.save2new'];
+                    $toolbarButtons[] = ['save2new', 'group.save2new'];
                 }
 
                 // If checked out, we can still save
                 if ($canDo->get('core.create'))
                 {
-                    $toolbarButtons[] = ['save2copy', 'teamcategory.save2copy'];
+                    $toolbarButtons[] = ['save2copy', 'group.save2copy'];
                 }
 
             }
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::saveGroup($toolbarButtons);
 
-		ToolbarHelper::cancel('teamcategory.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 
 	}
 }

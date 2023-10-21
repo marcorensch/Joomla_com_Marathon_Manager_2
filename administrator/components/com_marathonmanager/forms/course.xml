@@ -15,24 +15,18 @@
                 default="0"
         />
         <field
-                name="marathon_id"
+                name="course_id"
+                required="true"
                 type="number"
-                label="COM_MARATHONMANAGER_MARATHON_ID_LABEL"
-                description="COM_MARATHONMANAGER_MARATHON_ID_DESC"
+                label="COM_MARATHONMANAGER_COURSE_ID_LABEL"
+                description="COM_MARATHONMANAGER_COURSE_ID_DESC"
         />
-        <field name="group_id"
-               type="number"
-               label="COM_MARATHONMANAGER_FIELD_GROUP_ID_LABEL"
+        <field name="group_ids"
+               type="list"
+               label="COM_MARATHONMANAGER_FIELD_GROUP_IDS_LABEL"
                description="COM_MARATHONMANAGER_FIELD_GROUP_ID_DESC"
         />
-        <field name="max_participants"
-               type="number"
-               default="1"
-               min="1"
-               max="99"
-               label="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_LABEL"
-               description="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_DESC"
-        />
+
         <field
                 name="title"
                 type="text"
@@ -93,13 +87,6 @@
                 label="JFIELD_ORDERING_LABEL"
                 content_type="com_marathonmanager.arrivaloption"
         />
-        <field name="catid"
-               type="categoryedit"
-               label="JCATEGORY"
-               extension="com_marathonmanager"
-               addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-               required="true"
-               default=""/>
 
         <field name="created"
                label="COM_MARATHONMANAGER_CREATED_DATE"

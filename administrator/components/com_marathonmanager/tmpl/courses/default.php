@@ -19,7 +19,7 @@ use Joomla\CMS\Session\Session;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-$route = Route::_('index.php?option=com_marathonmanager&view=teamcategories');
+$route = Route::_('index.php?option=com_marathonmanager&view=courses');
 $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -27,7 +27,7 @@ $saveOrder = $listOrder === 'a.ordering';
 $saveOrderingUrl = '';
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=teamcategories.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=courses.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -60,18 +60,13 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
+                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell text-center">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_COURSEID_TITLE', 'a.course_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                            </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
                             </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell text-center">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_MARATHONID_TITLE', 'a.marathon_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
-                            </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell text-center">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_GROUPID_TITLE', 'a.group_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
-                            </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell text-center">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_RUNNERSMAX_TITLE', 'a.max_participants', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
-                            </th>
+
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
                                 <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
                             </th>
@@ -115,27 +110,19 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'teamcategories.', true, 'cb'); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'courses.', true, 'cb'); ?>
+                                </td>
+                                <td class="small d-none d-md-table-cell text-center">
+                                    <?php echo $item->course_id; ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=teamcategory.edit&id=' . (int)$item->id); ?>"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=course.edit&id=' . (int)$item->id); ?>"
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
-                                        <?php if($item->marathon_id && $item->group_id):?>
-                                            <?php echo $this->escape($item->marathon_id); ?>.<?php echo $this->escape($item->group_id); ?>
-                                        <?php endif; ?>
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
                                 </th>
-                                <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $item->marathon_id; ?>
-                                </td>
-                                <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $item->group_id; ?>
-                                </td>
-                                <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $item->max_participants; ?>
-                                </td>
+
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->access_level; ?>
                                 </td>

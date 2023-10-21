@@ -43,7 +43,8 @@
         <field
                 name="contact_phone"
                 type="text"
-                label="COM_MARATHONMANAGER_FIELD_PHONE_LABEL"
+                label="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_DESC"
                 hint="+41..."
                 required="true"
         />

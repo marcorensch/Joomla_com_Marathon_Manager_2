@@ -17,12 +17,12 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Database\DatabaseDriver;
 
-class TeamcategoryTable extends Table
+class CourseTable extends Table
 {
 	public function __construct(DatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_marathonmanager.teamcategory';
-		parent::__construct('#__com_marathonmanager_team_categories', 'id', $db);
+		$this->typeAlias = 'com_marathonmanager.course';
+		parent::__construct('#__com_marathonmanager_courses', 'id', $db);
 	}
 
 	public function generateAlias(): string

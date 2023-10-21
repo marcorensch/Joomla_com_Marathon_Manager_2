@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Administrator\View\Teamcategories;
+namespace NXD\Component\MarathonManager\Administrator\View\Courses;
 
 \defined('_JEXEC') or die;
 
@@ -46,13 +46,13 @@ class HtmlView extends BaseHtmlView
         $user = Factory::getApplication()->getIdentity();
 
 
-        ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_TEAMCATEGORIES_TITLE'), 'fas fa-folder-open');
+        ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_COURSES_TITLE'), 'fas fa-folder-open');
         $toolbar = Toolbar::getInstance();
 
 
         // Add New Button if user has permissions to create
         if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
-            ToolbarHelper::addNew('teamcategory.add');
+            ToolbarHelper::addNew('course.add');
         }
 
         if ($canDo->get('core.edit.state'))
@@ -65,34 +65,37 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
 
             $childBar = $dropdown->getChildToolbar();
-            $childBar->publish('teamcategories.publish')->listCheck(true);
-            $childBar->unpublish('teamcategories.unpublish')->listCheck(true);
-            $childBar->archive('teamcategories.archive')->listCheck(true);
+            $childBar->publish('courses.publish')->listCheck(true);
+            $childBar->unpublish('courses.unpublish')->listCheck(true);
+            $childBar->archive('courses.archive')->listCheck(true);
 
 
             if ($user->authorise('core.admin'))
             {
-                $childBar->checkin('teamcategories.checkin')->listCheck(true);
+                $childBar->checkin('courses.checkin')->listCheck(true);
             }
 
             if ($this->state->get('filter.published') != -2)
             {
-                $childBar->trash('teamcategories.trash')->listCheck(true);
+                $childBar->trash('courses.trash')->listCheck(true);
             }
         }
 
         if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
         {
-            $toolbar->delete('teamcategories.delete')
+            $toolbar->delete('courses.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
 
+        $toolbar->appendButton('Link', 'folder', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_GROUPS', '/administrator/index.php?option=com_marathonmanager&view=groups');
+
 
         // Add Options Button if user has permissions to edit
-        if ($canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_marathonmanager');
+        if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
+        {
+            $toolbar->preferences('com_marathonmanager');
         }
 
     }

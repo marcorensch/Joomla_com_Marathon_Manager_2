@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.0
  */
 
-class TeamcategoriesModel extends ListModel
+class GroupsModel extends ListModel
 {
 	public function __construct($config = [])
 	{
@@ -33,7 +33,6 @@ class TeamcategoriesModel extends ListModel
         {
             $config['filter_fields'] = array(
                 'id', 'a.id',
-                'catid', 'a.catid',
                 'title', 'a.title',
                 'published', 'a.published',
                 'access', 'a.access', 'access_level',
@@ -60,10 +59,10 @@ class TeamcategoriesModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.title','a.alias','a.marathon_id','a.group_id', 'a.max_participants', 'a.ordering', 'a.access', 'a.catid', 'a.published'])
+			$db->quoteName(['a.id','a.title','a.alias','a.group_id', 'a.ordering', 'a.access', 'a.published'])
 		);
 		// From the table
-		$query->from($db->quoteName('#__com_marathonmanager_team_categories','a'));
+		$query->from($db->quoteName('#__com_marathonmanager_groups','a'));
 
 		// Join over the asset groups
 		$query->select($db->quoteName('ag.title','access_level'))
@@ -94,19 +93,6 @@ class TeamcategoriesModel extends ListModel
             $query->where('(' . $db->quoteName('a.published') . ' IN (0, 1))');
         }
 
-        // Filter by a single or group of categories.
-        $categoryId = $this->getState('filter.category_id');
-        if (is_numeric($categoryId))
-        {
-            $query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-        }
-        elseif (is_array($categoryId))
-        {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryId = implode(',', $categoryId);
-            $query->where($db->quoteName('a.catid') . ' IN (' . $categoryId . ')');
-        }
-
         // Filter by search title
         $search = $this->getState('filter.search');
         if (!empty($search))
@@ -123,8 +109,8 @@ class TeamcategoriesModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.created');
-        $orderDirn = $this->state->get('list.direction', 'desc');
+        $orderCol  = $this->state->get('list.ordering', 'a.group_id');
+        $orderDirn = $this->state->get('list.direction', 'asc');
 
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
