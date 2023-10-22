@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
     <fieldset name="teamdata"
-              addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
+              addfieldprefix="NXD\Component\MarathonManager\Site\Field"
     >
         <field
                 name="id"

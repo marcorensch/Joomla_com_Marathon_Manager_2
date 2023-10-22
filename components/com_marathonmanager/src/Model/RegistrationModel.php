@@ -35,7 +35,7 @@ class RegistrationModel extends FormModel
      */
     public function getForm($data = [], $loadData = true): Form
     {
-        try{
+        try {
             $form = $this->loadForm('com_marathonmanager.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
         } catch (Exception $e) {
             error_log('Exception: ' . $e->getMessage());
@@ -49,8 +49,7 @@ class RegistrationModel extends FormModel
     {
         $app = Factory::getApplication();
         $eventId = $app->input->getInt('event_id');
-        if(empty($eventId))
-        {
+        if (empty($eventId)) {
             throw new Exception('Event not defined', 404);
         }
         $db = $this->getDatabase();
@@ -61,8 +60,7 @@ class RegistrationModel extends FormModel
         $db->setQuery($query);
         $event = $db->loadObject();
 
-        if(empty($event))
-        {
+        if (empty($event)) {
             throw new Exception('Event not found', 404);
         }
 
@@ -73,17 +71,28 @@ class RegistrationModel extends FormModel
         return $event;
     }
 
+    private function getParcours($ids): array
+    {
+        $parcours = array();
+
+
+
+
+        return $parcours;
+    }
+
     /**
      * @throws Exception
      */
-    protected function loadFormData()
+    protected
+    function loadFormData()
     {
         $currentEventId = Factory::getApplication()->input->getInt('id');
         $currentUserId = Factory::getApplication()->getIdentity()->id;
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
-            'com_marathonmanager.registration',	// a unique name to identify the data in the session
-            array("event_id" => $currentEventId)	// prefill data if no data found in session
+            'com_marathonmanager.registration',    // a unique name to identify the data in the session
+            array("event_id" => $currentEventId)    // prefill data if no data found in session
         );
 
         // Overwrite EventId from URL
@@ -93,23 +102,26 @@ class RegistrationModel extends FormModel
         return $data;
     }
 
-    public function validate($form, $data, $group = null): array
+    public
+    function validate($form, $data, $group = null): array
     {
         error_log('RegistrationModel::validate() called');
         error_log('Data: ' . print_r($data, true));
         return parent::validate($form, $data, $group);
     }
 
-    public function store($data): bool
+    public
+    function store($data): bool
     {
         error_log('RegistrationModel::store() called');
         error_log('Data: ' . print_r($data, true));
         return true;
     }
 
-    private function isRegistered($eventId, $userId): bool
+    private
+    function isRegistered($eventId, $userId): bool
     {
-        if(empty($userId)) return false;
+        if (empty($userId)) return false;
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select('a.id')
@@ -122,7 +134,8 @@ class RegistrationModel extends FormModel
         return !empty($db->loadResult());
     }
 
-    public function getReturnPage(): string
+    public
+    function getReturnPage(): string
     {
         $currentEventId = Factory::getApplication()->input->getInt('event_id');
         $this->setState('return_page', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $currentEventId));
