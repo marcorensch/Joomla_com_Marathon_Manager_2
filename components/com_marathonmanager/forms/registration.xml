@@ -32,10 +32,17 @@
                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_TYPE_LABEL"
                description="COM_MARATHONMANAGER_FIELD_ARRIVAL_TYPE_DESC"
         />
+    </fieldset>
+    <fieldset name="parcours">
+        <field name="course_id"
+               type="courses"
+               label="COM_MARATHONMANAGER_FIELD_COURSES_LABEL"
+               required="true"
+        />
 
-        <field name="team_category_id"
-               type="eventteamcategories"
-               label="COM_MARATHONMANAGER_FIELD_TEAM_CATEGORY_LABEL"
+        <field name="group_id"
+               type="groups"
+               label="COM_MARATHONMANAGER_FIELD_GROUPS_LABEL"
                required="true"
         />
     </fieldset>

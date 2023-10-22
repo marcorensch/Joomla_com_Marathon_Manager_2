@@ -146,6 +146,19 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'parcours', Text::_('COM_MARATHONMANAGER_PARCOURS_TAB_TITLE')); ?>
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset id="parcours-data" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_PARCOURS_FIELDSET_LABEL'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('parcours'); ?>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'media', Text::_('COM_MARATHONMANAGER_MEDIA_TAB_TITLE')); ?>
         <div class="row">

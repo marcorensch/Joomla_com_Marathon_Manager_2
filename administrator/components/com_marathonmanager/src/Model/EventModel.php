@@ -155,8 +155,8 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
-        // Handle Subforms & MultiSelect Fields on save in foreach loop
-        $multiSelectFields = ['attachments', 'result_files', 'arrival_options', 'team_categories'];
+        // Handle Simple Subforms & MultiSelect Fields on save in foreach loop
+        $multiSelectFields = ['attachments', 'result_files', 'arrival_options'];
         foreach ($multiSelectFields as $fieldName)
         {
             if (isset($data[$fieldName]) && is_array($data[$fieldName]))
@@ -167,6 +167,19 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
+        // Handle complex subforms
+        $complexSubforms = ['parcours'];
+        foreach ($complexSubforms as $fieldName)
+        {
+            if (isset($data[$fieldName]) && is_array($data[$fieldName]))
+            {
+                $registry = new Registry;
+                $registry->loadObject($data[$fieldName]);
+                $data[$fieldName] = (string) $registry;
+            }
+        }
+
+        // Handle empty fields
         $defaultNullFields = ['privacy_policy_article_id','publish_up', 'publish_down', 'registration_start_date', 'registration_end_date', 'earlybird_end_date', 'event_date', 'earlybird_fee','price_per_map', 'lastinfos_newsletter_list_id'];
         foreach ($defaultNullFields as $fieldName)
         {

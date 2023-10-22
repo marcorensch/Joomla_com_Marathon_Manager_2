@@ -217,12 +217,15 @@
                layout="joomla.form.field.list-fancy-select"
                multiple="true"/>
 
-        <field name="team_categories"
-               type="TeamCategories"
-               label="COM_MARATHONMANAGER_TEAMCATEGORIES_LABEL"
-               description="COM_MARATHONMANAGER_TEAMCATEGORIES_DESC"
-               layout="joomla.form.field.list-fancy-select"
-               multiple="true"/>
+        <field name="parcours"
+               type="subform"
+               label="COM_MARATHONMANAGER_COURSES_ON_EVENT_LABEL"
+               description="COM_MARATHONMANAGER_COURSES_ON_EVENT_DESC"
+               multiple="true"
+               min="0"
+               formsource="administrator/components/com_marathonmanager/forms/subform_parcours.xml"
+               groupByFieldset="true"
+        />
 
         <field name="privacy_policy_article_id"
                type="NxdArticleSelection"

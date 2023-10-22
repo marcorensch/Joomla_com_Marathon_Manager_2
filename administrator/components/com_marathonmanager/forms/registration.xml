@@ -111,11 +111,18 @@
             <option value="1">JYES</option>
         </field>
 
-        <field name="team_category_id"
-               type="eventteamcategories"
-               label="COM_MARATHONMANAGER_FIELD_TEAM_CATEGORY_LABEL"
+        <field name="course_id"
+               type="courses"
+               label="COM_MARATHONMANAGER_FIELD_COURSES_LABEL"
                required="true"
         />
+
+        <field name="group_id"
+               type="groups"
+               label="COM_MARATHONMANAGER_FIELD_GROUPS_LABEL"
+               required="true"
+        />
+
         <field
                 name="payment_status"
                 type="list"

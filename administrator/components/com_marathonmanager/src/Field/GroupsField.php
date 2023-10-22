@@ -16,6 +16,7 @@ namespace NXD\Component\MarathonManager\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Form\FormHelper;
 
@@ -23,14 +24,14 @@ FormHelper::loadFieldClass('list');
 
 defined('_JEXEC') or die;
 
-class TeamCategoriesField extends ListField{
+class GroupsField extends ListField{
     /**
      * The form field type.
      *
      * @var    string
      * @since  1.0.0
      */
-    protected $type = 'TeamCategories';
+    protected $type = 'Groups';
 
     /**
      * Method to get the field options.
@@ -45,7 +46,7 @@ class TeamCategoriesField extends ListField{
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('id, title');
-        $query->from('#__com_marathonmanager_team_categories');
+        $query->from('#__com_marathonmanager_groups');
 //        $query->where('published = 1');
         $query->order('ordering ASC');
         $db->setQuery($query);

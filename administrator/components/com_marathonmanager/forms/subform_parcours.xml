@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <fieldset name="course" class="col-lg-6">
+    <field
+            name="course_id"
+            type="courses"
+            required="true"
+            label="COM_MARATHONMANAGER_FIELD_COURSES_LABEL"
+            description="COM_MARATHONMANAGER_FIELD_COURSES_DESC"
+            multiple="false"
+            layout="joomla.form.field.list-fancy-select"
+    />
+    </fieldset>
+    <fieldset name="group" class="col-lg-6">
+    <field
+            name="group_id"
+            type="groups"
+            label="COM_MARATHONMANAGER_FIELD_GROUPS_MULTIPLE_LABEL"
+            description="COM_MARATHONMANAGER_FIELD_GROUPS_MULTIPLE_DESC"
+            required="true"
+            multiple="true"
+            layout="joomla.form.field.list-fancy-select"
+    />
+    </fieldset>
+</form>

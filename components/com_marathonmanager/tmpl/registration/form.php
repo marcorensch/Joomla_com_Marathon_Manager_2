@@ -27,7 +27,7 @@ $wa->useStyle('com_marathonmanager.form-edit');
 
 <form class="uk-form" action="<?php echo Route::_('index.php?option=com_marathonmanager&id='.$this->event->id); ?>"
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
-    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m" uk-grid>
+    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m uk-grid-match" uk-grid>
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="users"></i> Team</h3>
@@ -38,6 +38,15 @@ $wa->useStyle('com_marathonmanager.form-edit');
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="mail"></i> Kontakt</h3>
                 <?php echo $this->form->renderFieldset('contact'); ?>
+            </div>
+        </div>
+        <div class="uk-width-1-1@m">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                <h3 class="uk-h4"><i class="fas fa-route"></i> Parcours / Category</h3>
+                <div class="uk-child-width-1-2@m uk-grid-small" uk-grid>
+                    <div><?php echo $this->form->renderField('course_id'); ?></div>
+                    <div><?php echo $this->form->renderField('group_id'); ?></div>
+                </div>
             </div>
         </div>
         <div class="uk-width-1-1@m">
