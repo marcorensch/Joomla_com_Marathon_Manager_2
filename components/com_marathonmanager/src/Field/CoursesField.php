@@ -185,6 +185,43 @@ class CoursesField extends ListField
                     const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
                     subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
                 });
+                
+                // Check if the max participants are reached on add participant
+                const participantsSubform = document.querySelector('joomla-field-subform[name="jform[participants]"]');
+                participantsSubform.addEventListener('subform-row-add', function() {
+                    setUnsetCssClassnames(participantsSubform);
+                });
+                
+                participantsSubform.addEventListener('subform-row-remove', function() {
+                    setUnsetCssClassnames(participantsSubform);
+                });
+                
+                // Check if the max participants are reached on change of Group
+                groupSelect.addEventListener('change', function() {
+                    setUnsetCssClassnames(participantsSubform);
+                });
+                
+                /**
+                 * Check if the max participants are reached
+                 * @param       parent      The subform container
+                 * @returns     {boolean}   True if max participants are reached
+                 */
+                function checkMaxParticipantsReached(parent) {
+                    const subFormRows = parent.querySelectorAll('.subform-repeatable-group');
+                    return subFormRows.length > PARTICIPANTS_MAX
+                }
+                
+                /**
+                 * Do the CSS stuff
+                 * @param       participantsSubform      The subform container
+                 */
+                function setUnsetCssClassnames(participantsSubform){
+                    if(checkMaxParticipantsReached(participantsSubform)){
+                        participantsSubform.classList.add('form-control-danger', 'invalid');
+                    }else{
+                        participantsSubform.classList.remove('form-control-dange', 'invalid');
+                    }
+                }
             });
             
         JS;

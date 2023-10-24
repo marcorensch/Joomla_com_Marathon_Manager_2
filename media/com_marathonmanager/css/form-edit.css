@@ -1,4 +1,5 @@
-.control-group {
+.control-group,
+joomla-field-subform{
     & span.form-control-feedback{
         float: right;
         font-weight: bolder;
@@ -6,13 +7,15 @@
         display: block;
     }
 
-    & label.invalid{
+    & label.invalid,
+    .form-control-danger.invalid {
         color: red;
     }
 
     & input.invalid,
     & textarea.invalid,
-    & select.form-control-danger.invalid {
+    & select.form-control-danger.invalid,
+    .form-control-danger.invalid{
         border: 2px solid red;
     }
 }
