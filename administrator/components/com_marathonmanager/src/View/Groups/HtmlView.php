@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-        $toolbar->appendButton('Link', 'folder', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_COURSES', '/administrator/index.php?option=com_marathonmanager&view=courses');
+        $toolbar->appendButton('Link', 'map-signs', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_COURSES', '/administrator/index.php?option=com_marathonmanager&view=courses');
 
         // Add Options Button if user has permissions to edit
         if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))

@@ -45,6 +45,23 @@ class GroupsField extends ListField
     {
         $options = [];
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_SELECT_COURSE_FIRST'));
+
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('id, title');
+        $query->from('#__com_marathonmanager_groups');
+        $query->where('published = 1');
+        $query->order('ordering ASC');
+        $db->setQuery($query);
+        $dbValues = $db->loadObjectList();
+
+        foreach ($dbValues as $option) {
+            $options[] = HTMLHelper::_('select.option', $option->id, $option->title);
+        }
+
+        // Merge any additional options in the XML definition.
+        $options = array_merge(parent::getOptions(), $options);
+
         return $options;
     }
 

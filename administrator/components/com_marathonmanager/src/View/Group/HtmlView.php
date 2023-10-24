@@ -58,7 +58,7 @@ class HtmlView extends BaseHtmlView
             if ($itemEditable)
             {
                 ToolbarHelper::apply('group.apply');
-                $toolbarButtons[] = ['save', 'course.save'];
+                $toolbarButtons[] = ['save', 'group.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
                 if ($canDo->get('core.create'))
                 {

@@ -25,7 +25,7 @@ $wa->useStyle('com_marathonmanager.form-edit');
 
 ?>
 
-<form class="uk-form" action="<?php echo Route::_('index.php?option=com_marathonmanager&id='.$this->event->id); ?>"
+<form class="uk- form-validate" action="<?php echo Route::_('index.php?option=com_marathonmanager&id='.$this->event->id); ?>"
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
     <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m uk-grid-match" uk-grid>
         <div>

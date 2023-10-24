@@ -14,17 +14,13 @@
                 class="readonly"
                 default="0"
         />
+
         <field
                 name="course_id"
                 required="true"
                 type="number"
                 label="COM_MARATHONMANAGER_COURSE_ID_LABEL"
                 description="COM_MARATHONMANAGER_COURSE_ID_DESC"
-        />
-        <field name="group_ids"
-               type="list"
-               label="COM_MARATHONMANAGER_FIELD_GROUP_IDS_LABEL"
-               description="COM_MARATHONMANAGER_FIELD_GROUP_ID_DESC"
         />
 
         <field

@@ -3,6 +3,7 @@
         float: right;
         font-weight: bolder;
         color: red;
+        display: block;
     }
 
     & label.invalid{

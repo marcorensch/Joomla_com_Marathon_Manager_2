@@ -15,8 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 
-use Joomla\Registry\Registry;
-
 class GroupModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
 

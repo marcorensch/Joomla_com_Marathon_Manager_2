@@ -136,6 +136,7 @@ class CoursesField extends ListField
     {
         Text::script('COM_MARATHONMANAGER_SELECT_GROUP');
         $parcoursScript = <<<JS
+            let PARTICIPANTS_MAX = 99;
             document.addEventListener('DOMContentLoaded', function() {
                 const parcourIds = JSON.parse('$parcourIds');
                 const groups = JSON.parse('$parcourGroups');
@@ -149,7 +150,8 @@ class CoursesField extends ListField
                     
                 function setGroupOptionsByParcourId(parcourId) {
                     const oldValue = groupSelect.value;
-                    const groupOptions = groups[parcourId].group_ids;
+                    const groupOptions = groups.length ? groups[parcourId].group_ids : null;
+                    if(!groupOptions) return;
                     groupSelect.innerHTML = '<option value="">'+Joomla.Text._("COM_MARATHONMANAGER_SELECT_GROUP", "- Please Select -")+'</option>';
                     groupOptions.forEach(group => {
                         const option = document.createElement('option');
@@ -162,10 +164,26 @@ class CoursesField extends ListField
                         groupSelect.value = oldValue;
                     }
                 }
-            // handle parcour change
+                // handle parcour change
                 parcourSelect.addEventListener('change', function() {
                     const parcourId = parcourSelect.value;
                     setGroupOptionsByParcourId(parcourId);
+                });
+                
+                // handle group change
+                groupSelect.addEventListener('change', function() {
+                    if(groups.length === 0) return;
+                    const groupId = groupSelect.value;
+                    if(!groupId){ 
+                        PARTICIPANTS_MAX = 99; 
+                        return;
+                    }
+                    PARTICIPANTS_MAX = groups[selectedParcourId].group_ids.find(group => group.id === parseInt(groupId) )['max'];
+                    console.log(PARTICIPANTS_MAX);
+                    
+                    // Set the max participants for the subformField
+                    const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
+                    subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
                 });
             });
             

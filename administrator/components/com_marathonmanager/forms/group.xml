@@ -21,10 +21,15 @@
                 label="COM_MARATHONMANAGER_GROUP_ID_LABEL"
                 description="COM_MARATHONMANAGER_GROUP_ID_DESC"
         />
-        <field name="group_ids"
-               type="list"
-               label="COM_MARATHONMANAGER_FIELD_GROUP_IDS_LABEL"
-               description="COM_MARATHONMANAGER_FIELD_GROUP_ID_DESC"
+
+        <field
+                name="max_participants"
+                required="true"
+                type="number"
+                min="1"
+                default="1"
+                label="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_MAX_PARTICIPANTS_DESC"
         />
 
         <field

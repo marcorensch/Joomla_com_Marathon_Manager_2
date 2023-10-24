@@ -66,6 +66,9 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
                             </th>
+                            <th scope="col" style="width: 1%" class="d-none d-md-table-cell">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_MAX_PARTICIPANTS_TITLE'); ?>
+                            </th>
 
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
                                 <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
@@ -122,7 +125,9 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
                                 </th>
-
+                                <td class="d-none d-md-table-cell text-center">
+                                    <?php echo $item->max_participants; ?>
+                                </td>
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->access_level; ?>
                                 </td>

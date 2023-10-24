@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-        $toolbar->appendButton('Link', 'folder', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_GROUPS', '/administrator/index.php?option=com_marathonmanager&view=groups');
+        $toolbar->appendButton('Link', 'map-signs', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_GROUPS', '/administrator/index.php?option=com_marathonmanager&view=groups');
 
 
         // Add Options Button if user has permissions to edit

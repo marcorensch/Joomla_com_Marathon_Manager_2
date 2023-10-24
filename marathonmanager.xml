@@ -41,6 +41,7 @@
     <media folder="media/com_marathonmanager" destination="com_marathonmanager">
         <filename>joomla.asset.json</filename>
         <folder>js</folder>
+        <folder>css</folder>
     </media>
 
     <!-- Optional: Moves the language files to the right place -->
