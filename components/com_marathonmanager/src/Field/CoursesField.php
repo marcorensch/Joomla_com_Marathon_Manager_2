@@ -135,6 +135,7 @@ class CoursesField extends ListField
     protected function appendJavascript($parcourIds, $parcourGroups): void
     {
         Text::script('COM_MARATHONMANAGER_SELECT_GROUP');
+        Text::script('COM_MARATHONMANAGER_MAX_REACHED');
         $parcoursScript = <<<JS
             let PARTICIPANTS_MAX = 99;
             document.addEventListener('DOMContentLoaded', function() {
@@ -189,16 +190,20 @@ class CoursesField extends ListField
                 // Check if the max participants are reached on add participant
                 const participantsSubform = document.querySelector('joomla-field-subform[name="jform[participants]"]');
                 participantsSubform.addEventListener('subform-row-add', function() {
-                    setUnsetCssClassnames(participantsSubform);
+                    handleUserNotification(participantsSubform);
                 });
                 
                 participantsSubform.addEventListener('subform-row-remove', function() {
-                    setUnsetCssClassnames(participantsSubform);
+                    setTimeout(() =>{
+                        handleUserNotification(participantsSubform);
+                    }, 200)
                 });
                 
                 // Check if the max participants are reached on change of Group
                 groupSelect.addEventListener('change', function() {
-                    setUnsetCssClassnames(participantsSubform);
+                    setTimeout(() =>{
+                        handleUserNotification(participantsSubform);
+                    }, 200)
                 });
                 
                 /**
@@ -208,6 +213,8 @@ class CoursesField extends ListField
                  */
                 function checkMaxParticipantsReached(parent) {
                     const subFormRows = parent.querySelectorAll('.subform-repeatable-group');
+                    console.log(subFormRows)
+                    console.log("checkMaxParticipantsReached", subFormRows.length, PARTICIPANTS_MAX);
                     return subFormRows.length > PARTICIPANTS_MAX
                 }
                 
@@ -215,12 +222,33 @@ class CoursesField extends ListField
                  * Do the CSS stuff
                  * @param       participantsSubform      The subform container
                  */
-                function setUnsetCssClassnames(participantsSubform){
+                function handleUserNotification(participantsSubform){
+                    const parent = participantsSubform.closest('.subform-repeatable-wrapper');
+                    const controls = parent.closest('.controls');
                     if(checkMaxParticipantsReached(participantsSubform)){
-                        participantsSubform.classList.add('form-control-danger', 'invalid');
+                        parent.classList.add('form-control-danger', 'invalid', 'uk-border-rounded');
+                        showMaxReachedMessage(controls);
                     }else{
-                        participantsSubform.classList.remove('form-control-dange', 'invalid');
+                        parent.classList.remove('form-control-danger', 'invalid');
+                        removeMaxReachedMessage(controls);
                     }
+                }
+                
+                function showMaxReachedMessage(container){
+                    const id = 'max-participants-reached-message';
+                    if(document.getElementById(id)) return;
+                    const maxReachedDomElement = document.createElement('div');
+                    maxReachedDomElement.id = id;
+                    maxReachedDomElement.classList.add('invalid-subform-message', 'uk-padding-small', 'uk-margin-small-bottom');
+                    maxReachedDomElement.innerHTML = Joomla.Text._("COM_MARATHONMANAGER_MAX_REACHED", "Max Participants reached");
+                    const containerFirstChild = container.firstChild;
+                    container.insertBefore(maxReachedDomElement, containerFirstChild);
+                }
+                
+                function removeMaxReachedMessage(container){
+                    const id = 'max-participants-reached-message';
+                    const maxReachedDomElement = document.getElementById(id);
+                    if(maxReachedDomElement) container.removeChild(maxReachedDomElement);
                 }
             });
             

@@ -75,7 +75,9 @@
                layout="joomla.form.field.subform.repeatable"
                formsource="administrator/components/com_marathonmanager/forms/subform_participants.xml"
                groupByFieldset="true"
-               multiple="true"/>
+               multiple="true"
+               description="COM_MARATHONMANAGER_FIELD_PARTICIPANTS_DESC"
+        />
     </fieldset>
     <fieldset name="legal">
         <field name="privacy_policy"
