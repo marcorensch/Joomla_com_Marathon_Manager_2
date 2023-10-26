@@ -111,6 +111,19 @@
             <option value="1">JYES</option>
         </field>
 
+        <field name="insurance_notice"
+               type="radio"
+               layout="joomla.form.field.radio.switcher"
+               default="0"
+               required="true"
+               validate="ValidateChecked"
+               class="validate-checked"
+               label="COM_MARATHONMANAGER_FIELD_INSURANCE_NOTICE_LABEL"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
         <field name="course_id"
                type="courses"
                label="COM_MARATHONMANAGER_FIELD_COURSES_LABEL"

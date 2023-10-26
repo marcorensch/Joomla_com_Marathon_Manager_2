@@ -36,7 +36,10 @@ class HtmlView extends BaseHtmlView
     {
         $this->event = $this->get('Event');
         $this->form = $this->get('Form');
+        $this->mapoption = $this->get('MapOption');
         $this->return_page = $this->get('ReturnPage');
+
+        echo '<pre>' . var_export($this->mapoption, true) . '</pre>';
 
         if ($this->event) {
             parent::display($tpl);

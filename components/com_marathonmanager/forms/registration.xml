@@ -68,6 +68,9 @@
                label="JFIELD_LANGUAGE_LABEL"
         />
     </fieldset>
+    <fieldset name="maps">
+        <field name="maps_count" type="mapscount" label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL" />
+    </fieldset>
     <fieldset name="participants">
         <field name="participants"
                type="subform"

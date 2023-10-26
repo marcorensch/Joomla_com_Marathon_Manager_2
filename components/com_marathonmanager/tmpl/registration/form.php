@@ -49,6 +49,24 @@ $wa->useStyle('com_marathonmanager.form-edit');
                 </div>
             </div>
         </div>
+        <?php if($this->mapoption):?>
+        <div class="uk-width-1-1@m">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                <h3 class="uk-h4"><i class="fas fa-map"></i> Karten</h3>
+                <div class="uk-child-width-1-4@m uk-grid-small" uk-grid>
+                    <div class="uk-width-expand">
+                        <div>
+                            <?php echo $this->mapoption->description; ?>
+                        </div>
+                        <div>
+                            <?php echo Text::sprintf('COM_MARATHONMANAGER_TEXT_MAPS_ADDITIONAL_PRICE', 0); ?>
+                        </div>
+                    </div>
+                    <div><?php echo $this->form->renderField('maps_count'); ?></div>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="users"></i> Participants</h3>

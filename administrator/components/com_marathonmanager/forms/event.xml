@@ -140,15 +140,13 @@
         />
         <field
                 name="map_option_id"
-                type="list"
+                type="mapsoptionselection"
                 label="COM_MARATHONMANAGER_MAP_OPTION_LABEL"
                 description="COM_MARATHONMANAGER_MAP_OPTION_DESC"
-                default="2"
+                default=""
+                required="true"
         >
-            <option value="1">COM_MARATHONMANAGER_MAP_OPTION_NO_MAP</option>
-            <option value="2">COM_MARATHONMANAGER_MAP_OPTION_ONE</option>
-            <option value="3">COM_MARATHONMANAGER_MAP_OPTION_ONE_FREE_ADD_PRICED</option>
-            <option value="4">COM_MARATHONMANAGER_MAP_OPTION_PRICED</option>
+            <option value="">COM_MARATHONMANAGER_MAP_OPTION_SELECT_MAP_OPTION</option>
         </field>
         <field
                 name="price_per_map"

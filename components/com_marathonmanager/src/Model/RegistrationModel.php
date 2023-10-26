@@ -20,6 +20,7 @@ class RegistrationModel extends FormModel
 {
 
     public $typeAlias = 'com_marathonmanager.registration';
+    private $eventMapOptionId = null;
 
     /**
      * Method for getting a form.
@@ -64,11 +65,34 @@ class RegistrationModel extends FormModel
             throw new Exception('Event not found', 404);
         }
 
+        // Set the map option id for this event
+        $this->eventMapOptionId = $event->map_option_id;
+
         //Check if current user is already registered for this event
         $user = Factory::getApplication()->getIdentity();
         $event->alreadyRegistered = $this->isRegistered($event->id, $user->id);
 
         return $event;
+    }
+
+    public function getMapOption(): object|null
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select('a.*')
+            ->from($db->quoteName('#__com_marathonmanager_maps', 'a'))
+            ->where($db->quoteName('a.id') . ' = ' . $db->quote($this->eventMapOptionId));
+        $db->setQuery($query);
+        $mapoption = $db->loadObject();
+
+        if (empty($mapoption)) {
+            $app = Factory::getApplication();
+            $app->enqueueMessage('Map Option not found', 'error');
+            return null;
+        }
+
+        return $mapoption;
+
     }
 
     private function getParcours($ids): array

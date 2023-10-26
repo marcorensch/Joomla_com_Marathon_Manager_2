@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+    <fieldset
+            addruleprefix="NXD\Component\MarathonManager\Administrator\Rule"
+            addformprefix="NXD\Component\MarathonManager\Administrator\Form"
+            addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
+    >
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                description="JGLOBAL_FIELD_ID_DESC"
+                readonly="true"
+                class="readonly"
+                default="0"
+        />
+
+        <field
+                name="title"
+                type="text"
+                label="COM_MARATHONMANAGER_TITLE_LABEL"
+                required="true"
+                size="40"
+        />
+        <field
+                name="alias"
+                type="text"
+                label="COM_MARATHONMANAGER_ALIAS_LABEL"
+                description="COM_MARATHONMANAGER_ALIAS_DESC"
+                size="40"
+        />
+
+        <field
+                name="description"
+                type="editor"
+                label="COM_MARATHONMANAGER_FIELD_DESCRIPTION_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_MAP_DESCRIPTION_DESC"
+        />
+
+        <field
+                name="count_of_free_maps"
+                type="number"
+                default="0"
+                label="COM_MARATHONMANAGER_FIELD_COUNT_OF_FREE_MAPS_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_COUNT_OF_FREE_MAPS_DESC"
+        />
+
+        <field name="additional_maps_possible"
+               type="radio"
+               layout="joomla.form.field.radio.switcher"
+               default="0"
+               label="COM_MARATHONMANAGER_FIELD_ADDITIONAL_MAPS_POSSIBLE_LABEL"
+               description="COM_MARATHONMANAGER_FIELD_ADDITIONAL_MAPS_POSSIBLE_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="price_per_map"
+                showon="additional_maps_possible:1"
+                type="number"
+                default="0"
+                label="COM_MARATHONMANAGER_FIELD_PRICE_PER_MAP_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_PRICE_PER_MAP_DESC"
+        />
+
+        <field
+                name="max_maps"
+                showon="additional_maps_possible:1"
+                type="number"
+                default="0"
+                max="20"
+                label="COM_MARATHONMANAGER_FIELD_MAX_MAPS_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_MAX_MAPS_DESC"
+        />
+
+
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                description="JFIELD_ACCESS_DESC"
+                size="1"
+        />
+
+        <field
+                name="published"
+                type="list"
+                label="JSTATUS"
+                default="1"
+                id="published"
+                class="custom-select-color-state"
+                size="1"
+        >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+
+        <field
+                name="created_by"
+                type="user"
+                label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+        <field
+                name="modified_by"
+                type="user"
+                label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+                readonly="true"
+                class="readonly"
+                filter="unset"
+        />
+        <field
+                name="ordering"
+                type="ordering"
+                label="JFIELD_ORDERING_LABEL"
+                content_type="com_marathonmanager.arrivaloption"
+        />
+
+        <field name="created"
+               label="COM_MARATHONMANAGER_CREATED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc"/>
+
+        <field name="modified"
+               label="COM_MARATHONMANAGER_MODIFIED_DATE"
+               type="calendar"
+               translateformat="true"
+               showtime="true"
+               size="22"
+               readonly="true"
+               filter="user_utc"/>
+    </fieldset>
+</form>

@@ -190,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     `team_language`     varchar(255) NOT NULL DEFAULT '',
     `participants`      text         NOT NULL,
     `privacy_policy`    tinyint(1)   NOT NULL DEFAULT '0',
+    `insurance_notice`  tinyint(1)   NOT NULL DEFAULT '0',
     `reference`         varchar(255)          DEFAULT '',
     `payment_status`    tinyint(1)   NOT NULL DEFAULT '0',
     `created_by`        int(11)               DEFAULT '0',
@@ -206,6 +207,31 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     CONSTRAINT `fk_com_marathonmanager_registrations_event_id` FOREIGN KEY (`event_id`) REFERENCES `#__com_marathonmanager_events` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_com_marathonmanager_registrations_user_id` FOREIGN KEY (`user_id`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_com_marathonmanager_registrations_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_maps`
+(
+    `id`                       int(11)      NOT NULL AUTO_INCREMENT,
+    `title`                    varchar(255) NOT NULL DEFAULT '',
+    `alias`                    varchar(400) NOT NULL DEFAULT '',
+    `description`              text                  DEFAULT NULL,
+    `published`                tinyint(1)   NOT NULL DEFAULT '1',
+    `created_by`               int(11)               DEFAULT NULL,
+    `modified_by`              int(11)               DEFAULT NULL,
+    `access`                   int(10) unsigned      DEFAULT NULL,
+    `created`                  DATETIME     NOT NULL DEFAULT NOW(),
+    `modified`                 DATETIME     NOT NULL DEFAULT NOW(),
+    `ordering`                 int(11)      NOT NULL DEFAULT '0',
+    `catid`                    int(11)               DEFAULT NULL,
+    `count_of_free_maps`       int(11)      NOT NULL DEFAULT '0',
+    `additional_maps_possible` tinyint(1)   NOT NULL DEFAULT '0',
+    `price_per_map`            float        NOT NULL DEFAULT '0',
+    `max_maps`                 int(11)      NOT NULL DEFAULT '0',
+
+    PRIMARY KEY (`id`),
+    KEY `idx_access` (`access`),
+    KEY `idx_state` (`published`),
+    CONSTRAINT `fk_com_marathonmanager_maps_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 
