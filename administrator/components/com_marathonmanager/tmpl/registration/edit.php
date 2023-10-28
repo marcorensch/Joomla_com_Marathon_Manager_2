@@ -27,34 +27,23 @@ $wa->useScript('keepalive')
     ->useScript('form.validate');
 //    ->useScript('com_marathonmanager.rule-checked');
 $wa->addInlineStyle('.control-group .control-label{width:100%;} .control-group .controls{min-width:10px}');
-$wa->addInlineScript('
-SELECTED_EVENT_ID = ' . $this->item->event_id . ';
-function eventChange(newId){
-    $alertBox = document.querySelector("#eventChangedInfoBox");
-    $categorySelect = document.querySelector("#jform_team_category_id");
-    $arrivalDate = document.querySelector("#jform_arrival_date");
-    if(newId != SELECTED_EVENT_ID){
-        $alertBox.classList.remove("d-none");
-        $categorySelect.attributes["disabled"] = "disabled";
-        $arrivalDate.attributes["disabled"] = "disabled";
-    }else{
-        $alertBox.classList.add("d-none");
-        $categorySelect.removeAttribute("disabled");
-        $arrivalDate.removeAttribute("disabled");
-    }
-    updateCategories(newId);
-    updateArrivalDates(newId);
+if($this->item->event_id){
+    $wa->addInlineScript('SELECTED_EVENT_ID = ' . $this->item->event_id . ';');
+}else{
+    $wa->addInlineScript('SELECTED_EVENT_ID = false;');
 }
-function updateCategories(eventId){
-    let xhttpCategories = new XMLHttpRequest();
-    xhttpCategories.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            let categories = JSON.parse(this.responseText);
-            updateCategorySelection(categories);
-        }
-    };
-    xhttpCategories.open("GET", "index.php?option=com_marathonmanager&task=registration.getTeamCategories&format=raw&event_id=" + eventId, true);
-    xhttpCategories.send();
+$wa->addInlineScript(<<<JS
+function eventChange(newId){
+    let alertBox = document.querySelector("#eventChangedInfoBox");
+    let arrivalDate = document.querySelector("#jform_arrival_date");
+    if(SELECTED_EVENT_ID && newId != SELECTED_EVENT_ID){
+        alertBox.classList.remove("d-none");
+        arrivalDate.attributes["disabled"] = "disabled";
+    }else{
+        alertBox.classList.add("d-none");
+        arrivalDate.removeAttribute("disabled");
+    }
+    updateArrivalDates(newId);
 }
 
 function updateArrivalDates(newId){
@@ -75,26 +64,19 @@ function updateArrivalDateSelection(dates){
     dates.forEach(function(date){
         let option = document.createElement("option");
         option.value = date.value;
-        option.text = date.text;ö
+        option.text = date.text;
         option.innerHTML = date.text;
         option.disabled = date.disable;
         arrivalDateSelect.appendChild(option);
     });
 }
 
-function updateCategorySelection(categories){
-    let categorySelect = document.querySelector("#jform_team_category_id");
-    categorySelect.innerHTML = "";
-    categories.forEach(function(category){
-        let option = document.createElement("option");
-        option.value = category.value;
-        option.text = category.text;
-        option.innerHTML = category.text;
-        option.disabled = category.disable;
-        categorySelect.appendChild(option);
-    });
-}
-');
+document.addEventListener("DOMContentLoaded", function(event) {
+    const eventSelect = document.querySelector("#jform_event_id");
+    eventChange(eventSelect.value);
+});
+JS
+);
 
 $layout = 'edit';
 $tmpl = $input->get('tmpl', '', 'CMD') === 'component' ? '&tmpl=component' : '';
@@ -130,14 +112,9 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 <?php echo $this->getForm()->renderField('team_category_id'); ?>
                                 <?php echo $this->getForm()->renderField('arrival_date'); ?>
                                 <?php echo $this->getForm()->renderField('arrival_option_id'); ?>
-                                <div class="row">
-                                    <div class="col-xl-7">
-                                        <?php echo $this->getForm()->renderField('maps_count'); ?>
-                                    </div>
-                                    <div class="col-xl-5">
-                                        <?php echo $this->getForm()->renderField('privacy_policy'); ?>
-                                    </div>
-                                </div>
+                                <?php echo $this->getForm()->renderField('maps_count'); ?>
+                                <?php echo $this->getForm()->renderField('privacy_policy'); ?>
+                                <?php echo $this->getForm()->renderField('insurance_notice'); ?>
                             </div>
                         </fieldset>
                     </div>
@@ -149,6 +126,13 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 <?php echo $this->getForm()->renderField('contact_phone'); ?>
                                 <?php echo $this->getForm()->renderField('contact_email'); ?>
                                 <?php echo $this->getForm()->renderField('team_language'); ?>
+                            </div>
+                        </fieldset>
+                        <fieldset id="fieldset-contact" class="options-form">
+                            <legend><?php echo Text::_('COM_MARATHONMANAGER_FIELD_PARCOURS_FIELDSET_LABEL') ?></legend>
+                            <div>
+                                <?php echo $this->getForm()->renderField('course_id'); ?>
+                                <?php echo $this->getForm()->renderField('group_id'); ?>
                             </div>
                         </fieldset>
                     </div>

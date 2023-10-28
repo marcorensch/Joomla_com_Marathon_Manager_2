@@ -41,8 +41,7 @@ class RegistrationsModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
-                'modified', 'a.modified',
-                'team_category', 'a.team_category_id',
+                'modified', 'a.modified'
             );
 
             $assoc = Associations::isEnabled();
@@ -79,11 +78,27 @@ class RegistrationsModel extends ListModel
                 'LEFT',
                 $db->quoteName('#__com_marathonmanager_events', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('a.event_id')
             );
-        // Join over the team categories
-        $query->select($db->quoteName('tc.title','team_category'))
+        // Join over the parcours / course name
+        $query->select(
+            array(
+                $db->quoteName('course.title','course_name'),
+                $db->quoteName('course.course_id','course_id')
+            )
+        )
             ->join(
                 'LEFT',
-                $db->quoteName('#__com_marathonmanager_team_categories', 'tc') . ' ON ' . $db->quoteName('tc.id') . ' = ' . $db->quoteName('a.team_category_id')
+                $db->quoteName('#__com_marathonmanager_courses', 'course') . ' ON ' . $db->quoteName('course.id') . ' = ' . $db->quoteName('a.course_id')
+            );
+        // Join over the group / category name
+        $query->select(
+            array(
+                $db->quoteName('group.title','group_name'),
+                $db->quoteName('group.group_id','group_id')
+            )
+        )
+            ->join(
+                'LEFT',
+                $db->quoteName('#__com_marathonmanager_groups', 'group') . ' ON ' . $db->quoteName('group.id') . ' = ' . $db->quoteName('a.group_id')
             );
         // Filter by access level.
         if ($access = $this->getState('filter.access'))

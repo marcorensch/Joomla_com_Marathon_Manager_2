@@ -1,7 +1,6 @@
-jQuery(document).ready(function(){
-    console.log("rule-checked.js");
+// Version: 1.0
+document.addEventListener('DOMContentLoaded', function() {
     document.formvalidator.setHandler("checked", function (value, element) {
-        console.log(value == "1");
-        return value == "1";
+        return value === "1" && element.checked || value === "0" && !element.checked;
     });
 });

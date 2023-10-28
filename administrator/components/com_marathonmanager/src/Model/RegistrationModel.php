@@ -48,7 +48,7 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('event.id') == 0) {
+			if ($this->getState('registration.id') == 0) {
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.registrations.filter.category_id'), 'int'));
 			}
 		}
@@ -63,6 +63,9 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
 		$table->generateAlias();
 	}
 
+    /**
+     * @throws \Exception
+     */
     public function save($data)
     {
         $app   = Factory::getApplication();

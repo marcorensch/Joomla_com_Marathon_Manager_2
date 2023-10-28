@@ -39,7 +39,11 @@ class HtmlView extends BaseHtmlView
         $this->mapoption = $this->get('MapOption');
         $this->return_page = $this->get('ReturnPage');
 
-        echo '<pre>' . var_export($this->mapoption, true) . '</pre>';
+        // switch template / layout if already registered
+        if($this->event->alreadyRegistered) {
+            $this->registration = $this->get('Registration');
+            $this->setLayout('registration_view');
+        }
 
         if ($this->event) {
             parent::display($tpl);

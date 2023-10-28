@@ -31,14 +31,20 @@ class RegistrationController extends FormController
         // Validate the posted data.
         $validData = $model->validate($form, $data);
 
+        if(!$validData) {
+            error_log('Invalid Data from Registration Form: ' . var_export($data, true));
+            $url =  isset($data['event_id']) ? 'index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=' . $data['event_id'] : $this->getReturnPage();
+            $this->setRedirect(Route::_($url, false));
+            return false;
+        }
+
+        error_log('Valid Data: ' . var_export($validData, true));
+
         // Store the registration data.
-        $return = $model->store($validData);
+        $status = $model->save($validData);
 
 
-
-        $this->setRedirect(Route::_($this->getReturnPage(), false));
-
-        return $result;
+        return $status;
 
     }
 

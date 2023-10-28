@@ -32,8 +32,6 @@ $layout = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/c
 
 ?>
 
-
-<?php if ($alreadyRegistered) echo LayoutHelper::render('uk-alert', ['text' => Text::_('COM_MARATHONMANAGER_EVENT_ALREADY_REGISTERED'), 'type' => 'success']); ?>
 <?php if ($isAdmin) echo LayoutHelper::render('uk-alert', ['text' => Text::_('COM_MARATHONMANAGER_EVENT_ALREADY_REGISTERED_ADMIN_NOTE'), 'type' => 'danger', 'size']); ?>
 
 <?php

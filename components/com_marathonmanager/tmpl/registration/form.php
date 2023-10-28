@@ -19,7 +19,8 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_marathonmanager.form-edit');
+    ->useScript('com_marathonmanager.form-edit')
+    ->useScript('com_marathonmanager.rule-checked');
 
 $wa->useStyle('com_marathonmanager.form-edit');
 
@@ -27,19 +28,23 @@ $wa->useStyle('com_marathonmanager.form-edit');
 
 <form class="uk- form-validate" action="<?php echo Route::_('index.php?option=com_marathonmanager&id='.$this->event->id); ?>"
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+
     <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@m uk-grid-match" uk-grid>
+
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="users"></i> Team</h3>
                 <?php echo $this->form->renderFieldset('teamdata'); ?>
             </div>
         </div>
+
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="mail"></i> Kontakt</h3>
                 <?php echo $this->form->renderFieldset('contact'); ?>
             </div>
         </div>
+
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i class="fas fa-route"></i> Parcours / Category</h3>
@@ -49,6 +54,7 @@ $wa->useStyle('com_marathonmanager.form-edit');
                 </div>
             </div>
         </div>
+
         <?php if($this->mapoption):?>
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
@@ -67,20 +73,23 @@ $wa->useStyle('com_marathonmanager.form-edit');
             </div>
         </div>
         <?php endif;?>
+
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="users"></i> Participants</h3>
                 <?php echo $this->form->renderFieldset('participants'); ?>
             </div>
         </div>
+
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                 <h3 class="uk-h4"><i uk-icon="pencil"></i> Legal Agreements</h3>
                 <?php
                 if(isset($this->event->privacy_policy_article_id)) {
                     echo $this->form->renderField('privacy_policy');
-                    echo Text::_('COM_MARATHONMANAGER_PRIVACY_POLICY_TEXT', $this->event->privacy_policy_article_id);
+                    echo '<small class="form-text">' . Text::_('COM_MARATHONMANAGER_PRIVACY_POLICY_TEXT', $this->event->privacy_policy_article_id) . '</small>';
                 }
+                echo $this->form->renderField('insurance_notice');
                 ?>
             </div>
         </div>

@@ -61,12 +61,14 @@
         />
 
         <field name="arrival_option_id"
-               type="ArrivalOptionsFromEvent"
+               type="ArrivalOptions"
+               multiple="false"
                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_TYPE_LABEL"
         />
 
         <field name="maps_count"
                type="number"
+               default="0"
                label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL"
                description="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_DESC"
         />

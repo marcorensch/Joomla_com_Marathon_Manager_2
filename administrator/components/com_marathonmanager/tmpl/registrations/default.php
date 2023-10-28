@@ -132,7 +132,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif;?>
                                 </th>
                                 <td class="">
-                                    <?php echo $item->team_category ?>
+                                    <?php echo $item->course_id . "." . $item->group_id . " " . $item->course_name . " " . $item->group_name ?>
                                 </td>
 
                                 <td>
