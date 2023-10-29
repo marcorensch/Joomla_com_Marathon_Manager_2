@@ -63,7 +63,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'description']); ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_MARATHONMANAGER_DESCRIPTION')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', '<i class="far fa-file-alt"></i> ' . Text::_('COM_MARATHONMANAGER_DESCRIPTION')); ?>
         <div class="row">
             <div>
                 <?php echo $this->getForm()->renderField('description'); ?>
@@ -71,7 +71,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', '<i class="fas fa-database"></i> ' . Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
                 <fieldset id="location-data" class="options-form">
@@ -146,7 +146,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'parcours', Text::_('COM_MARATHONMANAGER_PARCOURS_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'parcours', '<i class="fas fa-map-signs"></i> ' . Text::_('COM_MARATHONMANAGER_PARCOURS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-md-12">
                 <fieldset id="parcours-data" class="options-form">
@@ -160,7 +160,30 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
 
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'media', Text::_('COM_MARATHONMANAGER_MEDIA_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'qrcodes', '<i class="fas fa-qrcode"></i> ' . Text::_('COM_MARATHONMANAGER_QR_TAB_TITLE')); ?>
+        <div class="row">
+            <div class="col-lg-4">
+                <fieldset id="earlybird-qr-codes" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_QR_EARLYBIRD_FIELDSET_LABEL'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('qr_bank_earlybird'); ?>
+                        <?php echo $this->getForm()->renderField('qr_twint_earlybird'); ?>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-lg-4">
+                <fieldset id="default-qr-codes" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_QR_FIELDSET_LABEL'); ?></legend>
+                    <div>
+                        <?php echo $this->getForm()->renderField('qr_bank'); ?>
+                        <?php echo $this->getForm()->renderField('qr_twint'); ?>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'media', '<i class="fas fa-images"></i> ' . Text::_('COM_MARATHONMANAGER_MEDIA_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
                 <?php echo $this->getForm()->renderField('image'); ?>
@@ -172,7 +195,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'attachments', Text::_('COM_MARATHONMANAGER_ATTACHMENTS_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'attachments', '<i class="fas fa-paperclip"></i> ' . Text::_('COM_MARATHONMANAGER_ATTACHMENTS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
                 <fieldset id="registration-data" class="options-form">
@@ -195,7 +218,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', '<i class="fas fa-eye"></i> ' . Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
                 <?php echo $this->getForm()->renderField('access'); ?>

@@ -178,6 +178,11 @@
                 min="0"
         />
 
+        <field name="qr_bank" type="media" label="COM_MARATHONMANAGER_FIELD_QR_BANK_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_BANK_DESC" />
+        <field name="qr_twint" type="media" label="COM_MARATHONMANAGER_FIELD_QR_TWINT_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_TWINT_DESC" />
+        <field name="qr_bank_earlybird" showon="earlybird_end_date!:" type="media" label="COM_MARATHONMANAGER_FIELD_QR_BANK_EARLYBIRD_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_BANK_EARLYBIRD_DESC" />
+        <field name="qr_twint_earlybird" showon="earlybird_end_date!:" type="media" label="COM_MARATHONMANAGER_FIELD_QR_TWINT_EARLYBIRD_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_TWINT_EARLYBIRD_DESC" />
+
         <field
                 name="result_files"
                 type="subform"

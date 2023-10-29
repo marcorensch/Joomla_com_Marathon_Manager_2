@@ -36,6 +36,10 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events`
     `arrival_options`              text                  DEFAULT NULL,
     `parcours`                     text                  DEFAULT NULL,
     `privacy_policy_article_id`    int(11)               DEFAULT NULL,
+    `qr_bank`                      varchar(255)          DEFAULT NULL,
+    `qr_twint`                     varchar(255)          DEFAULT NULL,
+    `qr_bank_earlybird`            varchar(255)          DEFAULT NULL,
+    `qr_twint_earlybird`           varchar(255)          DEFAULT NULL,
 
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
@@ -199,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     `modified`          DATETIME     NOT NULL DEFAULT NOW(),
     `ordering`          int(11)      NOT NULL DEFAULT '0',
     `catid`             int(11)               DEFAULT NULL,
+    `registration_fee`  float        NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
     KEY `idx_event_id` (`event_id`),

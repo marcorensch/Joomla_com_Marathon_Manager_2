@@ -97,7 +97,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'base']); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', '<i class="fas fa-database"></i> ' . Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row gx-5">
             <div class="col-lg-4 col-xxl-6">
                 <div class="row">
@@ -162,7 +162,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', '<i class="fas fa-eye"></i>&nbsp;' . Text::_('COM_MARATHONMANAGER_PUBLISHING_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-6">
                 <?php echo $this->getForm()->renderField('access'); ?>
