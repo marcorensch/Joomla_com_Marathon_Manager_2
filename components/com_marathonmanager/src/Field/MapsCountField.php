@@ -90,7 +90,7 @@ class MapsCountField extends NumberField
      *
      * @since   1.0.0
      */
-    protected float $price_per_map;
+    protected float $price_per_map = 0.0;
     private int $count_of_free_maps;
 
     public function getInput(): string

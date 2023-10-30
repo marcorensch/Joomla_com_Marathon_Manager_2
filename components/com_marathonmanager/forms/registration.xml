@@ -64,7 +64,7 @@
                 hint="email.address@example.com"
                 required="true"
         />
-        <field name="team_language"
+        <field name="team_language_id"
                type="teamlanguages"
                label="JFIELD_LANGUAGE_LABEL"
         />

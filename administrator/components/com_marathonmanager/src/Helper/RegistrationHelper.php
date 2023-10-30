@@ -19,6 +19,30 @@ class RegistrationHelper
     /**
      * @throws \Exception
      */
+    public static function getPaymentInformation($eventId, $registrationDate) :object
+    {
+        $result = new \stdClass();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(array('earlybird_fee', 'regular_fee', 'earlybird_end_date', 'qr_bank','qr_twint','qr_bank_earlybird','qr_twint_earlybird')));
+        $query->from($db->quoteName('#__com_marathonmanager_events'));
+        $query->where($db->quoteName('id') . ' = ' . $db->quote($eventId));
+        $db->setQuery($query);
+        $data = $db->loadObject();
+
+        // return effective QR Code's based on the registration date
+        $registrationDate = new \DateTime($registrationDate);
+        $earlybirdEndDate = new \DateTime($data->earlybird_end_date);
+        $result->qr_bank = $registrationDate < $earlybirdEndDate ? $data->qr_bank_earlybird : $data->qr_bank;
+        $result->qr_twint = $registrationDate < $earlybirdEndDate ? $data->qr_twint_earlybird : $data->qr_twint;
+
+        return $result;
+
+    }
+
+    /**
+     * @throws \Exception
+     */
     public static function calculateRegistrationFee($eventId, $mapsCount)
     {
         $eventData = RegistrationHelper::getEventData($eventId);

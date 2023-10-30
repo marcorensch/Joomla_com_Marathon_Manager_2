@@ -19,7 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
-use NXD\Component\MarathonManager\Helper\RegistrationHelper\RegistrationHelper;
+use NXD\Component\MarathonManager\Administrator\Helper\RegistrationHelper;
 
 class RegistrationModel extends FormModel
 {
@@ -161,6 +161,8 @@ class RegistrationModel extends FormModel
             throw new Exception('Registration not found', 404);
         }
 
+        $registration->paymentInformation = RegistrationHelper::getPaymentInformation($registration->event_id, $registration->created);
+
         return $registration;
     }
 
@@ -179,6 +181,9 @@ class RegistrationModel extends FormModel
         return parent::validate($form, $data, $group);
     }
 
+    /**
+     * @throws Exception
+     */
     public
     function save($data): bool
     {
@@ -220,7 +225,7 @@ class RegistrationModel extends FormModel
             'contact_email',
             'contact_phone',
             'maps_count',
-            'team_language',
+            'team_language_id',
             'participants',
             'privacy_policy',
             'reference',
@@ -242,7 +247,7 @@ class RegistrationModel extends FormModel
             $db->quote($data['contact_email']),
             $db->quote($data['contact_phone']),
             $db->quote($data['maps_count']),
-            $db->quote($data['team_language']),
+            $db->quote($data['team_language_id']),
             $db->quote($data['participants']),
             $db->quote($data['privacy_policy']),
             $db->quote($data['reference']),
