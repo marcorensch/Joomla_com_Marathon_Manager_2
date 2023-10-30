@@ -60,7 +60,7 @@ class RegistrationsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.team_name','a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created', 'a.reference'])
+			$db->quoteName(['a.id','a.team_name','a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created', 'a.reference', 'a.participants'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_registrations','a'));
@@ -146,6 +146,7 @@ class RegistrationsModel extends ListModel
                 $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
                 $query->where('(' . $db->quoteName('a.team_name') . ' LIKE ' . $search . ')');
                 $query->orWhere('(' . $db->quoteName('a.reference') . ' LIKE ' . $search . ')');
+                $query->orWhere('(' . $db->quoteName('a.participants') . ' LIKE ' . $search . ')');
             }
         }
 
@@ -160,6 +161,12 @@ class RegistrationsModel extends ListModel
 
     public function getItems()
     {
-        return parent::getItems();
+        $items = parent::getItems();
+        foreach ($items as &$item)
+        {
+            $item->participants = json_decode($item->participants);
+        }
+
+        return $items;
     }
 }

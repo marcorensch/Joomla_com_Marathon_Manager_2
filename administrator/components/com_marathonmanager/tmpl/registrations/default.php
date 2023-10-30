@@ -67,6 +67,9 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="min-width: 100px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_CATEGORY'); ?>
                             </th>
+                            <th scope="col" style="min-width: 50px" class="d-none d-md-table-cell">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_PARTICIPANTS'); ?>
+                            </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT'); ?>
                             </th>
@@ -133,6 +136,14 @@ if ($saveOrder && !empty($this->items)) {
                                 </th>
                                 <td class="">
                                     <?php echo $item->course_id . "." . $item->group_id . " " . $item->course_name . " " . $item->group_name ?>
+                                </td>
+
+                                <td class="small">
+                                    <?php
+                                    foreach ($item->participants as $participant){
+                                        echo $participant->first_name . " " . $participant->last_name . "<br>";
+                                    }
+                                    ?>
                                 </td>
 
                                 <td>
