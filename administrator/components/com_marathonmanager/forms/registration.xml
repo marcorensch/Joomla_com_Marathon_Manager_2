@@ -100,6 +100,8 @@
             <option value="1">JYES</option>
         </field>
 
+        <field name="registration_fee" type="text" readonly="true" label="COM_MARATHONMANAGER_REGISTRATION_FEE_LABEL" />
+
         <field name="privacy_policy"
                type="radio"
                layout="joomla.form.field.radio.switcher"

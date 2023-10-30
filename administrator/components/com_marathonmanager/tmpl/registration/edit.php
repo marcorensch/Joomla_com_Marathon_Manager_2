@@ -143,6 +143,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                     <div class="row">
                         <div class="col-xl-8">
                             <?php echo $this->getForm()->renderField('reference'); ?>
+                            <?php echo $this->getForm()->renderField('registration_fee'); ?>
                         </div>
                         <div class="col-xl-4">
                             <?php echo $this->getForm()->renderField('payment_status'); ?>

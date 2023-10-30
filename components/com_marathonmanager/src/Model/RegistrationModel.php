@@ -19,6 +19,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
+use NXD\Component\MarathonManager\Helper\RegistrationHelper\RegistrationHelper;
+
 class RegistrationModel extends FormModel
 {
 
@@ -195,7 +197,7 @@ class RegistrationModel extends FormModel
             $data['reference'] = $table->generateReference($data);
         }
 
-        $data['registration_fee'] = $data['registration_fee'] ?? 0;
+        $data['registration_fee'] = RegistrationHelper::calculateRegistrationFee($data['event_id'], $data['maps_count']);
         $data['modified_by'] = $user->id;
         $data['access'] = 1;
         $data['alias'] = $this->generateAlias($data);

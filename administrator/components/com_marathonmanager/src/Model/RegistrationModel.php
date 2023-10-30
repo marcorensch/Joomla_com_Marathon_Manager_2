@@ -18,151 +18,134 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
+use NXD\Component\MarathonManager\Administrator\Helper\RegistrationHelper;
 
 class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
 {
 
-	public $typeAlias = 'com_marathonmanager.registration';
+    public $typeAlias = 'com_marathonmanager.registration';
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForm($data = [], $loadData = true)
-	{
-		$form = $this->loadForm($this->typeAlias, 'registration', ['control' => 'jform', 'load_data' => $loadData]);
+    /**
+     * @inheritDoc
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        $form = $this->loadForm($this->typeAlias, 'registration', ['control' => 'jform', 'load_data' => $loadData]);
 
-		if(empty($form)){
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	protected function loadFormData()
-	{
-		$app = Factory::getApplication();
+    protected function loadFormData()
+    {
+        $app = Factory::getApplication();
 
-		$data = $app->getUserState('com_marathonmanager.edit.registration.data', []);
+        $data = $app->getUserState('com_marathonmanager.edit.registration.data', []);
 
-		if (empty($data)) {
-			$data = $this->getItem();
+        if (empty($data)) {
+            $data = $this->getItem();
 
-			// Prime some default values.
-			if ($this->getState('registration.id') == 0) {
-				$data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.registrations.filter.category_id'), 'int'));
-			}
-		}
+            // Prime some default values.
+            if ($this->getState('registration.id') == 0) {
+                $data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.registrations.filter.category_id'), 'int'));
+            }
+        }
 
         $this->preprocessData($this->typeAlias, $data);
 
         return $data;
-	}
+    }
 
-	protected function prepareTable($table)
-	{
-		$table->generateAlias();
-	}
+    protected function prepareTable($table)
+    {
+        $table->generateAlias();
+    }
 
     /**
      * @throws \Exception
      */
     public function save($data)
     {
-        $app   = Factory::getApplication();
+        $app = Factory::getApplication();
         $input = $app->getInput();
-        $user  = $app->getIdentity();
+        $user = $app->getIdentity();
 
         // new element tasks
-        if (!isset($data['id']) || (int) $data['id'] === 0)
-        {
+        if (!isset($data['id']) || (int)$data['id'] === 0) {
             $data['created_by'] = $user->id;
         }
 
         $data['modified_by'] = $user->id;
 
+        $data['registration_fee'] = RegistrationHelper::calculateRegistrationFee($data['event_id'], $data['maps_count']);
+
         // Alter the title for save as copy
-        if ($input->get('task') == 'save2copy')
-        {
+        if ($input->get('task') == 'save2copy') {
             $origTable = $this->getTable();
 
-            if ($app->isClient('site'))
-            {
+            if ($app->isClient('site')) {
                 $origTable->load($input->getInt('a_id'));
 
-                if ($origTable->team_name === $data['team_name'])
-                {
+                if ($origTable->team_name === $data['team_name']) {
                     /**
                      * If title of article is not changed, set alias to original article alias so that Joomla! will generate
                      * new Title and Alias for the copied article
                      */
                     $data['alias'] = $origTable->alias;
-                }
-                else
-                {
+                } else {
                     $data['alias'] = '';
                 }
-            }
-            else
-            {
+            } else {
                 $origTable->load($input->getInt('id'));
             }
 
-            if ($data['team_name'] == $origTable->title)
-            {
+            if ($data['team_name'] == $origTable->title) {
                 list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['team_name']);
                 $data['team_name'] = $title;
                 $data['alias'] = $alias;
-            }
-            elseif ($data['alias'] == $origTable->alias)
-            {
+            } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
         }
 
         // Automatic handling of alias for empty fields
-        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['alias'] == null)
-        {
-            if ($app->get('unicodeslugs') == 1)
-            {
+        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['alias'] == null) {
+            if ($app->get('unicodeslugs') == 1) {
                 $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['team_name']);
-            }
-            else
-            {
+            } else {
                 $data['alias'] = OutputFilter::stringURLSafe($data['team_name']);
             }
 
             $table = $this->getTable();
 
-            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']]))
-            {
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
                 $msg = Text::_('COM_MARATHONMANAGER_SAVE_WARNING');
             }
 
             list($team_name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['team_name']);
             $data['alias'] = $alias;
 
-            if (isset($msg))
-            {
+            if (isset($msg)) {
                 $app->enqueueMessage($msg, 'warning');
             }
         }
 
         // Generate Reference Number
-        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['reference'] == null)
-        {
+        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['reference'] == null) {
             $table = $this->getTable();
             $data['reference'] = $table->generateReference($data);
         }
 
         // Handle Subforms & MultiSelect Fields on save in foreach loop
         $specFields = ['participants'];
-        foreach ($specFields as $fieldName)
-        {
-            if (isset($data[$fieldName]) && is_array($data[$fieldName]))
-            {
+        foreach ($specFields as $fieldName) {
+            if (isset($data[$fieldName]) && is_array($data[$fieldName])) {
                 $registry = new Registry;
                 $registry->loadArray($data[$fieldName]);
-                $data[$fieldName] = (string) $registry;
+                $data[$fieldName] = (string)$registry;
             }
         }
 

@@ -36,8 +36,7 @@
         <field name="country" type="nxdcountries" label="COM_MARATHONMANAGER_FIELD_COUNTRY_LABEL"/>
     </fieldset>
     <fieldset name="fs_pt" class="col-lg-6">
-        <field name="public_transport_reduction" type="list" multiple="false" default="" label="COM_MARATHONMANAGER_FIELD_PTRED_LABEL">
-            <option value="">COM_MARATHONMANAGER_FIELD_OPT_SELECT</option>
+        <field name="public_transport_reduction" type="list" multiple="false" default="no" label="COM_MARATHONMANAGER_FIELD_PTRED_LABEL">
             <option value="no">JNo</option>
             <option value="ga">COM_MARATHONMANAGER_FIELD_PTRED_OPT_GA</option>
             <option value="ht">COM_MARATHONMANAGER_FIELD_PTRED_OPT_HT</option>
