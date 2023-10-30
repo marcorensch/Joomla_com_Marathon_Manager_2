@@ -49,8 +49,8 @@ class HtmlView extends BaseHtmlView
             if (count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
                 ToolbarHelper::apply('language.apply');
                 $toolbarButtons = [
-                    ['save2new', 'language.save2new'],
                     ['save', 'language.save'],
+                    ['save2new', 'language.save2new'],
                     ['save2copy', 'language.save2copy']
                 ];
             }

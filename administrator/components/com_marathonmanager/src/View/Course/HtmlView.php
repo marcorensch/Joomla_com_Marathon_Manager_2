@@ -46,9 +46,8 @@ class HtmlView extends BaseHtmlView
             if ($canDo->get('core.create')) {
                 ToolbarHelper::apply('course.apply');
                 $toolbarButtons = [
-
-                    ['save2new', 'course.save2new'],
                     ['save', 'course.save'],
+                    ['save2new', 'course.save2new'],
                     ['save2copy', 'course.save2copy']
                 ];
             }

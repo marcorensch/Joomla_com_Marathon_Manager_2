@@ -53,6 +53,16 @@
         <!-- Menu entries -->
         <menu view="events">COM_MARATHONMANAGER</menu>
         <submenu>
+            <menu link="option=com_marathonmanager&amp;view=events">
+                COM_MARATHONMANAGER_MENUITEM_EVENTS_LABEL
+                <params>
+                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_EVENT_NEW_LABEL</menu-quicktask-title>
+                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
+                </params>
+            </menu>
+            <menu link="option=com_marathonmanager&amp;view=registrations">
+                COM_MARATHONMANAGER_MENUITEM_REGISTRATIONS_LABEL
+            </menu>
             <menu link="option=com_marathonmanager&amp;view=arrivaloptions">
                 COM_MARATHONMANAGER_MENUITEM_ARRIVAL_OPTIONS_LABEL
                 <params>
@@ -65,16 +75,6 @@
             </menu>
             <menu link="option=com_marathonmanager&amp;view=groups">
                 COM_MARATHONMANAGER_MENUITEM_GROUPS_LABEL
-            </menu>
-            <menu link="option=com_marathonmanager&amp;view=events">
-                COM_MARATHONMANAGER_MENUITEM_EVENTS_LABEL
-                <params>
-                    <menu-quicktask-title>COM_MARATHONMANAGER_MENUITEM_EVENT_NEW_LABEL</menu-quicktask-title>
-                    <menu-quicktask>index.php?option=com_marathonmanager&amp;view=event&amp;layout=edit</menu-quicktask>
-                </params>
-            </menu>
-            <menu link="option=com_marathonmanager&amp;view=registrations">
-                COM_MARATHONMANAGER_MENUITEM_REGISTRATIONS_LABEL
             </menu>
             <menu link="option=com_marathonmanager&amp;view=countries">
                 COM_MARATHONMANAGER_MENUITEM_COUNTRIES_LABEL

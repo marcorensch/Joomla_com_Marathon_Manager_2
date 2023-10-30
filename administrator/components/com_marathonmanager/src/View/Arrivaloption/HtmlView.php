@@ -49,8 +49,8 @@ class HtmlView extends BaseHtmlView
             if (count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
                 ToolbarHelper::apply('arrivaloption.apply');
                 $toolbarButtons = [
-                    ['save2new', 'arrivaloption.save2new'],
                     ['save', 'arrivaloption.save'],
+                    ['save2new', 'arrivaloption.save2new'],
                     ['save2copy', 'arrivaloption.save2copy']
                 ];
             }
