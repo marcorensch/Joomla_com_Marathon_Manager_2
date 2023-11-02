@@ -182,6 +182,15 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                     </div>
                 </fieldset>
             </div>
+            <div class="col-lg-4">
+                <fieldset id="event-banking-details" class="options-form">
+                    <legend><?php echo Text::_('COM_MARATHONMANAGER_BANKING_DETAILS_FIELDSET_LABEL'); ?></legend>
+                    <div>
+                        <div class="alert alert-info" role="alert"><?php echo Text::_('COM_MARATHONMANAGER_BANK_LEAVE_EMPTY_NOTE');?></div>
+                        <?php echo $this->getForm()->renderField('banking_details'); ?>
+                    </div>
+                </fieldset>
+            </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 

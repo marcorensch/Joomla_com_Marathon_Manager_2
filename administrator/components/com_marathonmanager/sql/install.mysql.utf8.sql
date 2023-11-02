@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events`
     `qr_twint`                     varchar(255)          DEFAULT NULL,
     `qr_bank_earlybird`            varchar(255)          DEFAULT NULL,
     `qr_twint_earlybird`           varchar(255)          DEFAULT NULL,
+    `banking_details`              text                  DEFAULT NULL,
 
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),

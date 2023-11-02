@@ -54,6 +54,17 @@
                 validate="rules"
                 section="component"
         />
-
+    </fieldset>
+    <fieldset
+            name="banking"
+            label="COM_MARATHONMANAGER_CONFIG_BANKING_DETAILS_LABEL"
+    >
+        <field  name="banking_details"
+                type="subform"
+                formsource="administrator/components/com_marathonmanager/forms/subform_banking_details.xml"
+                min="1"
+                multiple="false"
+                label=""
+        />
     </fieldset>
 </config>

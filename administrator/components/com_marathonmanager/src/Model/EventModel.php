@@ -168,7 +168,7 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         // Handle complex subforms
-        $complexSubforms = ['parcours'];
+        $complexSubforms = ['parcours','banking_details'];
         foreach ($complexSubforms as $fieldName)
         {
             if (isset($data[$fieldName]) && is_array($data[$fieldName]))

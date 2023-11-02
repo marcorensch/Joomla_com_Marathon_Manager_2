@@ -5,6 +5,10 @@
 use Joomla\CMS\HTML\HTMLHelper;
 
 echo '<pre>' . var_export($this->registration, true) . '</pre>';
+$app = \Joomla\CMS\Factory::getApplication();
+$params = $app->getParams();
+
+echo '<pre>' . var_export($params, true) . '</pre>';
 
 ?>
 

@@ -24,7 +24,7 @@ class RegistrationHelper
         $result = new \stdClass();
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
-        $query->select($db->quoteName(array('earlybird_fee', 'regular_fee', 'earlybird_end_date', 'qr_bank','qr_twint','qr_bank_earlybird','qr_twint_earlybird')));
+        $query->select($db->quoteName(array('earlybird_fee', 'regular_fee', 'earlybird_end_date', 'qr_bank','qr_twint','qr_bank_earlybird','qr_twint_earlybird','banking_details')));
         $query->from($db->quoteName('#__com_marathonmanager_events'));
         $query->where($db->quoteName('id') . ' = ' . $db->quote($eventId));
         $db->setQuery($query);
@@ -35,8 +35,30 @@ class RegistrationHelper
         $earlybirdEndDate = new \DateTime($data->earlybird_end_date);
         $result->qr_bank = $registrationDate < $earlybirdEndDate ? $data->qr_bank_earlybird : $data->qr_bank;
         $result->qr_twint = $registrationDate < $earlybirdEndDate ? $data->qr_twint_earlybird : $data->qr_twint;
+        $result->bankingInformation = self::mergeBankingInformation($data->banking_details);
 
         return $result;
+
+    }
+
+    private static function mergeBankingInformation($bankingDetailsFromEvent): array
+    {
+        $bankingDetailsFromEvent = json_decode($bankingDetailsFromEvent, true);
+        $app = Factory::getApplication();
+        $params = $app->getParams();
+        $mergedBankingDetails = array();
+        // Get the banking information from the params if not set in the event
+        foreach ($bankingDetailsFromEvent as $key => $value) {
+            if(empty($value) && isset($params->get('banking_details')->$key)){
+                $mergedBankingDetails[$key] = $params->get('banking_details')->$key;
+            }else{
+                $mergedBankingDetails[$key] = $value;
+            }
+        }
+        echo "From Settings:";
+        echo '<pre>' . var_export($params->get('banking_details'), true) . '</pre>';
+
+        return $mergedBankingDetails;
 
     }
 

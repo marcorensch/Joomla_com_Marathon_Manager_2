@@ -109,12 +109,13 @@
         />
         <field
                 name="gallery_content"
-                type="editor"
+                type="folderlist"
+                layout="joomla.form.field.list-fancy-select"
                 label="COM_MARATHONMANAGER_GALLERY_CONTENT_LABEL"
                 description="COM_MARATHONMANAGER_GALLERY_CONTENT_DESC"
-                filter="safehtml"
-                buttons="true"
-                height="300"
+                directory="images"
+                hide_default="true"
+                recursive="true"
         />
         <field
                 name="lastinfos_newsletter_list_id"
@@ -182,6 +183,14 @@
         <field name="qr_twint" type="media" label="COM_MARATHONMANAGER_FIELD_QR_TWINT_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_TWINT_DESC" />
         <field name="qr_bank_earlybird" showon="earlybird_end_date!:" type="media" label="COM_MARATHONMANAGER_FIELD_QR_BANK_EARLYBIRD_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_BANK_EARLYBIRD_DESC" />
         <field name="qr_twint_earlybird" showon="earlybird_end_date!:" type="media" label="COM_MARATHONMANAGER_FIELD_QR_TWINT_EARLYBIRD_LABEL" description="COM_MARATHONMANAGER_FIELD_QR_TWINT_EARLYBIRD_DESC" />
+
+        <field  name="banking_details"
+                type="subform"
+                formsource="administrator/components/com_marathonmanager/forms/subform_banking_details.xml"
+                min="1"
+                multiple="false"
+                label=""
+        />
 
         <field
                 name="result_files"
