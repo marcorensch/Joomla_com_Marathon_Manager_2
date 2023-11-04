@@ -150,7 +150,7 @@ class RegistrationModel extends FormModel
         }
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $query->select('a.*')
+        $query->select(array('a.*'))
             ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
             ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId))
             ->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId));
@@ -160,6 +160,10 @@ class RegistrationModel extends FormModel
         if (empty($registration)) {
             throw new Exception('Registration not found', 404);
         }
+
+        $registration->participants = json_decode($registration->participants);
+        $registration->course = $this->getCourse($registration->course_id);
+        $registration->group = $this::getGroup($registration->group_id);
 
         $registration->paymentInformation = RegistrationHelper::getPaymentInformation($registration->event_id, $registration->created);
 
@@ -318,5 +322,27 @@ class RegistrationModel extends FormModel
         }
 
         return $data['alias'];
+    }
+
+    private function getCourse($course_id)
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select('a.*')
+            ->from($db->quoteName('#__com_marathonmanager_courses', 'a'))
+            ->where($db->quoteName('a.id') . ' = ' . $db->quote($course_id));
+        $db->setQuery($query);
+        return $db->loadObject();
+    }
+
+    private function getGroup($group_id)
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select('a.*')
+            ->from($db->quoteName('#__com_marathonmanager_groups', 'a'))
+            ->where($db->quoteName('a.id') . ' = ' . $db->quote($group_id));
+        $db->setQuery($query);
+        return $db->loadObject();
     }
 }

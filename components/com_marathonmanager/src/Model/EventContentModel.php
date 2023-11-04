@@ -9,17 +9,17 @@ class EventContentModel
     public $icon;
     public $active = false;
     public $url = '#';
-    private $onclick = '';
     private $classList = [];
 
-    public function __construct($title, $alias, $icon, $url = '#', $active = false)
+    public function __construct($title, $alias, $icon, $url, $activeAlias)
     {
         $this->title = $title;
         $this->alias = $alias;
         $this->icon = $icon;
-        $this->active = $active;
+        $this->active = $activeAlias === $alias;
         $this->url = $url;
         $this->classList = ['nxd-subnav-item-link', 'uk-border-rounded'];
+
     }
 
     public function renderMenuItem(): string
@@ -39,7 +39,6 @@ class EventContentModel
     private function renderUrl(): string
     {
         if (!in_array(trim($this->url), ['#', '']) ) {
-            $this->classList[] = 'nxd-subnav-item-link-external';
             return $this->url;
         }
         return '#' . $this->alias;

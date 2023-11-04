@@ -41,22 +41,20 @@ class RegistrationHelper
 
     }
 
-    private static function mergeBankingInformation($bankingDetailsFromEvent): array
+    private static function mergeBankingInformation($bankingDetailsFromEvent): \stdClass
     {
         $bankingDetailsFromEvent = json_decode($bankingDetailsFromEvent, true);
         $app = Factory::getApplication();
         $params = $app->getParams();
-        $mergedBankingDetails = array();
+        $mergedBankingDetails = new \stdClass();
         // Get the banking information from the params if not set in the event
         foreach ($bankingDetailsFromEvent as $key => $value) {
             if(empty($value) && isset($params->get('banking_details')->$key)){
-                $mergedBankingDetails[$key] = $params->get('banking_details')->$key;
+                $mergedBankingDetails->$key = $params->get('banking_details')->$key;
             }else{
-                $mergedBankingDetails[$key] = $value;
+                $mergedBankingDetails->$key = $value;
             }
         }
-        echo "From Settings:";
-        echo '<pre>' . var_export($params->get('banking_details'), true) . '</pre>';
 
         return $mergedBankingDetails;
 

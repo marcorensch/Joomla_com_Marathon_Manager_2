@@ -9,6 +9,8 @@
  */
 
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
 \defined('_JEXEC') or die;
@@ -17,7 +19,16 @@ $event = $this->event;
 
 $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 echo $eventHeader->render(compact('event'));
-
 ?>
 
-<h1>Default</h1>
+<div class="uk-flex uk-flex-center uk-padding-large uk-padding-remove-horizontal">
+    <div class="uk-width-1-2">
+        <div class="">
+            <h2 class="uk-text-muted uk-text-center"><?php echo Text::_("COM_MARATHONMANAGER_ADMIN_CANT_REGISTER_MSG") ?></h2>
+        </div>
+    </div>
+
+</div>
+
+
+

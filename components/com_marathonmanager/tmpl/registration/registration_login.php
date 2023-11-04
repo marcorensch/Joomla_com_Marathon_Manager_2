@@ -20,4 +20,4 @@ echo $eventHeader->render(compact('event'));
 
 ?>
 
-<h1>Default</h1>
+<h1>Registration Login required</h1>

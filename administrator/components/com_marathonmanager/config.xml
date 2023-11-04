@@ -25,6 +25,8 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+        <field name="contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_CONTACT_EMAIL_LABEL" default="" />
+        <field name="registration_contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_REG_CONTACT_EMAIL_LABEL" default="" />
     </fieldset>
     <fieldset
             name="registrations"
