@@ -1,4 +1,4 @@
-# Marathon Manager 2
+# Marathon Manager 2 Joomla! Component
 ## Description
 Module for Joomla 4.4 and higher. It allows you to create and manage marathons.
 
