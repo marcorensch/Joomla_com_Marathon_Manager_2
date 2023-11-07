@@ -94,6 +94,10 @@
                 </params>
             </menu>
 
+            <menu link="option=com_marathonmanager&amp;view=export">
+                COM_MARATHONMANAGER_MENUITEM_EXPORT_LABEL
+            </menu>
+
             <menu link="option=com_fields&amp;context=com_marathonmanager.event">JGLOBAL_FIELDS</menu>
             <menu link="option=com_fields&amp;view=groups&amp;context=com_marathonmanager.event">JGLOBAL_FIELD_GROUPS</menu>
         </submenu>

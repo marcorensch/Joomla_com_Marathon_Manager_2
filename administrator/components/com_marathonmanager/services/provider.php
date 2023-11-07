@@ -24,6 +24,9 @@ use NXD\Component\MarathonManager\Administrator\Extension\MarathonManagerCompone
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 
+// Autoload dependencies with Composer
+require_once __DIR__ . '/../vendor/autoload.php';
+
 return new class implements ServiceProviderInterface {
 	public function register(Container $container): void
 	{
