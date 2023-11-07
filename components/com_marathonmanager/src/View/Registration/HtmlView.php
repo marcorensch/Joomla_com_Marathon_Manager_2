@@ -44,11 +44,13 @@ class HtmlView extends BaseHtmlView
         $isLoggedIn = !empty($user->id);
 
         if ($this->event) {
+            // Set the Layout by default to "edit"
+            $this->setLayout('edit');
 
             if ($isLoggedIn) {
 
                 if ($isAdmin) {
-                    $this->setLayout('registration_admin');
+                    $this->setLayout('admin');
                     parent::display($tpl);
                     return;
                 }
@@ -56,18 +58,19 @@ class HtmlView extends BaseHtmlView
                 // switch template / layout if already registered
                 if ($this->event->alreadyRegistered) {
                     $this->registration = $this->get('Registration');
-                    $this->setLayout('registration_view');
+                    $this->setLayout('view');
                 } else {
                     $this->form = $this->get('Form');
                     $this->mapoption = $this->get('MapOption');
                     $this->return_page = $this->get('ReturnPage');
+                    $this->setLayout('edit');
                 }
 
             } else {
                 $app = Factory::getApplication();
                 $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_REGISTRATION_LOGIN_REQUIRED'), 'warning');
                 $app->redirect(Route::_('index.php?option=com_users&view=login&return=' . base64_encode("index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=" . $this->event->id)));
-                $this->setLayout('registration_login');
+                return;
             }
 
             parent::display($tpl);

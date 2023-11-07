@@ -69,4 +69,23 @@
                 label=""
         />
     </fieldset>
+    <fieldset
+    name="event_gallery"
+    label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL">
+
+        <field
+                name="gallery_label_rules"
+                type="subform"
+                label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_RULES"
+                min="0"
+                multiple="true"
+        >
+            <form>
+                <field name="label_search_replace_search" type="text" label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_SEARCH_LABEL" />
+                <field name="label_search_replace_replace" type="text" label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_REPLACE_LABEL" />
+            </form>
+
+        </field>
+
+    </fieldset>
 </config>

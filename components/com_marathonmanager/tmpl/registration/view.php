@@ -21,6 +21,14 @@ $app = Factory::getApplication();
 $params = $app->getParams();
 $tableHeaderCellClasses = 'uk-table-shrink uk-text-nowrap';
 
+// Check access to ressource
+$user = Factory::getApplication()->getIdentity();
+
+if($this->registration->created_by != $user->id){
+    $app->enqueueMessage(Text::_("COM_MARATHONMANAGER_REGISTRATION_NOT_AUTHORIZED"), 'error');
+    $app->redirect(Route::_('index.php?option=com_marathonmanager&view=events', false));
+}
+
 // Mail us
 $subject = str_replace(' ', "%20", Text::sprintf("COM_MARATHONMANAGER_REGISTRATION_REQ_EMAIL_SUBJECT",$this->registration->team_name, $this->event->title ));
 $contactUsMail = $params->get('registration_contact_email', null) ?? $params->get('contact_email', null);

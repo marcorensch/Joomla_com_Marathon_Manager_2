@@ -11,6 +11,7 @@ namespace NXD\Component\MarathonManager\Site\Helper;
 
 
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Image\Image;
 
@@ -44,11 +45,24 @@ class EventGalleryHelper{
             }
 
             $picturesTree[$folder]['name'] = basename($folder);
+            $picturesTree[$folder]['label'] = self::buildLabel($picturesTree[$folder]['name']);
             $picturesTree[$folder]['images'] = $pictures;
 
         }
 
         return $picturesTree;
+    }
+
+    private static function buildLabel(String $name)
+    {
+        $label = $name;
+        $app = Factory::getApplication();
+        $parameters = $app->getParams();
+        $labelRules = $parameters->get('gallery_label_rules'); // Configured in the backend by subform field
+        foreach ($labelRules as $rule){
+            $label = preg_replace("/" . $rule->label_search_replace_search . "/", $rule->label_search_replace_replace, $label);
+        }
+        return $label;
     }
 }
 

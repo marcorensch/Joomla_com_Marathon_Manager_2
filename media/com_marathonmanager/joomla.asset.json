@@ -51,6 +51,11 @@
       "name": "com_marathonmanager.form-edit",
       "type": "style",
       "uri": "com_marathonmanager/form-edit.css"
+    },
+    {
+      "name": "com_marathonmanager.gallery-css",
+      "type": "style",
+      "uri": "com_marathonmanager/gallery.css"
     }
   ]
 }
