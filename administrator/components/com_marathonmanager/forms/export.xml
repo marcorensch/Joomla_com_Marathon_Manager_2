@@ -6,26 +6,31 @@
             addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
     >
         <field
-                name="type"
+                name="export_type"
                 type="list"
-                label="What"
-                description="What should be done?"
+                label="COM_MARATHONMANAGER_FIELD_EXPORT_TYPE_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_EXPORT_TYPE_DESC"
+                default="startlist"
+                multiple="false"
+                required="true"
+                layout="joomla.form.field.list-fancy-select"
         >
-            <option value="registrations">Registrations</option>
+            <option value="startlist">MOD_MARATHONMANAGER_EXPORT_OPT_STARTLIST</option>
         </field>
 
         <field name="event_id"
-               showon="type:registrations"
+               showon="export_type:startlist"
                type="events"
                label="COM_MARATHONMANAGER_FIELD_EVENT_LABEL"
                required="true"
-               onchange="eventChange(this.value);"
-
+               multiple="false"
+               layout="joomla.form.field.list-fancy-select"
         />
         <field
                 name="only_paid"
                 type="radio"
-                label="Only Paid"
+                label="COM_MARATHONMANAGER_FIELD_EXPORT_ONLY_PAID_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_EXPORT_ONLY_PAID_DESC"
                 layout="joomla.form.field.radio.switcher"
                 default="1"
         >
@@ -36,7 +41,8 @@
         <field
                 name="create_team_numbers"
                 type="radio"
-                label="Generate Team Numbers"
+                label="COM_MARATHONMANAGER_FIELD_EXPORT_GEN_TEAM_NUMBERS_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_EXPORT_GEN_TEAM_NUMBERS_DESC"
                 layout="joomla.form.field.radio.switcher"
                 default="0"
         >

@@ -33,7 +33,7 @@ $route = Route::_('index.php?option=com_marathonmanager&view=export');
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <?php echo $this->getForm()->renderField('type'); ?>
+                    <?php echo $this->getForm()->renderField('export_type'); ?>
                     <?php echo $this->getForm()->renderField('event_id'); ?>
                     <?php echo $this->getForm()->renderField('only_paid'); ?>
                     <?php echo $this->getForm()->renderField('create_team_numbers'); ?>

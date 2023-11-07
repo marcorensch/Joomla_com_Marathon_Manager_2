@@ -13,6 +13,8 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -38,7 +40,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     {
         $form = $this->loadForm($this->typeAlias, 'export', ['control' => 'jform', 'load_data' => $loadData]);
 
-        if(empty($form)){
+        if (empty($form)) {
             return false;
         }
 
@@ -59,20 +61,92 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     /**
      * @throws Exception
      */
-    public function export($settings, $fileName = 'data.xlsx'){
-        error_log(print_r($settings, true));
-        error_log('Exporting in MODEL');
+    public function export($settings, $fileName = 'data.xlsx')
+    {
+        switch ($settings['export_type']) {
+            case 'startlist':
+                $arrayData = $this->exportStartList($settings);
+                break;
+        }
 
+        if (empty($arrayData)) {
+            $app = Factory::getApplication();
+            $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_EXPORT_NO_DATA'), 'warning');
+            return false;
+        }
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
-
+        $spreadsheet->getActiveSheet()->fromArray($arrayData);
         $writer = new Xlsx($spreadsheet);
-        $writer->save('hello world.xlsx');
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
         $writer->save('php://output');
+
         jexit();
+    }
+
+    private function exportStartList($settings): array
+    {
+        $arrayData = $this->getRegistrations($settings);
+
+        return $arrayData;
+    }
+
+    private function getRegistrations($configuration): array
+    {
+        $columns = array('id', 'team_name', 'arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+
+        $query->select($db->quoteName($columns));
+        $query->from($db->quoteName('#__com_marathonmanager_registrations'));
+        if ($configuration['only_paid'])
+            $query->where('payment_status = 1');
+        $db->setQuery($query);
+
+        $columnTitles = $this->getColumnTitles($columns);
+        $rows = $db->loadAssocList();
+        foreach ($rows as &$row) {
+            $row = $this->buildParticipants($row);
+        }
+        array_unshift($rows, $columnTitles);
+        return $rows;
+    }
+
+    private function getColumnTitles($columns): array
+    {
+        $titles = array();
+        foreach ($columns as $column) {
+            $titles[] = Text::_($column);
+        }
+        return $titles;
+    }
+
+    private function buildParticipants(array $row): array
+    {
+        $participants = json_decode($row['participants'], true);
+        foreach ($participants as &$participant) {
+            foreach ($participant as $key => $value) {
+                // Set Gender Text in Export
+                if ($key === 'gender') {
+                    switch ($value) {
+                        case 'm':
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN");
+                            break;
+                        case "w":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN");
+                            break;
+                        case "d":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
+                            break;
+                    }
+                }
+            }
+        }
+        $return = array();
+        array_walk_recursive($participants, function ($a) use (&$return) {
+            $return[] = $a;
+        });
+        return array_merge($row, $return);
     }
 }
