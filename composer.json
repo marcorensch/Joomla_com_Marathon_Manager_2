@@ -1,0 +1,23 @@
+{
+  "name": "nxd/marathonmanager",
+  "description": "Marathon Manager for Joomla! 4.x and never",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Marco Rensch",
+      "homepage": "https://www.nx-designs.ch",
+      "role": "Lead Developer"
+    }
+  ],
+  "config": {
+    "vendor-dir": "administrator/components/com_marathonmanager/vendor",
+    "platform": {
+      "php": "8.1"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "phpoffice/phpspreadsheet": ">=1.29.0"
+  }
+}

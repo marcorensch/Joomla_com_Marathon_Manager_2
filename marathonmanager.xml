@@ -107,6 +107,7 @@
             <folder>src</folder>
             <folder>sql</folder>
             <folder>tmpl</folder>
+            <folder>vendor</folder>
         </files>
 
         <!-- Optional: Moves the language files to the right place -->
