@@ -61,14 +61,8 @@ class HtmlView extends BaseHtmlView
                 if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2new', 'course.save2new'];
-                }
-
-                // If checked out, we can still save
-                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out)
-                {
                     $toolbarButtons[] = ['save2copy', 'course.save2copy'];
                 }
-
             }
         }
 

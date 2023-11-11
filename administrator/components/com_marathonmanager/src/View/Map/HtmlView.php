@@ -45,7 +45,6 @@ class HtmlView extends BaseHtmlView
             if ($user->authorise('core.create', 'com_marathonmanager')) {
                 ToolbarHelper::apply('map.apply');
                 $toolbarButtons = [
-
                     ['save2new', 'map.save2new'],
                     ['save', 'map.save'],
                     ['save2copy', 'map.save2copy']
@@ -62,14 +61,8 @@ class HtmlView extends BaseHtmlView
                 if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2new', 'map.save2new'];
-                }
-
-                // If checked out, we can still save
-                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out)
-                {
                     $toolbarButtons[] = ['save2copy', 'map.save2copy'];
                 }
-
             }
         }
 

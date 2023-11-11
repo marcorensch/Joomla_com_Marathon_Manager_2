@@ -62,13 +62,8 @@ class HtmlView extends BaseHtmlView
                 // We can save this record, but check the create permission to see if we can return to make a new one.
                 if ($user->authorise('core.create', 'com_marathonmanager')) {
                     $toolbarButtons[] = ['save2new', 'country.save2new'];
-                }
-
-                // If checked out, we can still save
-                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out) {
                     $toolbarButtons[] = ['save2copy', 'country.save2copy'];
                 }
-
             }
         }
 
