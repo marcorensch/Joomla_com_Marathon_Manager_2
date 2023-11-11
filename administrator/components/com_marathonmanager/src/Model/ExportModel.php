@@ -94,8 +94,9 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function getRegistrations($configuration): array
     {
+        // We load ID as first column and replace it later on with the real start number
         $columns = array('r.id', 'c.title', 'g.title', 'r.team_name', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status', 'c.course_id','g.group_id');
-        $labels = array('ID', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status', 'course_id','group_id');
+        $labels = array('Start Number', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status', 'course_id','group_id');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
@@ -107,7 +108,6 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $query->where('r.payment_status = 1');
         }
         $db->setQuery($query);
-
         $rows = $db->loadAssocList();
 
         $this->buildStartNumbers($rows);
@@ -121,8 +121,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function modifyLabelsColumn(&$labels):void
     {
-        unset($labels[7]); // Remove participants from labels
-        $labels[] = 'Start Number';
+        unset($labels[7]); // Remove participants JSON column from labels
 
         // Add Participant Labels
         for ($r = 1; $r < 7; $r++) {
