@@ -94,37 +94,39 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function getRegistrations($configuration): array
     {
-        $columns = array('id', 'team_name', 'arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
+        $columns = array('r.id', 'c.title', 'g.title', 'r.team_name', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
+        $labels = array('ID', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
-        $query->select($db->quoteName($columns));
-        $query->from($db->quoteName('#__com_marathonmanager_registrations'));
-        if ($configuration['only_paid'])
-            $query->where('payment_status = 1');
+        $query->select($db->quoteName($columns, $labels));
+        $query->from($db->quoteName('#__com_marathonmanager_registrations','r'));
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_courses', 'c') . ' ON ' . $db->quoteName('r.course_id') . ' = ' . $db->quoteName('c.id'));
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_groups', 'g') . ' ON ' . $db->quoteName('r.group_id') . ' = ' . $db->quoteName('g.id'));
+        if ($configuration['only_paid']) {
+            $query->where('r.payment_status = 1');
+        }
         $db->setQuery($query);
 
-        $columnTitles = $this->getColumnTitles($columns);
         $rows = $db->loadAssocList();
+        error_log(print_r($rows, true));
         foreach ($rows as &$row) {
             $row = $this->buildParticipants($row);
         }
-        array_unshift($rows, $columnTitles);
-        return $rows;
-    }
 
-    private function getColumnTitles($columns): array
-    {
-        $titles = array();
-        foreach ($columns as $column) {
-            $titles[] = Text::_($column);
-        }
-        return $titles;
+        $this->buildStartNumbers($rows);
+
+        // Add column titles
+        array_unshift($rows, $labels);
+        return $rows;
     }
 
     private function buildParticipants(array $row): array
     {
-        $participants = json_decode($row['participants'], true);
+        $participants = json_decode($row['Participants'], true);
+        if(empty($participants)) {
+            return $row;
+        }
         foreach ($participants as &$participant) {
             foreach ($participant as $key => $value) {
                 // Set Gender Text in Export
@@ -139,14 +141,23 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
                         case "d":
                             $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
                             break;
+                        default:
+                            // Do nothing
                     }
                 }
             }
         }
         $return = array();
+        // Flat the Array (https://stackoverflow.com/a/1319903)
+        // participants is an array of arrays
         array_walk_recursive($participants, function ($a) use (&$return) {
             $return[] = $a;
         });
         return array_merge($row, $return);
+    }
+
+    private function buildStartNumbers(&$rows)
+    {
+
     }
 }
