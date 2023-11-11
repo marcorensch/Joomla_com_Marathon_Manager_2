@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 
         // Build the actions for new and existing records.
         if ($isNew) {
-            if ($user->authorise('core.create')) {
+            if ($user->authorise('core.create', 'com_marathonmanager')) {
                 ToolbarHelper::apply('result.apply');
                 $toolbarButtons = [
                     ['save', 'result.save'],
@@ -51,14 +51,14 @@ class HtmlView extends BaseHtmlView
                 ];
             }
         } else {
-            $itemEditable = $user->authorise('core.edit') || ($user->authorise('core.edit.own') && $this->item->created_by === $user->id);
+            $itemEditable = $user->authorise('core.edit','com_marathonmanager') || ($user->authorise('core.edit.own','com_marathonmanager') && $this->item->created_by === $user->id);
 
             if ($itemEditable)
             {
                 ToolbarHelper::apply('result.apply');
                 $toolbarButtons[] = ['save', 'result.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($user->authorise('core.create'))
+                if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2new', 'result.save2new'];
                 }

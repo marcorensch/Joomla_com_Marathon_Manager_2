@@ -42,20 +42,16 @@ class HtmlView extends BaseHtmlView
 
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_marathonmanager');
         $user = Factory::getApplication()->getIdentity();
-
-
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_COURSES_TITLE'), 'fas fa-folder-open');
         $toolbar = Toolbar::getInstance();
 
-
         // Add New Button if user has permissions to create
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('course.add');
         }
 
-        if ($canDo->get('core.edit.state'))
+        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
@@ -70,7 +66,7 @@ class HtmlView extends BaseHtmlView
             $childBar->archive('courses.archive')->listCheck(true);
 
 
-            if ($user->authorise('core.admin'))
+            if ($user->authorise('core.admin', 'com_marathonmanager'))
             {
                 $childBar->checkin('courses.checkin')->listCheck(true);
             }
@@ -81,7 +77,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
         {
             $toolbar->delete('courses.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
@@ -91,12 +87,10 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->appendButton('Link', 'map-signs', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_GROUPS', '/administrator/index.php?option=com_marathonmanager&view=groups');
 
-
         // Add Options Button if user has permissions to edit
         if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
         {
             $toolbar->preferences('com_marathonmanager');
         }
-
     }
 }

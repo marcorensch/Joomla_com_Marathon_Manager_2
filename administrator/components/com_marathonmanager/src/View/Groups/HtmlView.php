@@ -42,20 +42,16 @@ class HtmlView extends BaseHtmlView
 
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_marathonmanager');
         $user = Factory::getApplication()->getIdentity();
-
-
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_GROUPS_TITLE'), 'fas fa-folder-open');
         $toolbar = Toolbar::getInstance();
 
-
         // Add New Button if user has permissions to create
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('group.add');
         }
 
-        if ($canDo->get('core.edit.state'))
+        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
@@ -69,8 +65,7 @@ class HtmlView extends BaseHtmlView
             $childBar->unpublish('groups.unpublish')->listCheck(true);
             $childBar->archive('groups.archive')->listCheck(true);
 
-
-            if ($user->authorise('core.admin'))
+            if ($user->authorise('core.admin', 'com_marathonmanager'))
             {
                 $childBar->checkin('groups.checkin')->listCheck(true);
             }
@@ -81,7 +76,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
         {
             $toolbar->delete('groups.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')

@@ -38,15 +38,13 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
         $user = Factory::getApplication()->getIdentity();
-        $userId = $user->id;
-        $canDo = ContentHelper::getActions('com_marathonmanager', 'category', $this->item->catid);
 		$isNew = (!$this->item->id);
         $toolbarButtons = [];
         ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_ARRIVAL_OPTION_NEW') : Text::_('COM_MARATHONMANAGER_ARRIVAL_OPTION_EDIT'), 'fas fa-car');
 
         // Build the actions for new and existing records.
         if ($isNew) {
-            if (count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+            if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
                 ToolbarHelper::apply('arrivaloption.apply');
                 $toolbarButtons = [
                     ['save', 'arrivaloption.save'],
@@ -55,20 +53,20 @@ class HtmlView extends BaseHtmlView
                 ];
             }
         } else {
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
+            $itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || ($user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id);
 
             if ($itemEditable)
             {
                 ToolbarHelper::apply('arrivaloption.apply');
                 $toolbarButtons[] = ['save', 'arrivaloption.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create'))
+                if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2new', 'arrivaloption.save2new'];
                 }
 
                 // If checked out, we can still save
-                if ($canDo->get('core.create'))
+                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out)
                 {
                     $toolbarButtons[] = ['save2copy', 'arrivaloption.save2copy'];
                 }
@@ -78,6 +76,5 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::saveGroup($toolbarButtons);
 		ToolbarHelper::cancel('arrivaloption.cancel', 'JTOOLBAR_CLOSE');
-
 	}
 }

@@ -43,17 +43,15 @@ class HtmlView extends BaseHtmlView
 
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_marathonmanager');
         $user = Factory::getApplication()->getIdentity();
-
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_EVENTS_TITLE'), 'fas fa-calendar-alt');
         $toolbar = Toolbar::getInstance();
 
         // Show Buttons only if the user is allowed to do so
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('event.add');
         }
-        if ($canDo->get('core.edit.state')) {
+        if ($user->authorise('core.edit.state', 'com_marathonmanager')) {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
@@ -66,8 +64,7 @@ class HtmlView extends BaseHtmlView
             $childBar->unpublish('events.unpublish')->listCheck(true);
             $childBar->archive('events.archive')->listCheck(true);
 
-
-            if ($user->authorise('core.admin')) {
+            if ($user->authorise('core.admin', 'com_marathonmanager')) {
                 $childBar->checkin('events.checkin')->listCheck(true);
             }
 
@@ -76,7 +73,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager')) {
             $toolbar->delete('events.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')

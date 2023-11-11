@@ -42,7 +42,6 @@ class HtmlView extends BaseHtmlView
 
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_marathonmanager');
         $user = Factory::getApplication()->getIdentity();
 
 
@@ -51,11 +50,11 @@ class HtmlView extends BaseHtmlView
 
 
         // Add New Button if user has permissions to create
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('result.add');
         }
 
-        if ($canDo->get('core.edit.state'))
+        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
@@ -81,7 +80,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
         {
             $toolbar->delete('results.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')

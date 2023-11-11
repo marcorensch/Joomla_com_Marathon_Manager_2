@@ -45,18 +45,15 @@ class HtmlView extends BaseHtmlView
     {
         $canDo = ContentHelper::getActions('com_marathonmanager');
         $user = Factory::getApplication()->getIdentity();
-
-
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_COUNTRIES_TITLE'), 'fas fa-globe');
         $toolbar = Toolbar::getInstance();
 
-
         // Add New Button if user has permissions to create
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('country.add');
         }
 
-        if ($canDo->get('core.edit.state'))
+        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
@@ -71,7 +68,7 @@ class HtmlView extends BaseHtmlView
             $childBar->archive('countries.archive')->listCheck(true);
 
 
-            if ($user->authorise('core.admin'))
+            if ($user->authorise('core.admin', 'com_marathonmanager'))
             {
                 $childBar->checkin('countries.checkin')->listCheck(true);
             }
@@ -82,7 +79,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
         {
             $toolbar->delete('countries.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
@@ -90,9 +87,8 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-
         // Add Options Button if user has permissions to edit
-        if ($canDo->get('core.options')) {
+        if ($user->authorise('core.options', 'com_marathonmanager') || $user->authorise('core.admin', 'com_marathonmanager')) {
             ToolbarHelper::preferences('com_marathonmanager');
         }
 

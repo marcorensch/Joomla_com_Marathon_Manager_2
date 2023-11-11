@@ -37,13 +37,12 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = (!$this->item->id);
         $user = Factory::getApplication()->getIdentity();
-        $canDo = ContentHelper::getActions('com_marathonmanager');
         $toolbarButtons = [];
         ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_MAP_NEW') : Text::_('COM_MARATHONMANAGER_MAP_EDIT'), 'fas fa-map');
 
         // Build the actions for new and existing records.
         if ($isNew) {
-            if ($canDo->get('core.create')) {
+            if ($user->authorise('core.create', 'com_marathonmanager')) {
                 ToolbarHelper::apply('map.apply');
                 $toolbarButtons = [
 
@@ -53,20 +52,20 @@ class HtmlView extends BaseHtmlView
                 ];
             }
         } else {
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
+            $itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || ($user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id);
 
             if ($itemEditable)
             {
                 ToolbarHelper::apply('map.apply');
                 $toolbarButtons[] = ['save', 'map.save'];
                 // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create'))
+                if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2new', 'map.save2new'];
                 }
 
                 // If checked out, we can still save
-                if ($canDo->get('core.create'))
+                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out)
                 {
                     $toolbarButtons[] = ['save2copy', 'map.save2copy'];
                 }
