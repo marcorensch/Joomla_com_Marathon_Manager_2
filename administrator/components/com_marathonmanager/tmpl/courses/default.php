@@ -60,7 +60,7 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell text-center">
+                            <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_COURSEID_TITLE', 'a.course_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
