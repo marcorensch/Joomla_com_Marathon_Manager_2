@@ -94,13 +94,13 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function getRegistrations($configuration): array
     {
-        $columns = array('r.id', 'c.title', 'g.title', 'r.team_name', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
-        $labels = array('ID', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status');
+        $columns = array('r.id', 'c.title', 'g.title', 'r.team_name', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status', 'c.course_id','g.group_id');
+        $labels = array('ID', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status', 'course_id','group_id');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName($columns, $labels));
-        $query->from($db->quoteName('#__com_marathonmanager_registrations','r'));
+        $query->from($db->quoteName('#__com_marathonmanager_registrations', 'r'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_courses', 'c') . ' ON ' . $db->quoteName('r.course_id') . ' = ' . $db->quoteName('c.id'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_groups', 'g') . ' ON ' . $db->quoteName('r.group_id') . ' = ' . $db->quoteName('g.id'));
         if ($configuration['only_paid']) {
@@ -109,55 +109,125 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         $db->setQuery($query);
 
         $rows = $db->loadAssocList();
-        error_log(print_r($rows, true));
-        foreach ($rows as &$row) {
-            $row = $this->buildParticipants($row);
-        }
 
         $this->buildStartNumbers($rows);
+        $this->buildParticipants($rows);
+        $this->modifyLabelsColumn($labels);
 
         // Add column titles
         array_unshift($rows, $labels);
         return $rows;
     }
 
-    private function buildParticipants(array $row): array
+    private function modifyLabelsColumn(&$labels):void
     {
-        $participants = json_decode($row['Participants'], true);
-        if(empty($participants)) {
-            return $row;
+        unset($labels[7]); // Remove participants from labels
+        $labels[] = 'Start Number';
+
+        // Add Participant Labels
+        for ($r = 1; $r < 7; $r++) {
+            $labels[] = 'Runner ' . $r . ' First Name';
+            $labels[] = 'Last Name';
+            $labels[] = 'Gender';
+            $labels[] = 'Age';
+            $labels[] = 'Residence';
+            $labels[] = 'Country';
+            $labels[] = 'Transport Reduction';
+            $labels[] = 'E-Mail';
         }
-        foreach ($participants as &$participant) {
-            foreach ($participant as $key => $value) {
-                // Set Gender Text in Export
-                if ($key === 'gender') {
-                    switch ($value) {
-                        case 'm':
-                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN");
-                            break;
-                        case "w":
-                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN");
-                            break;
-                        case "d":
-                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
-                            break;
-                        default:
-                            // Do nothing
+    }
+
+    private function buildParticipants(array &$rows): void
+    {
+        foreach ($rows as &$row) {
+
+            $participants = json_decode($row['Participants'], true);
+            unset($row['Participants']);
+
+            if (empty($participants)) {
+                continue;
+            }
+            foreach ($participants as &$participant) {
+                foreach ($participant as $key => $value) {
+                    // Set Gender Text in Export
+                    if ($key === 'gender') {
+                        switch ($value) {
+                            case 'm':
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN");
+                                break;
+                            case "w":
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN");
+                                break;
+                            case "d":
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
+                                break;
+                            default:
+                                // Do nothing
+                        }
+                    }
+                    // Set Public Transport Price Reduction Text in Export
+                    if ($key === 'public_transport_reduction') {
+                        switch ($value) {
+                            case 'no':
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_NO");
+                                break;
+                            case "ga":
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_GA");
+                                break;
+                            case "ht":
+                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_HT");
+                                break;
+                            default:
+                                // Do nothing
+                        }
                     }
                 }
             }
+
+            $container = array();
+            // Flat the Array (https://stackoverflow.com/a/1319903)
+            // participants is an array of arrays
+            array_walk_recursive($participants, function ($a) use (&$container) {
+                $container[] = $a;
+            });
+
+            $row = array_merge($row, $container);
         }
-        $return = array();
-        // Flat the Array (https://stackoverflow.com/a/1319903)
-        // participants is an array of arrays
-        array_walk_recursive($participants, function ($a) use (&$return) {
-            $return[] = $a;
-        });
-        return array_merge($row, $return);
     }
 
-    private function buildStartNumbers(&$rows)
+    private function buildStartNumbers(&$rows): void
     {
+        // Create Arrays for each Course
+        $courses = array();
+        foreach ($rows as $row) {
+            if (!isset($courses[$row['Parcours']])) {
+                $courses[$row['Parcours']] = array();
+            }
+        }
 
+        // Move Registrations to the effective Course Array
+        foreach ($rows as $row) {
+            $courses[$row['Parcours']][] = $row;
+        }
+
+        // Create Start Numbers for each Course
+        foreach ($courses as &$course) {
+            $startNumber = 1;
+            foreach ($course as &$registration) {
+                $spacer = $startNumber < 10 ? "0" : "";
+                $registration['Start Number'] = $registration['course_id'] . $spacer . $startNumber;
+                $startNumber++;
+            }
+            unset($registration); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
+        }
+        unset($course); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
+
+        // Flatten the Array
+        $rows = array();
+        foreach ($courses as $course) {
+            foreach ($course as $registration) {
+                $rows[] = $registration;
+            }
+        }
     }
 }
