@@ -53,27 +53,14 @@ class RegistrationTable extends Table
 	/**
 	 * @throws \Exception
 	 */
-	public function check()
-	{
+	public function check(): bool
+    {
 		try {
-			parent::check();
+			return parent::check();
 		}catch (\Exception $e) {
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			return false;
 		}
-
-		// Check publish down date is not earlier than publish up
-		if ($this->published_up && $this->published_down && $this->published_down < $this->published_up)
-		{
-			throw new \Exception(Text::_('JGLOBAL_FINISH_PUBLISH_AFTER_START'));
-			return false;
-		}
-
-		// Set publish_up, publish_down to null if not set
-		$this->publish_up = (!$this->publish_up) ? null : $this->publish_up;
-		$this->publish_down = (!$this->publish_down) ? null : $this->publish_down;
-
-		return true;
 	}
 
 	public function store($updateNulls = true): bool

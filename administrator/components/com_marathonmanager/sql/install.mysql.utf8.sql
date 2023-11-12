@@ -205,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     `ordering`          int(11)      NOT NULL DEFAULT '0',
     `catid`             int(11)               DEFAULT NULL,
     `registration_fee`  float        NOT NULL DEFAULT '0',
+    `published`         tinyint(1)   NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
     KEY `idx_event_id` (`event_id`),

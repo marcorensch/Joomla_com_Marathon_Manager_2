@@ -41,7 +41,8 @@ class RegistrationsModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
-                'modified', 'a.modified'
+                'modified', 'a.modified',
+                'published', 'a.published'
             );
 
             $assoc = Associations::isEnabled();
@@ -60,7 +61,7 @@ class RegistrationsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.team_name','a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created', 'a.reference', 'a.participants'])
+			$db->quoteName(['a.id','a.team_name','a.published', 'a.alias', 'a.ordering', 'a.access', 'a.payment_status','a.created', 'a.reference', 'a.participants'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_registrations','a'));
@@ -104,6 +105,22 @@ class RegistrationsModel extends ListModel
         if ($access = $this->getState('filter.access'))
         {
             $query->where($db->quoteName('a.access') . ' = ' . (int) $access);
+        }
+
+        // Filter by published state
+        $published = $this->getState('filter.published');
+        if (is_numeric($published))
+        {
+            $query->where($db->quoteName('a.published') . ' = ' . (int) $published);
+        }
+        elseif ($published === '*')
+        {
+            // all filter selected
+        }
+        else
+        {
+            // none filter selected by default show published only
+            $query->where('(' . $db->quoteName('a.published') . ' IN (0, 1))');
         }
 
         // Filter by Payment Status

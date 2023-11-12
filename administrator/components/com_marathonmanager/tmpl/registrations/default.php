@@ -61,6 +61,9 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
+                            <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
+                                <?php echo TEXT::_('JSTATUS'); ?>
+                            </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_NAME', 'a.team_name', $listDirn, $listOrder); ?>
                             </th>
@@ -121,6 +124,10 @@ if ($saveOrder && !empty($this->items)) {
                                                value="<?php echo $item->ordering; ?>"
                                                class="width-20 text-area-order hidden">
                                     <?php endif; ?>
+                                </td>
+
+                                <td class="text-center">
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'registrations.', true, 'cb'); ?>
                                 </td>
 
                                 <th scope="row" class="has-context">
