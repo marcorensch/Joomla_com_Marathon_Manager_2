@@ -39,6 +39,9 @@
                 size="40"
         />
 
+        <field name="contact_first_name" label="COM_MARATHONMANAGER_CONTACT_FIRSTNAME" required="true" type="text" />
+        <field name="contact_last_name" label="COM_MARATHONMANAGER_CONTACT_LASTNAME" required="true" type="text" />
+
         <field
                 name="contact_phone"
                 type="text"

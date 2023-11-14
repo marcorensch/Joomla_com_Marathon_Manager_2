@@ -48,14 +48,8 @@
         />
     </fieldset>
     <fieldset name="contact">
-        <field
-                name="contact_phone"
-                type="text"
-                label="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_LABEL"
-                description="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_DESC"
-                hint="+41..."
-                required="true"
-        />
+        <field name="contact_first_name" label="COM_MARATHONMANAGER_CONTACT_FIRSTNAME_LABEL" required="true" type="text" />
+        <field name="contact_last_name" label="COM_MARATHONMANAGER_CONTACT_LASTNAME_LABEL" required="true" type="text" />
 
         <field
                 name="contact_email"
@@ -67,6 +61,16 @@
         <field name="team_language_id"
                type="teamlanguages"
                label="JFIELD_LANGUAGE_LABEL"
+        />
+    </fieldset>
+    <fieldset name="emergency">
+        <field
+                name="contact_phone"
+                type="text"
+                label="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_EMERGENCY_PHONE_DESC"
+                hint="+41..."
+                required="true"
         />
     </fieldset>
     <fieldset name="maps">

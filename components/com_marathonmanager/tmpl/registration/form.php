@@ -33,15 +33,20 @@ $wa->useStyle('com_marathonmanager.form-edit');
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i uk-icon="users"></i> Team</h3>
+                <h3 class="uk-h4"><i class="fas fa-users"></i> Team</h3>
                 <?php echo $this->form->renderFieldset('teamdata'); ?>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i uk-icon="mail"></i> Kontakt</h3>
+                <h3 class="uk-h4"><i class="fas fa-envelope"></i> Kontakt</h3>
+                <div class="uk-text-meta"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_INTRO");?></div>
                 <?php echo $this->form->renderFieldset('contact'); ?>
+            </div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded uk-margin-small-top">
+                <h3 class="uk-h4"><i class="fas fa-life-ring"></i> <?php echo Text::_("COM_MARATHONMANAGER_EMERGENCY_CONTACT_TITLE");?></h3>
+                <?php echo $this->form->renderFieldset('emergency'); ?>
             </div>
         </div>
 
