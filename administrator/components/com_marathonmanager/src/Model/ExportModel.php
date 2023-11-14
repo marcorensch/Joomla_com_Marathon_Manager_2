@@ -50,16 +50,14 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $form;
     }
 
-    protected function getCountries():array
+    protected function getCountries(): array
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__com_marathonmanager_countries'));
         $db->setQuery($query);
-        $countries = $db->loadAssocList('id');
-        error_log(print_r($countries, true));
-        return $countries;
+        return $db->loadAssocList('id');
     }
 
     protected function loadFormData()
@@ -75,11 +73,17 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     /**
      * @throws Exception
+     * @since 1.0.0
      */
-    public function export($settings, $fileName = 'data.xlsx')
+    public function export($settings)
     {
         // Required gets
         $this->countries = $this->getCountries();
+
+        $fileName = 'export.xlsx';
+        if(!empty($settings['filename'])){
+            $fileName = $settings['filename'] . '.xlsx';
+        }
 
         switch ($settings['export_type']) {
             case 'startlist':
@@ -107,14 +111,14 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     private function exportStartList($exportConfiguration): array
     {
         $arrayData = $this->getRegistrations($exportConfiguration);
-        return $this->buildExportLayout($arrayData);
+        return $this->buildExportLayout($exportConfiguration, $arrayData);
     }
 
     private function getRegistrations($configuration): array
     {
         // We load ID as first column and replace it later on with the real start number
-        $columns = array('r.id','r.created','r.team_name', 'r.event_id','r.id', 'c.course_id', 'g.group_id', 'c.title', 'g.title', 'l.title', 'at.title','r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
-        $alias = array('registration_id','created','team_name', 'event_id', 'id', 'course_id', 'group_id', 'parcours_title', 'group_title', 'language', 'arrival_type','arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
+        $columns = array('r.id', 'r.created', 'r.team_name', 'r.event_id', 'r.id', 'c.course_id', 'g.group_id', 'c.title', 'g.title', 'l.title', 'at.title', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
+        $alias = array('registration_id', 'created', 'team_name', 'event_id', 'id', 'course_id', 'group_id', 'parcours_title', 'group_title', 'language', 'arrival_type', 'arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
@@ -135,14 +139,16 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     /**
      * @description Build the Export Layout
+     * @param $exportConfiguration
      * @param $rows
      * @return array
      * @since 1.0.0
      */
-    private function buildExportLayout($rows): array
+    private function buildExportLayout($exportConfiguration, $rows): array
     {
         $exportArray = array();
-        $registrations = $this->buildStartNumbers($rows);
+        $registrations = $this->prepareRows($exportConfiguration, $rows);
+
         $labelsCreated = false;
         $labels = array();
         foreach ($registrations as $registration) {
@@ -151,7 +157,9 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData['event_id'] = $registration['event_id'];
             $registrationData['registration_date'] = HTMLHelper::date($registration['created'], Text::_('DATE_FORMAT_LC3'));
             $registrationData['team_name'] = $registration['team_name'];
-            $registrationData['start_number'] = $registration['start_number'];
+            if (array_key_exists('start_number', $registration)) {
+                $registrationData['start_number'] = $registration['start_number'];
+            }
             $registrationData['category'] = $registration['course_id'] . "." . $registration['group_id'];
             $registrationData['parcours'] = $registration['parcours_title'] . " " . $registration['group_title'];
             $registrationData['language'] = $registration['language'];
@@ -162,7 +170,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData['arrival_date'] = HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5'));
             $registrationData['payment_status'] = $registration['payment_status'];
 
-            if(!$labelsCreated){
+            if (!$labelsCreated) {
                 // While we are in the first loop, we add the participants labels
                 $translatedLabels = $this->translateLabels(array_keys($registrationData));
                 $labels = $this->addParticipantsLabels($translatedLabels);
@@ -181,7 +189,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $exportArray;
     }
 
-    private function translateLabels($labels) :array
+    private function translateLabels($labels): array
     {
         $translatedLabels = array();
         foreach ($labels as $label) {
@@ -249,17 +257,17 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
                     }
                 }
 
-                if($key === 'country'){
-                    if(!empty($value)) {
-                        if(array_key_exists($value, $this->countries)){
+                if ($key === 'country') {
+                    if (!empty($value)) {
+                        if (array_key_exists($value, $this->countries)) {
                             $participant[$key] = $this->countries[$value]['title'];
-                        }else{
+                        } else {
                             $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_OTHER");
-                            error_log('Registration ID '.$regId.': Country not found while export: ' . $value);
+                            error_log('Registration ID ' . $regId . ': Country not found while export: ' . $value);
                         }
                     } else {
                         $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_UNDEFINED");
-                        error_log('Registration ID '.$regId.': Country not set while export');
+                        error_log('Registration ID ' . $regId . ': Country not set while export');
                     }
                 }
             }
@@ -274,7 +282,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $container;
     }
 
-    private function buildStartNumbers($rows): array
+    private function prepareRows($exportConfiguration, $rows): array
     {
         // Create Arrays for each Course
         $courses = array();
@@ -290,16 +298,18 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         // Create Start Numbers for each Course
-        foreach ($courses as &$course) {
-            $startNumber = 1;
-            foreach ($course as &$registration) {
-                $spacer = $startNumber < 10 ? "0" : "";
-                $registration['start_number'] = $registration['course_id'] . $spacer . $startNumber;
-                $startNumber++;
+        if ($exportConfiguration['create_team_numbers']) {
+            foreach ($courses as &$course) {
+                $startNumber = 1;
+                foreach ($course as &$registration) {
+                    $spacer = $startNumber < 10 ? "0" : "";
+                    $registration['start_number'] = $registration['course_id'] . $spacer . $startNumber;
+                    $startNumber++;
+                }
+                unset($registration); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
             }
-            unset($registration); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
+            unset($course); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
         }
-        unset($course); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
 
         // Flatten the Array
         $registrations = array();
