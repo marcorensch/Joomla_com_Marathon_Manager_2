@@ -13,6 +13,7 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -24,13 +25,15 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     public $typeAlias = 'com_marathonmanager.export';
 
+    private $countries;
+
     /**
      * Method for getting a form.
      *
      * @param array $data Data for the form.
      * @param boolean $loadData True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form
+     * @return  mixed  A \JForm object on success, false on failure
      *
      * @throws \Exception
      * @since   4.0.0
@@ -45,6 +48,18 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         return $form;
+    }
+
+    protected function getCountries():array
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(['id', 'title']))
+            ->from($db->quoteName('#__com_marathonmanager_countries'));
+        $db->setQuery($query);
+        $countries = $db->loadAssocList('id');
+        error_log(print_r($countries, true));
+        return $countries;
     }
 
     protected function loadFormData()
@@ -63,8 +78,12 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
      */
     public function export($settings, $fileName = 'data.xlsx')
     {
+        // Required gets
+        $this->countries = $this->getCountries();
+
         switch ($settings['export_type']) {
             case 'startlist':
+            default:
                 $arrayData = $this->exportStartList($settings);
                 break;
         }
@@ -85,128 +104,189 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         jexit();
     }
 
-    private function exportStartList($settings): array
+    private function exportStartList($exportConfiguration): array
     {
-        $arrayData = $this->getRegistrations($settings);
-
-        return $arrayData;
+        $arrayData = $this->getRegistrations($exportConfiguration);
+        return $this->buildExportLayout($arrayData);
     }
 
     private function getRegistrations($configuration): array
     {
         // We load ID as first column and replace it later on with the real start number
-        $columns = array('r.id', 'c.title', 'g.title', 'r.team_name', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status', 'c.course_id','g.group_id');
-        $labels = array('Start Number', 'Parcours', 'Group', 'Team Name', 'Arrival Date', 'Contact Email', 'Contact Phone', 'Participants', 'Payment Status', 'course_id','group_id');
+        $columns = array('r.id','r.created','r.team_name', 'r.event_id','r.id', 'c.course_id', 'g.group_id', 'c.title', 'g.title', 'l.title', 'at.title','r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
+        $alias = array('registration_id','created','team_name', 'event_id', 'id', 'course_id', 'group_id', 'parcours_title', 'group_title', 'language', 'arrival_type','arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
-        $query->select($db->quoteName($columns, $labels));
+        $query->select($db->quoteName($columns, $alias));
         $query->from($db->quoteName('#__com_marathonmanager_registrations', 'r'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_courses', 'c') . ' ON ' . $db->quoteName('r.course_id') . ' = ' . $db->quoteName('c.id'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_groups', 'g') . ' ON ' . $db->quoteName('r.group_id') . ' = ' . $db->quoteName('g.id'));
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_languages', 'l') . ' ON ' . $db->quoteName('r.team_language_id') . ' = ' . $db->quoteName('l.id'));
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_options', 'at') . ' ON ' . $db->quoteName('r.arrival_option_id') . ' = ' . $db->quoteName('at.id'));
+
         if ($configuration['only_paid']) {
             $query->where('r.payment_status = 1');
         }
         $db->setQuery($query);
-        $rows = $db->loadAssocList();
-
-        $this->buildStartNumbers($rows);
-        $this->buildParticipants($rows);
-        $this->modifyLabelsColumn($labels);
-
-        // Add column titles
-        array_unshift($rows, $labels);
-        return $rows;
+        return $db->loadAssocList();
     }
 
-    private function modifyLabelsColumn(&$labels):void
-    {
-        unset($labels[7]); // Remove participants JSON column from labels
 
+    /**
+     * @description Build the Export Layout
+     * @param $rows
+     * @return array
+     * @since 1.0.0
+     */
+    private function buildExportLayout($rows): array
+    {
+        $exportArray = array();
+        $registrations = $this->buildStartNumbers($rows);
+        $labelsCreated = false;
+        $labels = array();
+        foreach ($registrations as $registration) {
+            $registrationData = array();
+            $registrationData['id'] = $registration['registration_id'];
+            $registrationData['event_id'] = $registration['event_id'];
+            $registrationData['registration_date'] = HTMLHelper::date($registration['created'], Text::_('DATE_FORMAT_LC3'));
+            $registrationData['team_name'] = $registration['team_name'];
+            $registrationData['start_number'] = $registration['start_number'];
+            $registrationData['category'] = $registration['course_id'] . "." . $registration['group_id'];
+            $registrationData['parcours'] = $registration['parcours_title'] . " " . $registration['group_title'];
+            $registrationData['language'] = $registration['language'];
+            $registrationData['contact'] = "TODO";
+            $registrationData['contact_email'] = $registration['contact_email'];
+            $registrationData['contact_phone'] = $registration['contact_phone'];
+            $registrationData['arrival_type'] = $registration['arrival_type'];
+            $registrationData['arrival_date'] = HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5'));
+            $registrationData['payment_status'] = $registration['payment_status'];
+
+            if(!$labelsCreated){
+                // While we are in the first loop, we add the participants labels
+                $translatedLabels = $this->translateLabels(array_keys($registrationData));
+                $labels = $this->addParticipantsLabels($translatedLabels);
+                $labelsCreated = true;
+            }
+
+            // Add Participants
+            $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $registration['participants']));
+
+            // Add Row to Export Array
+            $exportArray[] = $rowData;
+        }
+
+        // Add column titles to export array
+        array_unshift($exportArray, $labels);
+        return $exportArray;
+    }
+
+    private function translateLabels($labels) :array
+    {
+        $translatedLabels = array();
+        foreach ($labels as $label) {
+            $translatedLabels[] = Text::_("COM_MARATHONMANAGER_EXPORT_" . strtoupper($label));
+        }
+        return $translatedLabels;
+    }
+
+    private function addParticipantsLabels($labels): array
+    {
         // Add Participant Labels
         for ($r = 1; $r < 7; $r++) {
-            $labels[] = 'Runner ' . $r . ' First Name';
-            $labels[] = 'Last Name';
-            $labels[] = 'Gender';
-            $labels[] = 'Age';
-            $labels[] = 'Residence';
-            $labels[] = 'Country';
-            $labels[] = 'Transport Reduction';
-            $labels[] = 'E-Mail';
+            $labels[] = Text::sprintf('COM_MARATHONMANAGER_EXPORT_RUNNER_N_FIRSTNAME', $r);
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_AGE');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_RESIDENCE');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_TR');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_EMAIL');
         }
+
+        return $labels;
     }
 
-    private function buildParticipants(array &$rows): void
+    private function buildParticipants($regId, $participants): array
     {
-        foreach ($rows as &$row) {
+        $participants = json_decode($participants, true);
 
-            $participants = json_decode($row['Participants'], true);
-            unset($row['Participants']);
-
-            if (empty($participants)) {
-                continue;
-            }
-            foreach ($participants as &$participant) {
-                foreach ($participant as $key => $value) {
-                    // Set Gender Text in Export
-                    if ($key === 'gender') {
-                        switch ($value) {
-                            case 'm':
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN");
-                                break;
-                            case "w":
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN");
-                                break;
-                            case "d":
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
-                                break;
-                            default:
-                                // Do nothing
-                        }
+        if (empty($participants)) {
+            return array();
+        }
+        foreach ($participants as &$participant) {
+            foreach ($participant as $key => $value) {
+                // Set Gender Text in Export
+                if ($key === 'gender') {
+                    switch ($value) {
+                        case 'm':
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_MEN");
+                            break;
+                        case "w":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN");
+                            break;
+                        case "d":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS");
+                            break;
+                        default:
+                            // Do nothing
                     }
-                    // Set Public Transport Price Reduction Text in Export
-                    if ($key === 'public_transport_reduction') {
-                        switch ($value) {
-                            case 'no':
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_NO");
-                                break;
-                            case "ga":
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_GA");
-                                break;
-                            case "ht":
-                                $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_HT");
-                                break;
-                            default:
-                                // Do nothing
+                }
+                // Set Public Transport Price Reduction Text in Export
+                if ($key === 'public_transport_reduction') {
+                    switch ($value) {
+                        case 'no':
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_NO");
+                            break;
+                        case "ga":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_GA");
+                            break;
+                        case "ht":
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_FIELD_PTRED_OPT_HT");
+                            break;
+                        default:
+                            // Do nothing
+                    }
+                }
+
+                if($key === 'country'){
+                    if(!empty($value)) {
+                        if(array_key_exists($value, $this->countries)){
+                            $participant[$key] = $this->countries[$value]['title'];
+                        }else{
+                            $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_OTHER");
+                            error_log('Registration ID '.$regId.': Country not found while export: ' . $value);
                         }
+                    } else {
+                        $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_UNDEFINED");
+                        error_log('Registration ID '.$regId.': Country not set while export');
                     }
                 }
             }
-
-            $container = array();
-            // Flat the Array (https://stackoverflow.com/a/1319903)
-            // participants is an array of arrays
-            array_walk_recursive($participants, function ($a) use (&$container) {
-                $container[] = $a;
-            });
-
-            $row = array_merge($row, $container);
         }
+
+        $container = array();
+        // Flat the Array (https://stackoverflow.com/a/1319903)
+        // participants is an array of arrays
+        array_walk_recursive($participants, function ($a) use (&$container) {
+            $container[] = $a;
+        });
+        return $container;
     }
 
-    private function buildStartNumbers(&$rows): void
+    private function buildStartNumbers($rows): array
     {
         // Create Arrays for each Course
         $courses = array();
         foreach ($rows as $row) {
-            if (!isset($courses[$row['Parcours']])) {
-                $courses[$row['Parcours']] = array();
+            if (!isset($courses[$row['course_id']])) {
+                $courses[$row['course_id']] = array();
             }
         }
 
         // Move Registrations to the effective Course Array
         foreach ($rows as $row) {
-            $courses[$row['Parcours']][] = $row;
+            $courses[$row['course_id']][] = $row;
         }
 
         // Create Start Numbers for each Course
@@ -214,7 +294,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $startNumber = 1;
             foreach ($course as &$registration) {
                 $spacer = $startNumber < 10 ? "0" : "";
-                $registration['Start Number'] = $registration['course_id'] . $spacer . $startNumber;
+                $registration['start_number'] = $registration['course_id'] . $spacer . $startNumber;
                 $startNumber++;
             }
             unset($registration); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
@@ -222,11 +302,13 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         unset($course); // break the reference with the last element (https://www.php.net/manual/en/control-structures.foreach.php)
 
         // Flatten the Array
-        $rows = array();
+        $registrations = array();
         foreach ($courses as $course) {
             foreach ($course as $registration) {
-                $rows[] = $registration;
+                $registrations[] = $registration;
             }
         }
+
+        return $registrations;
     }
 }
