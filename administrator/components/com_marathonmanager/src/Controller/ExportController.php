@@ -12,6 +12,8 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
 class ExportController extends FormController
@@ -25,7 +27,13 @@ class ExportController extends FormController
         // Do some stuff here
         $data = $this->input->post->get('jform', [], 'array');
         $model = $this->getModel();
-        $model->export($data);
+
+        try {
+            if ($model->export($data)) $this->setMessage(Text::_('COM_MARATHONMANAGER_EXPORT_SUCCESS'));
+        } catch (\Exception $e) {
+            $this->setMessage($e->getMessage(), 'error');
+        }
+
         $this->setRedirect('index.php?option=com_marathonmanager&view=export');
     }
 

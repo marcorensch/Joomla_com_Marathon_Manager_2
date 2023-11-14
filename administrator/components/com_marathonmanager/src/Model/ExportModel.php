@@ -27,6 +27,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private $countries;
 
+    private $app;
+
     /**
      * Method for getting a form.
      *
@@ -75,10 +77,11 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
      * @throws Exception
      * @since 1.0.0
      */
-    public function export($settings)
+    public function export($settings):bool
     {
         // Required gets
         $this->countries = $this->getCountries();
+        $this->app = Factory::getApplication();
 
         $fileName = 'export.xlsx';
         if(!empty($settings['filename'])){
@@ -97,15 +100,16 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_EXPORT_NO_DATA'), 'warning');
             return false;
         }
+
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getActiveSheet()->fromArray($arrayData);
         $writer = new Xlsx($spreadsheet);
-
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
-        $writer->save('php://output');
 
-        jexit();
+        $writer->save('php://output');
+        Factory::getApplication()->close();
+        return true;
     }
 
     private function exportStartList($exportConfiguration): array
@@ -215,6 +219,9 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $labels;
     }
 
+    /**
+     * @throws \Exception
+     */
     private function buildParticipants($regId, $participants): array
     {
         $participants = json_decode($participants, true);
@@ -263,11 +270,15 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
                             $participant[$key] = $this->countries[$value]['title'];
                         } else {
                             $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_OTHER");
-                            error_log('Registration ID ' . $regId . ': Country not found while export: ' . $value);
+                            if($value !== 'other'){
+                                Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_EXPORT_COUNTRY_NOT_FOUND', $regId, $participant['first_name'], $participant['last_name']), 'warning');
+                                error_log('Registration ID ' . $regId . ' Runner '.$participant['first_name'].' '.$participant['last_name'].': Country not found while export: ' . $value);
+                            }
                         }
                     } else {
                         $participant[$key] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_UNDEFINED");
-                        error_log('Registration ID ' . $regId . ': Country not set while export');
+                        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_EXPORT_COUNTRY_NOT_SET', $regId, $participant['first_name'], $participant['last_name']), 'warning');
+                        error_log('Registration ID ' . $regId . ' Runner '.$participant['first_name'].' '.$participant['last_name'].': Country not set while export');
                     }
                 }
             }
