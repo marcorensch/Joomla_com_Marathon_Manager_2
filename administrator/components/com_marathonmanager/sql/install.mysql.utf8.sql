@@ -111,22 +111,24 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_courses`
 
 CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_groups`
 (
-    `id`               int(11)      NOT NULL AUTO_INCREMENT,
-    `title`            varchar(255) NOT NULL,
-    `alias`            varchar(400) NOT NULL DEFAULT '',
-    `group_id`         int(11)               DEFAULT NULL,
-    `state`            tinyint(3)   NOT NULL DEFAULT 0,
-    `published`        tinyint(1)   NOT NULL DEFAULT '1',
+    `id`               int(11)                                                                 NOT NULL AUTO_INCREMENT,
+    `title`            varchar(255)                                                            NOT NULL,
+    `alias`            varchar(400)                                                            NOT NULL DEFAULT '',
+    `group_id`         int(11)                                                                          DEFAULT NULL,
+    -- Füge die Zeile unten hinzu, um den berechneten DEFAULT-Wert zu setzen
+    `shortcode`        varchar(1) GENERATED ALWAYS AS (SUBSTRING(`title`, 1, 1)) STORED UNIQUE NOT NULL,
+    `state`            tinyint(3)                                                              NOT NULL DEFAULT 0,
+    `published`        tinyint(1)                                                              NOT NULL DEFAULT '1',
     `publish_up`       DATETIME,
     `publish_down`     DATETIME,
-    `created_by`       int(11)      NOT NULL DEFAULT '0',
-    `modified_by`      int(11)      NOT NULL DEFAULT '0',
-    `access`           int(10) unsigned      DEFAULT NULL,
-    `created`          DATETIME     NOT NULL DEFAULT NOW(),
-    `modified`         DATETIME     NOT NULL DEFAULT NOW(),
-    `ordering`         int(11)      NOT NULL DEFAULT '0',
-    `max_participants` int(11)      NOT NULL DEFAULT '1',
-    `catid`            int(11)               DEFAULT NULL,
+    `created_by`       int(11)                                                                 NOT NULL DEFAULT '0',
+    `modified_by`      int(11)                                                                 NOT NULL DEFAULT '0',
+    `access`           int(10) unsigned                                                                 DEFAULT NULL,
+    `created`          DATETIME                                                                NOT NULL DEFAULT NOW(),
+    `modified`         DATETIME                                                                NOT NULL DEFAULT NOW(),
+    `ordering`         int(11)                                                                 NOT NULL DEFAULT '0',
+    `max_participants` int(11)                                                                 NOT NULL DEFAULT '1',
+    `catid`            int(11)                                                                          DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
     KEY `idx_state` (`published`),
@@ -241,5 +243,32 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_maps`
     KEY `idx_state` (`published`),
     CONSTRAINT `fk_com_marathonmanager_maps_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_results`
+(
+    `id`             int(11)      NOT NULL AUTO_INCREMENT,
+    `place`          int(11)      NOT NULL DEFAULT '0',
+    `place_in_group` int(11)      NOT NULL DEFAULT '0',
+    `group_id`       int(11)      NOT NULL DEFAULT '0',
+    `event_id`       int(11)      NOT NULL DEFAULT '0',
+    `start_number`   int(11)      NOT NULL DEFAULT '0',
+    `team_id`        int(11)      NOT NULL DEFAULT '0',
+    `team_name`      varchar(255) NOT NULL DEFAULT '',
+    `time_total`     varchar(255) NOT NULL DEFAULT '',
+    `points_total`   int(11)      NOT NULL DEFAULT '0',
+    `penalties`      int(11)      DEFAULT NULL,
+    `created`        DATETIME     NOT NULL DEFAULT NOW(),
+    `modified`       DATETIME     NOT NULL DEFAULT NOW(),
+    `created_by`     int(11)               DEFAULT NULL,
+    `modified_by`    int(11)               DEFAULT NULL,
+    `access`         int(10) unsigned      DEFAULT NULL,
+    `catid`          int(11)               DEFAULT NULL,
+    `published`      tinyint(1)   NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`),
+    KEY `idx_access` (`access`),
+    KEY `idx_state` (`published`),
+    CONSTRAINT `fk_com_marathonmanager_results_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
 
 

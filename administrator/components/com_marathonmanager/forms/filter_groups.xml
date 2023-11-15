@@ -47,6 +47,8 @@
             <option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
             <option value="a.group_id ASC">COM_MARATHONMANAGER_FILTER_GROUPID_ASC</option>
             <option value="a.group_id DESC">COM_MARATHONMANAGER_FILTER_GROUPID_DESC</option>
+            <option value="a.shortcode ASC">COM_MARATHONMANAGER_FILTER_SHORTCODE_ASC</option>
+            <option value="a.shortcode DESC">COM_MARATHONMANAGER_FILTER_SHORTCODE_DESC</option>
         </field>
         <field
             name="limit"

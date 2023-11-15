@@ -59,7 +59,7 @@ class GroupsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.title','a.alias','a.group_id', 'a.max_participants', 'a.ordering', 'a.access', 'a.published'])
+			$db->quoteName(['a.id','a.title','a.alias','a.shortcode','a.group_id', 'a.max_participants', 'a.ordering', 'a.access', 'a.published'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_groups','a'));

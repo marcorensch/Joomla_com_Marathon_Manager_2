@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Administrator\View\Group;
+namespace NXD\Component\MarathonManager\Administrator\View\Result;
 
 \defined('_JEXEC') or die;
 

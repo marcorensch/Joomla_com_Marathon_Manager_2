@@ -48,6 +48,15 @@
         />
 
         <field
+                name="shortcode"
+                type="text"
+                label="COM_MARATHONMANAGER_SHORTCODE_LABEL"
+                description="COM_MARATHONMANAGER_SHORTCODE_DESC"
+                size="1"
+                limit="1"
+        />
+
+        <field
                 name="access"
                 type="accesslevel"
                 label="JFIELD_ACCESS_LABEL"

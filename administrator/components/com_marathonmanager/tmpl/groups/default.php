@@ -63,6 +63,9 @@ if ($saveOrder && !empty($this->items)) {
                             <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_GROUPID_TITLE', 'a.group_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
+                            <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_SHORTCODE_TITLE', 'a.shortcode', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                            </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
                             </th>
@@ -117,6 +120,9 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->group_id; ?>
+                                </td>
+                                <td class="small d-none d-md-table-cell text-center">
+                                    <?php echo $item->shortcode; ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"

@@ -8,13 +8,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Administrator\View\Groups;
+namespace NXD\Component\MarathonManager\Administrator\View\Results;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Helper\ContentHelper;
@@ -86,6 +87,13 @@ class HtmlView extends BaseHtmlView
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
+        }
+
+        if($user->authorise('core.edit', 'com_marathonmanager'))
+        {
+            $importButton = new CustomButton( 'upload', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_IMPORT', array('href' => '/administrator/index.php?option=com_marathonmanager&view=results&layout=import'));
+            $toolbar->appendButton($importButton);
+            ToolbarHelper::custom('results.export', 'download', '', 'COM_MARATHONMANAGER_EXPORT', true);
         }
 
         // Add Options Button if user has permissions to edit
