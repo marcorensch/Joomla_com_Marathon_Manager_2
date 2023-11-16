@@ -32,11 +32,21 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->state = $this->get('State');
 
+        // Get Imported Data from Session if their any
+        $this->importData = Factory::getApplication()->getUserState('com_marathonmanager.results.import.data', []);
+
+        $this->addToolbar();
+
+        if(count($this->importData))
+        {
+            $this->setLayout('import_map_fields');
+            parent::display($tpl);
+            return;
+        }
+
         if (!count($this->items) && $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
-
-        $this->addToolbar();
 
         parent::display($tpl);
     }
@@ -91,9 +101,7 @@ class HtmlView extends BaseHtmlView
 
         if($user->authorise('core.edit', 'com_marathonmanager'))
         {
-            $importButton = new CustomButton( 'upload', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_IMPORT', array('href' => '/administrator/index.php?option=com_marathonmanager&view=results&layout=import'));
-            $toolbar->appendButton($importButton);
-            ToolbarHelper::custom('results.export', 'download', '', 'COM_MARATHONMANAGER_EXPORT', true);
+            ToolbarHelper::custom('results.showImport', 'upload', '', 'COM_MARATHONMANAGER_IMPORT', false);
         }
 
         // Add Options Button if user has permissions to edit
@@ -101,6 +109,5 @@ class HtmlView extends BaseHtmlView
         {
             $toolbar->preferences('com_marathonmanager');
         }
-
     }
 }

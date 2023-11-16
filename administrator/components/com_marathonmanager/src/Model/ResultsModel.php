@@ -11,11 +11,14 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Session\Session;
 
 // The use of the list model allows us to simply extend the list model and just ask for the data we need.
 
@@ -27,6 +30,9 @@ use Joomla\Utilities\ArrayHelper;
 
 class ResultsModel extends ListModel
 {
+    protected $importData = [];
+    protected $importEventId = 0;
+
 	public function __construct($config = [])
 	{
         if (empty($config['filter_fields']))
@@ -35,7 +41,6 @@ class ResultsModel extends ListModel
                 'id', 'a.id',
                 'team_name', 'a.team_name',
                 'published', 'a.published',
-                'ordering', 'a.ordering',
                 'created_by', 'a.created_by',
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
@@ -58,7 +63,7 @@ class ResultsModel extends ListModel
 		$query = $db->getQuery(true);
 		// Select the required fields from the table.
 		$query->select(
-			$db->quoteName(['a.id','a.team_name','a.alias','a.group_id', 'a.ordering', 'a.published'])
+			$db->quoteName(['a.id','a.team_name','a.group_id', 'a.published'])
 		);
 		// From the table
 		$query->from($db->quoteName('#__com_marathonmanager_results','a'));
@@ -94,9 +99,9 @@ class ResultsModel extends ListModel
             }
         }
 
-        // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.ordering');
-        $orderDirn = $this->state->get('list.direction', 'asc');
+        // Add the list ordering clause.ordering
+        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderDirn = $this->state->get('list.direction', 'desc');
 
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
@@ -106,5 +111,25 @@ class ResultsModel extends ListModel
     public function getItems()
     {
         return parent::getItems();
+    }
+
+    public function processData($formData, $fileData){
+
+        // Check if we have data
+        if(!count($fileData)) {
+            throw new \Exception(Text::_('COM_MARATHONMANAGER_ERROR_NO_DATA'), 500);
+        }
+
+        // Define Import Map
+        $columns = [];
+        foreach ($formData['import_map'] as $index => $value) {
+            if(!$value) continue;
+            $importConfig = new \stdClass();
+            $importConfig->index = $index;
+            $importConfig->dbColumn = $value;
+            $columns[] = $importConfig;
+        }
+        error_log(print_r($columns, true));
+        error_log(print_r($formData, true));
     }
 }
