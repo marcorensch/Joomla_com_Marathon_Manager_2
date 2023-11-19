@@ -58,19 +58,19 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
-                                <?php echo TEXT::_('JSTATUS'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort','JSTATUS','a.published', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort','COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE','a.title', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_DATE'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort','COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_DATE','a.event_date', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
-                                <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort','JGRID_HEADING_ACCESS','a.access', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_ID'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort','COM_MARATHONMANAGER_TABLE_TABLEHEAD_ID','a.id', $listDirn, $listOrder); ?>
                             </th>
                         </tr>
                         </thead>
