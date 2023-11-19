@@ -129,7 +129,59 @@ class ResultsModel extends ListModel
             $importConfig->dbColumn = $value;
             $columns[] = $importConfig;
         }
-        error_log(print_r($columns, true));
-        error_log(print_r($formData, true));
+        $dataToStore = $this->prepareData($fileData, $columns, $formData['main_import_trigger_column'], $formData['event_id']);
+//        error_log('Data to store: ' . print_r($dataToStore, true));
+        $this->store($dataToStore);
+    }
+
+    private function prepareData($fileData, $columns, $importTriggerColumn, $eventId):array
+    {
+        $dataToStore = [];
+        // Loop over data
+        $rowCounter = 0;
+        foreach ($fileData as $resultRow) {
+            $rowCounter++;
+            if(!$resultRow[$importTriggerColumn]){
+//                error_log('No value for trigger column found in row ' . $rowCounter);
+                continue;
+            }
+            $rowForDb = new \stdClass();
+            foreach ($columns as $column) {
+                // if column is place, and we have no integer store as "place_msg"
+                if($column->dbColumn === 'place') {
+                    // set to empty string as default for place_msg custom column
+                    $rowForDb->{$column->dbColumn . '_msg'} = "";
+                    if (!$resultRow[$column->index] || !is_numeric($resultRow[$column->index])) {
+                        $rowForDb->{$column->dbColumn . '_msg'} =  trim($resultRow[$column->index]);
+                        continue;
+                    }
+                }
+                if($column->dbColumn === 'category'){
+                    continue; // @TODO: Implement Category handling
+                }
+                // all other columns
+                if(trim($resultRow[$column->index])){
+                    $rowForDb->{$column->dbColumn} = trim($resultRow[$column->index]);
+                }
+            }
+            $rowForDb->event_id = $eventId;
+            $dataToStore[] = $rowForDb;
+        }
+        return $dataToStore;
+    }
+
+    private function store($dataset): void
+    {
+        $db = $this->getDatabase();
+        foreach ($dataset as $row) {
+            // Insert the object into the user profile table.
+            try {
+                $result = $db->insertObject('#__com_marathonmanager_results', $row);
+            }catch (\Exception $e){
+                error_log('Error while inserting row: ' . print_r($row, true));
+                error_log('Error: ' . $e->getMessage());
+            }
+        }
+
     }
 }

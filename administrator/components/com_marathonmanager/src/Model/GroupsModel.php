@@ -41,6 +41,9 @@ class GroupsModel extends ListModel
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
                 'modified', 'a.modified',
+                'max_participants', 'a.max_participants',
+                'shortcode', 'a.shortcode',
+                'group_id', 'a.group_id',
             );
 
             $assoc = Associations::isEnabled();
