@@ -42,14 +42,12 @@ class RegistrationsModel extends ListModel
                 'modified_by', 'a.modified_by',
                 'created', 'a.created',
                 'modified', 'a.modified',
-                'published', 'a.published'
+                'published', 'a.published',
+                'payment_status', 'a.payment_status',
+                'course_id', 'a.course_id', 'course_name',
+                'group_id', 'a.group_id', 'group_name',
+                'event_id', 'a.event_id', 'event_name',
             );
-
-            $assoc = Associations::isEnabled();
-            if ($assoc)
-            {
-                $config['filter_fields'][] = 'association';
-            }
         }
 
 		parent::__construct($config);

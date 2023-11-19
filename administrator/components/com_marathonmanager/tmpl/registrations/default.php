@@ -68,13 +68,16 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_NAME', 'a.team_name', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="min-width: 100px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_CATEGORY'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_PARCOURS', 'course_name', $listDirn, $listOrder); ?>
+                            </th>
+                            <th scope="col" style="min-width: 100px" class="d-none d-md-table-cell">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_GROUP', 'group_name', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="min-width: 50px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_PARTICIPANTS'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT', 'event_name', $listDirn, $listOrder); ?>
                             </th>
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_REGISTRATION_DATE', 'a.created', $listDirn, $listOrder); ?>
@@ -84,6 +87,9 @@ if ($saveOrder && !empty($this->items)) {
                             </th>
                             <th scope="col" style="width: 10%; min-width: 85px" class="d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PAYMENT_STATUS', 'a.payment_status', $listDirn, $listOrder); ?>
+                            </th>
+                            <th scope="col" style="width: 1%;" class="d-none d-md-table-cell">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_ID', 'a.id', $listDirn, $listOrder); ?>
                             </th>
                         </tr>
                         </thead>
@@ -142,9 +148,11 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif;?>
                                 </th>
                                 <td class="">
-                                    <?php echo $item->course_id . "." . $item->group_id . " " . $item->course_name . " " . $item->group_name ?>
+                                    <?php echo $item->course_name ?>
                                 </td>
-
+                                <td class="">
+                                    <?php echo $item->group_name ?>
+                                </td>
                                 <td class="small">
                                     <?php
                                     foreach ($item->participants as $participant){
@@ -173,6 +181,9 @@ if ($saveOrder && !empty($this->items)) {
                                     echo '<i class="' . $class . ' fa-lg" title="' . Text::_($label) . '"></i>';
                                     echo '</a>';
                                     ?>
+                                </td>
+                                <td>
+                                    <?php echo $item->id ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
