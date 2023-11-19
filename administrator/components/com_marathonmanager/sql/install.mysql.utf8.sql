@@ -248,6 +248,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_results`
 (
     `id`             int(11)      NOT NULL AUTO_INCREMENT,
     `place`          int(11)      NOT NULL DEFAULT '0',
+    `place_msg`      varchar(50)           DEFAULT NULL,
     `place_in_group` int(11)      NOT NULL DEFAULT '0',
     `group_id`       int(11)      NOT NULL DEFAULT '0',
     `event_id`       int(11)      NOT NULL DEFAULT '0',
@@ -256,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_results`
     `team_name`      varchar(255) NOT NULL DEFAULT '',
     `time_total`     varchar(255) NOT NULL DEFAULT '',
     `points_total`   int(11)      NOT NULL DEFAULT '0',
-    `penalties`      int(11)      DEFAULT NULL,
+    `penalties`      int(11)               DEFAULT NULL,
     `created`        DATETIME     NOT NULL DEFAULT NOW(),
     `modified`       DATETIME     NOT NULL DEFAULT NOW(),
     `created_by`     int(11)               DEFAULT NULL,
