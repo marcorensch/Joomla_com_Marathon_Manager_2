@@ -193,6 +193,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     `contact_first_name` varchar(255) NOT NULL DEFAULT '',
     `contact_last_name`  varchar(255) NOT NULL DEFAULT '',
     `contact_email`      varchar(255) NOT NULL DEFAULT '',
+    `newsletter_enlist`  tinyint(1)   NOT NULL DEFAULT '0',
     `contact_phone`      varchar(255) NOT NULL DEFAULT '',
     `maps_count`         int(11)      NOT NULL DEFAULT '0',
     `team_language_id`   int(11)               DEFAULT NULL,

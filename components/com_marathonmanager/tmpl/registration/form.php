@@ -23,6 +23,7 @@ $wa->useScript('keepalive')
     ->useScript('com_marathonmanager.rule-checked');
 
 $wa->useStyle('com_marathonmanager.form-edit');
+$wa->addInlineStyle('.switcher { width: auto; }');
 
 ?>
 
