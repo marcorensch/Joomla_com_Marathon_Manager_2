@@ -110,7 +110,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                     <?php echo Text::_('COM_MARATHONMANAGER_FIELD_EVENT_CHANGED_INFO'); ?>
                                 </div>
                                 <?php echo $this->getForm()->renderField('team_category_id'); ?>
-                                <?php echo $this->getForm()->renderField('arrival_date'); ?>
+                                <?php echo $this->getForm()->renderField('arrival_date_id'); ?>
                                 <?php echo $this->getForm()->renderField('arrival_option_id'); ?>
                                 <?php echo $this->getForm()->renderField('maps_count'); ?>
                                 <?php echo $this->getForm()->renderField('privacy_policy'); ?>
@@ -127,7 +127,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 <?php echo $this->getForm()->renderField('contact_last_name'); ?>
                                 <?php echo $this->getForm()->renderField('contact_phone'); ?>
                                 <?php echo $this->getForm()->renderField('contact_email'); ?>
-                                <?php echo $this->getForm()->renderField('team_language'); ?>
+                                <?php echo $this->getForm()->renderField('team_language_id'); ?>
                             </div>
                         </fieldset>
                     </div>

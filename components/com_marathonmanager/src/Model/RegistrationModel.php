@@ -150,10 +150,12 @@ class RegistrationModel extends FormModel
         }
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $query->select(array('a.*'))
+        $query->select(array('a.*', 'ad.date as arrival_date'))
             ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
+            ->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_dates', 'ad') . ' ON (' . $db->quoteName('a.arrival_date_id') . ' = ' . $db->quoteName('ad.id') . ')')
             ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId))
-            ->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId));
+            ->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId))
+            ->where($db->quoteName('a.published') . ' = 1');
         $db->setQuery($query);
         $registration = $db->loadObject();
 
@@ -225,7 +227,9 @@ class RegistrationModel extends FormModel
             'course_id',
             'group_id',
             'arrival_option_id',
-            'arrival_date',
+            'arrival_date_id',
+            'contact_first_name',
+            'contact_last_name',
             'contact_email',
             'contact_phone',
             'maps_count',
@@ -247,7 +251,9 @@ class RegistrationModel extends FormModel
             $db->quote($data['course_id']),
             $db->quote($data['group_id']),
             $db->quote($data['arrival_option_id']),
-            $db->quote($data['arrival_date']),
+            $db->quote($data['arrival_date_id']),
+            $db->quote($data['contact_first_name']),
+            $db->quote($data['contact_last_name']),
             $db->quote($data['contact_email']),
             $db->quote($data['contact_phone']),
             $db->quote($data['maps_count']),
@@ -286,7 +292,8 @@ class RegistrationModel extends FormModel
         $query->select('a.id')
             ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
             ->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId))
-            ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId));
+            ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId))
+            ->where($db->quoteName('a.published') . ' = 1');
         $query->setLimit(1);
         $db->setQuery($query);
 

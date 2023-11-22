@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     `course_id`          int(11)               DEFAULT NULL,
     `group_id`           int(11)               DEFAULT NULL,
     `arrival_option_id`  int(11)               DEFAULT NULL,
-    `arrival_date`       varchar(255)          DEFAULT NULL,
+    `arrival_date_id`    int(11)               DEFAULT NULL,
     `contact_first_name` varchar(255) NOT NULL DEFAULT '',
     `contact_last_name`  varchar(255) NOT NULL DEFAULT '',
     `contact_email`      varchar(255) NOT NULL DEFAULT '',

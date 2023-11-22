@@ -22,7 +22,7 @@
                 required="true"
                 size="40"
         />
-        <field name="arrival_date"
+        <field name="arrival_date_id"
                type="EventArrivalDates"
                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
                required="true"

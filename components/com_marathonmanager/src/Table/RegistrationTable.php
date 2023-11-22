@@ -44,8 +44,8 @@ class RegistrationTable extends Table
         }
         $params = ComponentHelper::getParams('com_marathonmanager');
         $prefix = $params->get('registration_reference_prefix', 'REG');
-        $arrivalYearDay = Date::getInstance($data['arrival_date'])->format('yd');
-        $this->reference = strtoupper(ApplicationHelper::stringURLSafe($prefix . '-' . $arrivalYearDay . $data['event_id'] . $data['created_by']));
+        $now = Date::getInstance()->format('yd');
+        $this->reference = strtoupper(ApplicationHelper::stringURLSafe($prefix . '-' . $now . $data['event_id'] . $data['created_by']));
 
         return $this->reference;
     }

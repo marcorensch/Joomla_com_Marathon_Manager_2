@@ -36,6 +36,11 @@ $mailto = "mailto:" . $contactUsMail  . "?subject=" . $subject;
 
 $event = $this->event;
 
+// Payment Status Icon
+$icon = $this->registration->payment_status ? 'fa-check-square' : 'fa-times-circle' ;
+$color = $this->registration->payment_status ? 'green' : '#47070c' ;
+$paymentMsgKey = $this->registration->payment_status ? Text::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_PAYED') : TEXT::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_NOT_PAYED');
+
 $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 echo $eventHeader->render(compact('event'));
 
@@ -87,13 +92,7 @@ echo $eventHeader->render(compact('event'));
                     <tr>
                         <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_FEE_PAYED_LABEL"); ?></th>
                         <td class="uk-width-expand">
-                            <?php
-                            $icon = $this->registration->payment_status ? 'fa-check-square' : 'fa-times-circle' ;
-                            $color = $this->registration->payment_status ? 'green' : '#47070c' ;
-                            ?>
-
-                            <i class="fas <?php echo $icon;?>" style="color:<?php echo $color;?>"></i>
-
+                            <i class="fas <?php echo $icon;?>" uk-tooltip="<?php echo $paymentMsgKey;?>" title="<?php echo $paymentMsgKey; ?>" style="color:<?php echo $color;?>"></i>
                         </td>
                     </tr>
                     </tbody>

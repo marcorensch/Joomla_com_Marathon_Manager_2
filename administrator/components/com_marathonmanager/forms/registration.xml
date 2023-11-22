@@ -58,8 +58,10 @@
                 required="true"
         />
 
-        <field name="arrival_date"
+        <field name="arrival_date_id"
                type="EventArrivalDates"
+               filer="integer"
+               multiple="false"
                label="COM_MARATHONMANAGER_FIELD_ARRIVAL_DATE_LABEL"
         />
 
@@ -79,7 +81,7 @@
 
         <field name="createdbyuserinfo" type="createdbyuser" />
 
-        <field name="team_language"
+        <field name="team_language_id"
                type="teamlanguages"
                label="JFIELD_LANGUAGE_LABEL"
         />

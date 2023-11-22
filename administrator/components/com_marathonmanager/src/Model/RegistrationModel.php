@@ -149,6 +149,8 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
         }
 
+         error_log(var_export($data, true));
+
         return parent::save($data);
     }
 

@@ -121,8 +121,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     private function getRegistrations($configuration): array
     {
         // We load ID as first column and replace it later on with the real start number
-        $columns = array('r.id', 'r.created', 'r.team_name', 'r.event_id', 'r.id', 'c.course_id', 'g.group_id', 'c.title', 'g.title', 'l.title', 'at.title', 'r.arrival_date', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
-        $alias = array('registration_id', 'created', 'team_name', 'event_id', 'id', 'course_id', 'group_id', 'parcours_title', 'group_title', 'language', 'arrival_type', 'arrival_date', 'contact_email', 'contact_phone', 'participants', 'payment_status');
+        $columns = array('r.id', 'r.created', 'r.team_name', 'r.event_id', 'r.id', 'c.course_id', 'g.group_id', 'c.title', 'g.title', 'l.title', 'at.title', 'ad.date', 'r.contact_first_name', 'r.contact_last_name', 'r.contact_email', 'r.contact_phone', 'r.participants', 'r.payment_status');
+        $alias = array('registration_id', 'created', 'team_name', 'event_id', 'id', 'course_id', 'group_id', 'parcours_title', 'group_title', 'language', 'arrival_type', 'arrival_date', 'contact_first_name', 'contact_last_name', 'contact_email', 'contact_phone', 'participants', 'payment_status');
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
@@ -132,6 +132,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_groups', 'g') . ' ON ' . $db->quoteName('r.group_id') . ' = ' . $db->quoteName('g.id'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_languages', 'l') . ' ON ' . $db->quoteName('r.team_language_id') . ' = ' . $db->quoteName('l.id'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_options', 'at') . ' ON ' . $db->quoteName('r.arrival_option_id') . ' = ' . $db->quoteName('at.id'));
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_dates', 'ad') . ' ON ' . $db->quoteName('r.arrival_date_id') . ' = ' . $db->quoteName('ad.id'));
 
         if ($configuration['only_paid']) {
             $query->where('r.payment_status = 1');
@@ -167,11 +168,11 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData['category'] = $registration['course_id'] . "." . $registration['group_id'];
             $registrationData['parcours'] = $registration['parcours_title'] . " " . $registration['group_title'];
             $registrationData['language'] = $registration['language'];
-            $registrationData['contact'] = "TODO";
+            $registrationData['contact'] = $registration['contact_first_name'] . " " . $registration['contact_last_name'];
             $registrationData['contact_email'] = $registration['contact_email'];
             $registrationData['contact_phone'] = $registration['contact_phone'];
             $registrationData['arrival_type'] = $registration['arrival_type'];
-            $registrationData['arrival_date'] = HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5'));
+            $registrationData['arrival_date'] = $registration['arrival_date'] ? HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5')) : '';
             $registrationData['payment_status'] = $registration['payment_status'];
 
             if (!$labelsCreated) {
