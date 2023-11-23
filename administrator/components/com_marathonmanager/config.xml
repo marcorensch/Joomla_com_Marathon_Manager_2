@@ -4,6 +4,10 @@
             name="basics"
             label="COM_MARATHONMANAGER_CONFIG_BASICS_LABEL"
             description="COM_MARATHONMANAGER_CONFIG_BASICS_DESC"
+
+            addruleprefix="NXD\Component\MarathonManager\Administrator\Rule"
+            addformprefix="NXD\Component\MarathonManager\Administrator\Form"
+            addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
     >
         <field
                 name="debug"
@@ -15,6 +19,11 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+        <field name="newsletter_list_id"
+               label="COM_MARATHONMANAGER_NEWSLETTER_ID_LABEL"
+               description="COM_MARATHONMANAGER_NEWSLETTER_ID_DESC"
+               type="AcyMailingListSelection"
+        />
         <field
                 name="custom_fields_enable"
                 type="radio"
@@ -25,8 +34,9 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
-        <field name="contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_CONTACT_EMAIL_LABEL" default="" />
-        <field name="registration_contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_REG_CONTACT_EMAIL_LABEL" default="" />
+        <field name="contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_CONTACT_EMAIL_LABEL" default=""/>
+        <field name="registration_contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_REG_CONTACT_EMAIL_LABEL"
+               default=""/>
     </fieldset>
     <fieldset
             name="registrations"
@@ -41,6 +51,15 @@
                 default=""
                 hint="COM_MARATHONMANAGER_CONFIG_REFERENCE_PREFIX_HINT"
         />
+        <field name="enlist_runners_for_lastinfo_newsletter"
+               type="radio"
+               default="0"
+               layout="joomla.form.field.radio.switcher"
+               label="COM_MARATHONMANAGER_CONFIG_NL_LI_RUNNERS_LABEL"
+               description="COM_MARATHONMANAGER_CONFIG_NL_LI_RUNNERS_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     </fieldset>
     <fieldset
             name="permissions"
@@ -61,17 +80,17 @@
             name="banking"
             label="COM_MARATHONMANAGER_CONFIG_BANKING_DETAILS_LABEL"
     >
-        <field  name="banking_details"
-                type="subform"
-                formsource="administrator/components/com_marathonmanager/forms/subform_banking_details.xml"
-                min="1"
-                multiple="false"
-                label=""
+        <field name="banking_details"
+               type="subform"
+               formsource="administrator/components/com_marathonmanager/forms/subform_banking_details.xml"
+               min="1"
+               multiple="false"
+               label=""
         />
     </fieldset>
     <fieldset
-    name="event_gallery"
-    label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL">
+            name="event_gallery"
+            label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL">
 
         <field
                 name="gallery_label_rules"
@@ -81,8 +100,10 @@
                 multiple="true"
         >
             <form>
-                <field name="label_search_replace_search" type="text" label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_SEARCH_LABEL" />
-                <field name="label_search_replace_replace" type="text" label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_REPLACE_LABEL" />
+                <field name="label_search_replace_search" type="text"
+                       label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_SEARCH_LABEL"/>
+                <field name="label_search_replace_replace" type="text"
+                       label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_REPLACE_LABEL"/>
             </form>
 
         </field>

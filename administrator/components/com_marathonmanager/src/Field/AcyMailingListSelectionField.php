@@ -13,12 +13,12 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Form\FormHelper;
+
+use AcyMailing\Classes\ListClass;
 
 FormHelper::loadFieldClass('list');
 
@@ -34,30 +34,11 @@ class AcyMailingListSelectionField extends ListField
         $options = [];
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_DEFAULT_SELECT_ACYMAILING_LIST'));
 
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        try {
-            $db->transactionStart();
-            $query = $db->getQuery(true);
-            $query->select('id, name');
-            $query->from('#__acym_list');
-            $query->order('creation_date DESC, name ASC');
-            $db->setQuery($query);
-            $dbValues = $db->loadObjectList();
+        $listClass = new ListClass;
+        $allLists = $listClass->getAll();
 
-            $db->transactionCommit();
-
-        } catch (\Exception $e) {
-            $app = Factory::getApplication();
-            if($e->getCode() == 1146){
-                $msg = "AcyMailing is not installed.";
-            }else{
-                $msg = $e->getMessage();
-            }
-            $app->enqueueMessage($msg, 'warning');
-        }
-
-        if (!empty($dbValues)) {
-            foreach ($dbValues as $option) {
+        if (!empty($allLists)) {
+            foreach ($allLists as $option) {
                 $options[] = HTMLHelper::_('select.option', $option->id, $option->name);
             }
         }

@@ -56,33 +56,33 @@ echo $eventHeader->render(compact('event'));
                 <table class="uk-table uk-table-divider">
                     <tbody>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_TEAM_NAME_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_TEAM_NAME_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo $this->registration->team_name; ?></td>
                     </tr>
 
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_ARRIVAL_DATE_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_ARRIVAL_DATE_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo HTMLHelper::date($this->registration->arrival_date, 'DATE_FORMAT_LC5'); ?></td>
                     </tr>
 
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_PARCOURS_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_PARCOURS_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo $this->registration->course->title; ?></td>
                     </tr>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CATEGORY_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CATEGORY_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo $this->registration->group->title; ?></td>
                     </tr>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_PHONE_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_PHONE_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo $this->registration->contact_phone; ?></td>
                     </tr>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_EMAIL_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_EMAIL_LABEL"); ?></th>
                         <td class="uk-width-expand"><?php echo $this->registration->contact_email; ?></td>
                     </tr>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_PARTICIPANTS_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_PARTICIPANTS_LABEL"); ?></th>
                         <td class="uk-width-expand">
                             <?php foreach ($this->registration->participants as $runner): ?>
                                 <?php echo $runner->first_name . ' ' . $runner->last_name . '<br>'; ?>
@@ -90,7 +90,7 @@ echo $eventHeader->render(compact('event'));
                         </td>
                     </tr>
                     <tr>
-                        <th class="<?php echo $$tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_FEE_PAYED_LABEL"); ?></th>
+                        <th class="<?php echo $tableHeaderCellClasses; ?>"><?php echo Text::_("COM_MARATHONMANAGER_FEE_PAYED_LABEL"); ?></th>
                         <td class="uk-width-expand">
                             <i class="fas <?php echo $icon;?>" uk-tooltip="<?php echo $paymentMsgKey;?>" title="<?php echo $paymentMsgKey; ?>" style="color:<?php echo $color;?>"></i>
                         </td>

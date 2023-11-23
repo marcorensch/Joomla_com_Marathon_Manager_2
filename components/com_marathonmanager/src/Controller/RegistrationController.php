@@ -26,7 +26,6 @@ class RegistrationController extends FormController
         $model = $this->getModel('Registration');
         $form = $model->getForm();
         $data = $app->input->post->get('jform', [], 'array');
-        error_log('Data: ' . print_r($data, true));
 
         // Validate the posted data.
         $validData = $model->validate($form, $data);
@@ -37,15 +36,17 @@ class RegistrationController extends FormController
             $this->setRedirect(Route::_($url, false));
             return false;
         }
-
-        error_log('Valid Data: ' . var_export($validData, true));
-
         // Store the registration data.
         $status = $model->save($validData);
 
+        if ($status) {
+            $url = $this->getReturnPage();
+        } else {
+            $url = isset($data['event_id']) ? 'index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=' . $data['event_id'] : $this->getReturnPage();
+        }
+        $this->setRedirect(Route::_($url, false));
 
-        return $status;
-
+        return true;
     }
 
     protected function getReturnPage(): string
@@ -53,7 +54,6 @@ class RegistrationController extends FormController
         $return = $this->input->get('return', null, 'base64');
 
         if (empty($return)) return Uri::base();
-
 
         return base64_decode($return);
     }
