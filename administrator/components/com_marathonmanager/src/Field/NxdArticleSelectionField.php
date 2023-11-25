@@ -69,6 +69,7 @@ class NxdArticleSelectionField extends ListField{
                     $query->where('(' . $db->quoteName('a.title') . ' LIKE ' . $search . ')');
                 }else{
                     $query->orWhere('(' . $db->quoteName('a.title') . ' LIKE ' . $search . ')');
+                    $query->orWhere('(' . $db->quoteName('a.alias') . ' LIKE ' . $search . ')');
                 }
                 $index++;
             }

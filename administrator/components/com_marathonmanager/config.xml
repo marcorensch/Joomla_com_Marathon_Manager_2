@@ -98,15 +98,7 @@
                 label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_RULES"
                 min="0"
                 multiple="true"
-        >
-            <form>
-                <field name="label_search_replace_search" type="text"
-                       label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_SEARCH_LABEL"/>
-                <field name="label_search_replace_replace" type="text"
-                       label="COM_MARATHONMANAGER_CONFIG_EVENT_GALLERY_LABEL_REPLACE_LABEL"/>
-            </form>
-
-        </field>
-
+                formsource="administrator/components/com_marathonmanager/forms/subform_custom_rules.xml"
+        />
     </fieldset>
 </config>

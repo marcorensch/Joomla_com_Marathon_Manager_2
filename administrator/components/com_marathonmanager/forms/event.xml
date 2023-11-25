@@ -243,7 +243,7 @@
 
         <field name="privacy_policy_article_id"
                type="NxdArticleSelection"
-               filter="legal,registration,privacy,policy,terms,services,conditions"
+               filter="legal,registration,privacy,policy,terms,services,conditions,datenschutz,agb"
                label="COM_MARATHONMANAGER_PRIVACY_POLICY_ARTICLE_ID_LABEL"
                description="COM_MARATHONMANAGER_PRIVACY_POLICY_ARTICLE_ID_DESC"
                layout="joomla.form.field.list-fancy-select"

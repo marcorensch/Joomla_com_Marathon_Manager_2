@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fieldset>
+        <field name="rule_type" type="list" label="COM_MARATHONMANAGER_CONFIG_RULES_TYPE_LABEL" description="COM_MARATHONMANAGER_CONFIG_RULES_TYPE_DESC" default="before" class="">
+            <option value="before">COM_MARATHONMANAGER_CONFIG_RULES_OPT_BEFORE</option>
+            <option value="after">COM_MARATHONMANAGER_CONFIG_RULES_OPT_AFTER</option>
+            <option value="replace">COM_MARATHONMANAGER_CONFIG_RULES_OPT_REPLACE</option>
+            <option value="removeAllNumbers">COM_MARATHONMANAGER_CONFIG_RULES_OPT_REMALLINT</option>
+            <option value="removeLeadNumbers">COM_MARATHONMANAGER_CONFIG_RULES_OPT_REMLEADINT</option>
+            <option value="removeTrailNumbers">COM_MARATHONMANAGER_CONFIG_RULES_OPT_REMTRAILINT</option>
+        </field>
+        <field showon="rule_type:replace" name="rule_string_to_find" type="text" label="COM_MARATHONMANAGER_CONFIG_RULES_SRC_LABEL" description="COM_MARATHONMANAGER_CONFIG_RULES_SRC_DESC" filter="raw" hint="your string" class="" />
+        <field showon="rule_type:replace" name="regexp" type="radio" default="0" label="COM_MARATHONMANAGER_CONFIG_RULES_RULE_IS_REGEX_LBL" description="COM_MARATHONMANAGER_CONFIG_RULES_RULE_IS_REGEX_DESC" filter="integer" class="btn-group btn-group-yesno">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field showon="rule_type:replace" name="rule_string_replace_with" type="list" label="COM_MARATHONMANAGER_CONFIG_RULES_RPC_LABEL" description="COM_MARATHONMANAGER_CONFIG_RULES_RPC_DESC" default="string" class="">
+            <option value="string">COM_MARATHONMANAGER_CONFIG_RULES_RPC_TYP_OPT_STR</option>
+            <option value="nbspace">COM_MARATHONMANAGER_CONFIG_RULES_RPC_TYP_OPT_NBSPC</option>
+            <option value="space">COM_MARATHONMANAGER_CONFIG_RULES_RPC_TYP_OPT_SPC</option>
+            <option value="break">COM_MARATHONMANAGER_CONFIG_RULES_RPC_TYP_OPT_LBRK</option>
+        </field>
+        <field showon="rule_type:replace[AND]rule_string_replace_with:string" name="rule_string_to_replace" type="text" label="COM_MARATHONMANAGER_CONFIG_RULES_RPC_STR_LABEL" description="COM_MARATHONMANAGER_CONFIG_RULES_RPC_STR_DESC" filter="raw" hint="your string" class="" />
+        <field showon="rule_type!:replace,removeAllNumbers,removeLeadNumbers,removeTrailNumbers" name="rule_string_to_add" type="text" label="COM_MARATHONMANAGER_CONFIG_RULES_STR_ADD_LBL" description="COM_MARATHONMANAGER_CONFIG_RULES_STR_ADD_DESC" filter="raw"  hint="your string" class="" />
+    </fieldset>
+</form>
