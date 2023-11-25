@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use NXD\Component\MarathonManager\Site\Model\EventContentModel;
+use stdClass;
 
 \defined('_JEXEC') or die;
 
@@ -29,6 +30,11 @@ class EventRenderHelper {
      */
     public static function createMenuOptions($event):array {
 
+        error_log(print_r($event,true));
+        // Check if the results object is empty
+        error_log(var_export(!empty($event->result_files),true));
+        error_log(var_export(count((array)$event->result_files) > 0,true));
+        $hasResultFiles = !empty($event->result_files) && count((array)$event->result_files) > 0;
         $currentView = Factory::getApplication()->getInput()->get('view', 'event', 'cmd');
 
         if($currentView === 'registration') {
@@ -52,9 +58,12 @@ class EventRenderHelper {
         if ($registrationOpen) {
             $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_REGISTRATION_SUBMENU_LABEL"), 'registration', 'file-edit', Route::_('index.php?option=com_marathonmanager&view=registration&event_id=' . $event->id), $currentLayout);
         }
-        $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_RESULTS_SUBMENU_LABEL"), 'results', 'list', Route::_('index.php?option=com_marathonmanager&view=event&id='.$event->id.'&layout=results'), $currentLayout);
-        $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_GALLERY_SUBMENU_LABEL"), 'gallery', 'image', Route::_('index.php?option=com_marathonmanager&view=event&id='.$event->id.'&layout=gallery'), $currentLayout);
-
+        if($hasResultFiles) {
+            $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_RESULTS_SUBMENU_LABEL"), 'results', 'list', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $event->id . '&layout=results'), $currentLayout);
+        }
+        if($event->gallery_content !== "-1") {
+            $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_GALLERY_SUBMENU_LABEL"), 'gallery', 'image', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $event->id . '&layout=gallery'), $currentLayout);
+        }
         return $menuOptions;
 
     }

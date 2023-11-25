@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
     <name>COM_MARATHONMANAGER</name>
     <creationDate>September 2023</creationDate>
-    <author>NXD</author>
+    <author>NXD | Marco Rensch</author>
     <authorEmail>support@nx-designs.ch</authorEmail>
     <authorUrl>https://www.nx-designs.ch</authorUrl>
     <copyright>Copyright 2023 by NXD nx-designs</copyright>
@@ -122,9 +122,8 @@
 
     </administration>
 
-    <changelogurl>[CHANGELOG_URL]</changelogurl>
+    <changelogurl>https://www.nx-designs.ch</changelogurl>
     <updateservers>
-        <server type="extension" name="hello">[UPDATE_SERVER_URL]</server>
+        <server type="extension" name="Marathon Manager">https://update.nx-designs.ch/extensions/com_marathonmanager.xml</server>
     </updateservers>
-    <dlid prefix="dlid="></dlid>
 </extension>

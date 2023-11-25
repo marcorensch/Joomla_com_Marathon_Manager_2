@@ -84,8 +84,6 @@ class CoursesField extends ListField
         $groups = $this->getGroups();
         $parcourGroups = [];
 
-        error_log(print_r($groups, true));
-
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('parcours');

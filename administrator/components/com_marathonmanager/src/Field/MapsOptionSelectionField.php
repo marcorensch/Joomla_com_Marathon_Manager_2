@@ -24,7 +24,8 @@ FormHelper::loadFieldClass('list');
 
 defined('_JEXEC') or die;
 
-class MapsOptionSelectionField extends ListField{
+class MapsOptionSelectionField extends ListField
+{
     /**
      * The form field type.
      *

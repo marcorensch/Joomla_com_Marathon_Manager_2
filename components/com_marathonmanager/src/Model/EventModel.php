@@ -34,8 +34,6 @@ class EventModel extends BaseDatabaseModel
 		$app = Factory::getApplication();
 		$pk = $app->input->getInt('id');
 
-        error_log('EventModel::getItem() - $pk: ' . $pk);
-
 		if($this->_item === null)
 		{
 			$this->_item = array();
@@ -58,6 +56,13 @@ class EventModel extends BaseDatabaseModel
 				{
 					throw new \Exception(Text::_('COM_MARATHONMANAGER_EVENT_NOT_FOUND'), 404);
 				}
+
+                // Decode the result files
+                try{
+                $data->result_files = json_decode($data->result_files, true);
+                }catch(\Exception $e){
+                    $data->result_files = array();
+                }
 
 				$this->_item[$pk] = $data;
 			}

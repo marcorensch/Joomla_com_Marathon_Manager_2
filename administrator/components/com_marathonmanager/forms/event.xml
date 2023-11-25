@@ -122,6 +122,7 @@
                 type="AcyMailingListSelection"
                 label="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_LABEL"
                 description="COM_MARATHONMANAGER_LASTINFOS_NEWSLETTER_LIST_ID_DESC"
+                multiple="false"
                 layout="joomla.form.field.list-fancy-select"
 
         />
@@ -141,10 +142,11 @@
         />
         <field
                 name="map_option_id"
-                type="mapsoptionselection"
+                type="MapsOptionSelection"
                 label="COM_MARATHONMANAGER_MAP_OPTION_LABEL"
                 description="COM_MARATHONMANAGER_MAP_OPTION_DESC"
-                default=""
+                layout="joomla.form.field.list-fancy-select"
+                multiple="false"
                 required="true"
         >
             <option value="">COM_MARATHONMANAGER_MAP_OPTION_SELECT_MAP_OPTION</option>

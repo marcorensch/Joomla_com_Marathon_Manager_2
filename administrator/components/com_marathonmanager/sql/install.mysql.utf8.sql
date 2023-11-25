@@ -214,9 +214,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_registrations`
     PRIMARY KEY (`id`),
     KEY `idx_access` (`access`),
     KEY `idx_event_id` (`event_id`),
-    KEY `idx_user_id` (`user_id`),
     CONSTRAINT `fk_com_marathonmanager_registrations_event_id` FOREIGN KEY (`event_id`) REFERENCES `#__com_marathonmanager_events` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_com_marathonmanager_registrations_user_id` FOREIGN KEY (`user_id`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_com_marathonmanager_registrations_access` FOREIGN KEY (`access`) REFERENCES `#__viewlevels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 

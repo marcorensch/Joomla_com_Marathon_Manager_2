@@ -147,8 +147,6 @@ class EventsModel extends ListModel
         }
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-        error_log($query->__toString());
-
 		return $query;
 	}
 

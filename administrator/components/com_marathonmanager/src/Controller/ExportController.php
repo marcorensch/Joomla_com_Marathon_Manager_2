@@ -23,7 +23,6 @@ class ExportController extends FormController
 
     public function export()
     {
-        error_log('Exporting in CONTROLLER');
         // Do some stuff here
         $data = $this->input->post->get('jform', [], 'array');
         $model = $this->getModel();

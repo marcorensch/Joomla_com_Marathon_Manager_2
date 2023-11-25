@@ -72,9 +72,6 @@ class MarathonNomenuRules implements RulesInterface
      */
     public function parse(&$segments, &$vars)
     {
-        error_log('::parse() - $segments: ' . print_r($segments, true));
-        error_log('::parse() - $vars: ' . print_r($vars, true));
-
         if(isset($segments[2])){
             $vars['layout'] = $segments[2];
         }

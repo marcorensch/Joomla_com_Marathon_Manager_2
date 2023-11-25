@@ -107,7 +107,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'courses.', true, 'cb'); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'maps.', true, 'cb'); ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"

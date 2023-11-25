@@ -184,7 +184,6 @@ class RegistrationModel extends FormModel
     public
     function validate($form, $data, $group = null): bool|array
     {
-        error_log('RegistrationModel::validate() called');
         // Set user state for form data
         Factory::getApplication()->setUserState( 'com_marathonmanager.registration.data', $data );
         return parent::validate($form, $data, $group);

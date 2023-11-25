@@ -34,6 +34,9 @@ class EventsModel extends BaseDatabaseModel
             $this->_items = array();
         }
 
+        $params = $this->getState('params');
+        $sortingDir = $params->get('elements_dir','asc');
+
         try {
             $db = $this->getDatabase();
             $query = $db->getQuery(true);
@@ -53,6 +56,8 @@ class EventsModel extends BaseDatabaseModel
                 ->bind(':publishUp', $nowDate)
                 ->bind(':publishDown', $nowDate);
 
+            // Ordering
+            $query->order($db->quoteName('a.event_date') . ' ' . $sortingDir);
             $db->setQuery($query);
             $data = $db->loadObjectList();
 

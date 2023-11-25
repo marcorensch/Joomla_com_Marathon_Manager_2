@@ -7,6 +7,32 @@
     </layout>
     <fields name="params">
         <fieldset name="events_display" label="COM_MARATHONMANAGER_FIELDSET_DISPLAY_LABEL">
+            <fieldset name="elements" label="Elements" class="col-lg-6">
+                <field name="elements_dir" label="COM_MARATHONMANAGER_FIELD_EVENTS_SORTING_DIR_LABEL"
+                       type="radio"
+                       layout="joomla.form.field.radio.buttons"
+                       class="btn-group"
+                       default="desc">
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </field>
+                <field name="element_cls"
+                       type="textarea"
+                       label="COM_MARATHONMANAGER_FIELD_CUSTOM_CLS_LBL"
+                       description="COM_MARATHONMANAGER_FIELD_GRID_ELEMENT_CUSTOM_CLS_DES"
+                       hint="my-class another-class"
+                />
+                <field name="preview_aspect_ratio"
+                       type="text"
+                       label="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_LBL"
+                       description="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_DES"
+                       hint="px:px"
+                />
+            </fieldset>
+            <fieldset name="media" label="Media" class="col-lg-6">
+                <field name="page_header" type="media"
+                       label="COM_MARATHONMANAGER_FIELD_EVENTS_PAGE_HEADER_IMG_LABEL"/>
+            </fieldset>
             <fieldset name="columns" label="Columns" class="col-lg-6">
                 <field
                         name="events_cols"
@@ -67,23 +93,6 @@
                     <option value="right">COM_MARATHONMANAGER_OPT_RIGHT</option>
                 </field>
             </fieldset>
-
-            <fieldset name="elements" label="Elements" class="col-lg-6">
-                <field name="element_cls"
-                       type="textarea"
-                       label="COM_MARATHONMANAGER_FIELD_CUSTOM_CLS_LBL"
-                       description="COM_MARATHONMANAGER_FIELD_GRID_ELEMENT_CUSTOM_CLS_DES"
-                       hint="my-class another-class"
-                />
-                <field name="preview_aspect_ratio"
-                       type="text"
-                       label="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_LBL"
-                       description="COM_MARATHONMANAGER_FIELD_PREVIEW_IMG_ASPECT_RATIO_DES"
-                       hint="px:px"
-                />
-            </fieldset>
-
-
         </fieldset>
     </fields>
 </metadata>

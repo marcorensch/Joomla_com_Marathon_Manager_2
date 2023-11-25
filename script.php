@@ -28,7 +28,7 @@ class Com_MarathonmanagerInstallerScript
      */
     public function install($parent): bool
     {
-        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL');
+//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL');
         if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
         $this->createMediaDirectories();
         return true;
@@ -36,7 +36,7 @@ class Com_MarathonmanagerInstallerScript
 
     public function update($parent): bool
     {
-        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UPDATE');
+//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UPDATE');
         if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
         $this->createMediaDirectories();
         return true;
@@ -44,7 +44,7 @@ class Com_MarathonmanagerInstallerScript
 
     public function uninstall($parent): bool
     {
-        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UNINSTALL');
+//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UNINSTALL');
         return true;
     }
 
@@ -57,13 +57,13 @@ class Com_MarathonmanagerInstallerScript
                 return false;
             }
         }
-        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_PREFLIGHT_' . strtoupper($type));
+//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_PREFLIGHT_' . strtoupper($type));
         return true;
     }
 
     public function postflight($type, $parent): bool
     {
-        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_POSTFLIGHT_' . strtoupper($type));
+//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_POSTFLIGHT_' . strtoupper($type));
         return true;
     }
 
