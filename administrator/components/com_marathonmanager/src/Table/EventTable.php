@@ -35,8 +35,8 @@ class EventTable extends Table
 	/**
 	 * @throws \Exception
 	 */
-	public function check()
-	{
+	public function check(): bool
+    {
 		try {
 			parent::check();
 		}catch (\Exception $e) {

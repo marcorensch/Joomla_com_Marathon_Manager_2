@@ -190,7 +190,6 @@ class EventModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         $status = parent::save($data);
-
         if($status) $this->handleArrivalDates($data);
 
         return $status;

@@ -24,6 +24,10 @@ $previewAspectRatio[1] = $previewAspectRatio[1] * 10000;
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->addInlineStyle(
 <<<CSS
+.nxd-event-card-container {
+    position: relative;
+    overflow: hidden;
+}
 .nxd-event-card img {
    scale:1;
      transition: scale .4s ease-in-out;
