@@ -8,6 +8,10 @@
     <fields name="params">
         <fieldset name="events_display" label="COM_MARATHONMANAGER_FIELDSET_DISPLAY_LABEL">
             <fieldset name="elements" label="Elements" class="col-lg-6">
+                <field name="elements_layout" type="list" default="grid-card-item" label="COM_MARATHONMANAGER_FIELD_EVENTS_LAYOUT_LABEL">
+                    <option value="grid-card-item">COM_MARATHONMANAGER_FIELD_OPT_EVENTS_LAYOUT_CARD</option>
+                    <option value="grid-image-card-item">COM_MARATHONMANAGER_FIELD_OPT_EVENTS_LAYOUT_IMG_CARD</option>
+                </field>
                 <field name="elements_dir" label="COM_MARATHONMANAGER_FIELD_EVENTS_SORTING_DIR_LABEL"
                        type="radio"
                        layout="joomla.form.field.radio.buttons"

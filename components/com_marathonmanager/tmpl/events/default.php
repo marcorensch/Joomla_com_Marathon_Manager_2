@@ -78,7 +78,8 @@ if ($params->get('debug', 0)) {
                     <?php
                     $item = $event;
                     $item->url = Route::_('index.php?option=com_marathonmanager&view=event&id=' . $item->id);
-                    $layout = new FileLayout('grid-card-item', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+                    $configuratedLayout = $params->get('elements_layout', 'grid-card-item');
+                    $layout = new FileLayout($configuratedLayout, $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
                     echo $layout->render(compact('item', 'params'));
                     ?>
                 <?php endforeach; ?>
