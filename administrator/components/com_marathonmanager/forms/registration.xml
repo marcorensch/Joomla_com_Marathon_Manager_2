@@ -91,6 +91,7 @@
                type="events"
                label="COM_MARATHONMANAGER_FIELD_EVENT_LABEL"
                required="true"
+               direction="desc"
                onchange="eventChange(this.value);"
 
         />

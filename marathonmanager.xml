@@ -63,6 +63,9 @@
             <menu link="option=com_marathonmanager&amp;view=registrations">
                 COM_MARATHONMANAGER_MENUITEM_REGISTRATIONS_LABEL
             </menu>
+            <menu link="option=com_marathonmanager&amp;view=results">
+                COM_MARATHONMANAGER_MENUITEM_RESULTS_LABEL
+            </menu>
             <menu link="option=com_marathonmanager&amp;view=maps">
                 COM_MARATHONMANAGER_MENUITEM_MAPS_LABEL
             </menu>

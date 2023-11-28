@@ -48,7 +48,7 @@ class ResultsController extends AdminController
 
     public function showImport()
     {
-        $this->setRedirect('index.php?option=com_marathonmanager&view=import&type=results');
+        $this->setRedirect('index.php?option=com_marathonmanager&view=import&type=results&context=result');
     }
 
     public function import()

@@ -10,6 +10,7 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 \defined('_JEXEC') or die;
@@ -96,6 +97,14 @@ CSS
                 </span>
             </div>
         </div>
+
+        <?php
+        $now = new DateTime();
+        if($item->registration_start_date > $now && $item->registration_end_date < $now): ?>
+        <div class="uk-position-top uk-text-center uk-animation-slide-top" style="background:rgba(255,0,0,0.7); color:#fff;">
+            <span class="nxd-text-register-now"><?php echo Text::_("COM_MARATHONMANAGER_REGISTER_NOW_TEXT");?></span>
+        </div>
+        <?php endif; ?>
 
         <?php if ($item->url): ?>
             <a href="<?php echo $item->url; ?>" class="uk-position-cover nxd-item-link"></a>

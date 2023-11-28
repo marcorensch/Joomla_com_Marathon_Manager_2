@@ -24,11 +24,13 @@ class HtmlView extends BaseHtmlView
 	protected $form;
 	protected $item;
     protected $type;
+    protected $cancelContext;
     public function display($tpl = null): void
     {
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
         $this->type = Factory::getApplication()->input->get('type', 'default');
+        $this->cancelContext = Factory::getApplication()->input->get('context', null);
 
 		$this->addToolbar();
 
@@ -43,7 +45,8 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_IMPORT_' . strtoupper($this->getLayout())), 'fas fa-calendar');
 
-
-		ToolbarHelper::cancel( 'import.cancel', 'JTOOLBAR_CLOSE');
+        if($this->cancelContext){
+            ToolbarHelper::cancel( $this->cancelContext . '.cancel', 'JTOOLBAR_CLOSE');
+        }
 	}
 }

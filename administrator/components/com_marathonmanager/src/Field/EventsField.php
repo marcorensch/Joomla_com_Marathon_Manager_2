@@ -40,15 +40,21 @@ class EventsField extends ListField{
      *
      * @since   1.0.0
      */
+
+    protected $direction = 'asc';
     protected function getOptions(): array
     {
+        // Get the direction from the xml form field
+        $direction = $this->element['direction'] ?? 'asc';
+        $this->direction = $direction;
+
         $options = [];
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('id, title');
         $query->from('#__com_marathonmanager_events');
 //        $query->where('published = 1');
-        $query->order('ordering ASC');
+        $query->order('event_date ' . $this->direction . ', id ' . $this->direction);
         $db->setQuery($query);
         $dbValues = $db->loadObjectList();
 

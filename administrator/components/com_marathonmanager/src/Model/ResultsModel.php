@@ -184,4 +184,9 @@ class ResultsModel extends ListModel
         }
 
     }
+
+    public function getCancelContext(): string
+    {
+        return 'result';
+    }
 }
