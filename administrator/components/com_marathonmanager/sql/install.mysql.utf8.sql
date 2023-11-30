@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events`
     `registration_start_date`      DATETIME              DEFAULT NULL,
     `registration_end_date`        DATETIME              DEFAULT NULL,
     `event_date`                   DATETIME              DEFAULT NULL,
+    `event_duration`               int(1)                   DEFAULT 1,
     `image`                        varchar(400) NOT NULL DEFAULT '',
     `gallery_content`              text                  default NULL,
     `lastinfos_newsletter_list_id` int(11)               DEFAULT NULL,

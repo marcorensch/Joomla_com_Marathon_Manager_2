@@ -12,6 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Date\Date;
 
 \defined('_JEXEC') or die;
 $item = $displayData['item'];
@@ -91,10 +92,19 @@ CSS
             <div class="uk-position-cover nxd-event-details-background"></div>
             <h3 class="nxd-event-title"><?php echo $item->title; ?></h3>
             <div class="uk-text-small uk-text-truncate">
+                <?php if($item->event_duration > 1):
+                    $languageConstant = ($item->event_duration > 2) ? "COM_MARATHONMANAGER_EVENT_DATE_FROM_TO_MULTIPLE" : "COM_MARATHONMANAGER_EVENT_DATE_FROM_TO";
+                    $startDate = new Date($item->event_date);
+                    $endDate =  new Date($startDate . '+' . $item->event_duration-1 . ' day');
+                    $dateString = Text::sprintf($languageConstant, HTMLHelper::date($startDate, 'd.'), HTMLHelper::date($endDate, 'DATE_FORMAT_LC3'));
+                    ?>
+                    <span class="nxd-event-date nxd-multiple-days-event"><?php echo $dateString ?></span>
+                <?php else:?>
                 <span class="nxd-event-date"><?php
-                    echo HTMLHelper::date($item->event_date, 'DATE_FORMAT_LC3');
+                    echo Text::sprintf("COM_MARATHONMANAGER_EVENT_DATE_AT" , HTMLHelper::date($item->event_date, 'DATE_FORMAT_LC3'));
                     ?>
                 </span>
+                <?php endif; ?>
             </div>
         </div>
 

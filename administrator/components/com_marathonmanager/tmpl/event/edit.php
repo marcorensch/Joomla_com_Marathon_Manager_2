@@ -96,7 +96,14 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <fieldset id="event-data" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_EVENT_DETAILS_FIELDSET_LABEL'); ?></legend>
                     <div>
-                        <?php echo $this->getForm()->renderField('event_date'); ?>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <?php echo $this->getForm()->renderField('event_date'); ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?php echo $this->getForm()->renderField('event_duration'); ?>
+                            </div>
+                        </div>
                         <?php echo $this->getForm()->renderField('lastinfos_newsletter_list_id'); ?>
                         <div class="row">
                             <div class="col-lg-8">
@@ -186,7 +193,8 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                 <fieldset id="event-banking-details" class="options-form">
                     <legend><?php echo Text::_('COM_MARATHONMANAGER_BANKING_DETAILS_FIELDSET_LABEL'); ?></legend>
                     <div>
-                        <div class="alert alert-info" role="alert"><?php echo Text::_('COM_MARATHONMANAGER_BANK_LEAVE_EMPTY_NOTE');?></div>
+                        <div class="alert alert-info"
+                             role="alert"><?php echo Text::_('COM_MARATHONMANAGER_BANK_LEAVE_EMPTY_NOTE'); ?></div>
                         <?php echo $this->getForm()->renderField('banking_details'); ?>
                     </div>
                 </fieldset>
