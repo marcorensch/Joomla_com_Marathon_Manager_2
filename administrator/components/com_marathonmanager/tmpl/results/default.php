@@ -24,12 +24,6 @@ $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder === 'a.ordering';
-$saveOrderingUrl = '';
-
-if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_marathonmanager&task=results.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-    HTMLHelper::_('draggablelist.draggable');
-}
 
 ?>
 <form action="<?php echo $route ?>" method="post" name="adminForm" id="adminForm">
@@ -58,11 +52,13 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
                             <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PLACE_TITLE', 'a.place', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PLACE_TITLE', 'a.place', $listDirn, $listOrder); ?>
                             </th>
+                            <th scope="col" style="width: 120px" class="d-none d-md-table-cell"></th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_TITLE'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_TITLE', 'a.team_name', $listDirn, $listOrder); ?>
                             </th>
+
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_TITLE'); ?>
                             </th>
@@ -75,14 +71,7 @@ if ($saveOrder && !empty($this->items)) {
                             </th>
                         </tr>
                         </thead>
-                        <tbody
-                            <?php if ($saveOrder && $saveOrderingUrl) :?>
-                                class="js-draggable"
-                                data-url="<?php echo $saveOrderingUrl; ?>"
-                                data-direction="<?php echo strtolower($listDirn); ?>"
-                                data-nested="true"<?php
-                        endif; ?>
-                        >
+                        <tbody>
                         <?php
                         $n = count($this->items);
                         foreach ($this->items as $i => $item):
@@ -103,15 +92,36 @@ if ($saveOrder && !empty($this->items)) {
                                     }
                                     ?>
                                 </td>
-                                <th scope="row" class="has-context">
-                                    <a class="hasTooltip"
+                                <td class="has-context">
+
+                                    <a class="btn btn-sm btn-outline-primary hasTooltip"
                                        href="<?php echo Route::_('index.php?option=com_marathonmanager&task=result.edit&id=' . (int)$item->id); ?>"
-                                       title="<?php echo Text::_('JACTION_EDIT'); ?>">
+                                       title="<?php echo Text::_('COM_MARATHONMANAGER_EDIT_RESULT')?>">
+                                        <?php echo Text::_('COM_MARATHONMANAGER_EDIT_RESULT'); ?>
+                                    </a>
+                                </td>
+                                <td class="has-context">
+                                    <?php if($item->team_id):?>
+                                    <a class="hasTooltip"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=registration.edit&id=' . (int)$item->team_id); ?>"
+                                       target="_blank"
+                                       title="<?php echo Text::_('COM_MARATHONMANAGER_EDIT_REGISTRATION')?>">
                                         <?php echo $this->escape($item->team_name); ?>
                                     </a>
-                                </th>
+                                    <?php else: ?>
+                                        <span class="">
+                                           <?php echo $this->escape($item->team_name); ?>
+                                        </span>
+                                    <?php endif;?>
+                                </td>
+
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo $item->event_name; ?>
+                                    <a class="hasTooltip"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=event.edit&id=' . (int)$item->event_id); ?>"
+                                       target="_blank"
+                                       title="<?php echo Text::_('COM_MARATHONMANAGER_EDIT_EVENT')?>">
+                                        <?php echo $this->escape($item->event_name); ?>
+                                    </a>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->access_level; ?>

@@ -40,18 +40,9 @@ class ResultsModel extends ListModel
             $config['filter_fields'] = array(
                 'id', 'a.id',
                 'team_name', 'a.team_name',
+                'place','a.place',
                 'published', 'a.published',
-                'created_by', 'a.created_by',
-                'modified_by', 'a.modified_by',
-                'created', 'a.created',
-                'modified', 'a.modified',
             );
-
-            $assoc = Associations::isEnabled();
-            if ($assoc)
-            {
-                $config['filter_fields'][] = 'association';
-            }
         }
 
 		parent::__construct($config);
@@ -64,8 +55,8 @@ class ResultsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-                ['a.id','a.team_name','a.group_id', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
-                ['id','team_name','group_id', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
+                ['a.id','a.team_name','a.team_id','a.group_id', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
+                ['id','team_name','team_id','group_id', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
             )
 		);
 		// From the table
@@ -80,7 +71,6 @@ class ResultsModel extends ListModel
                 'LEFT',
                 $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access')
             );
-
         // Filter by published state
         $published = $this->getState('filter.published');
         if (is_numeric($published))
@@ -123,6 +113,20 @@ class ResultsModel extends ListModel
 
     public function getItems()
     {
+        // If we sort by place we need to move the "null" values to the end of the list
+        if($this->getState('list.ordering') === 'a.place'){
+            $items = parent::getItems();
+            $nullItems = [];
+            foreach ($items as $index => $item) {
+                if(!$item->place){
+                    $nullItems[] = $item;
+                    unset($items[$index]);
+                }
+            }
+            $items = array_merge($items, $nullItems);
+            return $items;
+        }
+
         return parent::getItems();
     }
 
