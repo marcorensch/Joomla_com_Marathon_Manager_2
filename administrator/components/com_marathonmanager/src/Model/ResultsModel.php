@@ -87,6 +87,13 @@ class ResultsModel extends ListModel
             $query->where('(' . $db->quoteName('a.published') . ' IN (0, 1))');
         }
 
+        // Filter by event id
+        $eventId = $this->getState('filter.event_id');
+        if (is_numeric($eventId))
+        {
+            $query->where($db->quoteName('a.event_id') . ' = ' . (int) $eventId);
+        }
+
         // Filter by search title
         $search = $this->getState('filter.search');
         if (!empty($search))

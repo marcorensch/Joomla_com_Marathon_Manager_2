@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('table.columns');
+$wa->useScript('table.columns'); // is for managing the table columns by user select which tabe has to be hidden
 
 $route = Route::_('index.php?option=com_marathonmanager&view=results');
 $canChange = true;
@@ -51,22 +51,24 @@ $saveOrder = $listOrder === 'a.ordering';
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
-                            <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
+                            <th scope="col" style="width: 1%" class="text-center">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PLACE_TITLE', 'a.place', $listDirn, $listOrder); ?>
                             </th>
-                            <th scope="col" style="width: 120px" class="d-none d-md-table-cell"></th>
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
+                            <th scope="col" style="width: 160px" class="">
+                                <?php echo '<span class="visually-hidden">' . Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_RESULT_LINK_TITLE') . '</span>'; ?>
+                            </th>
+                            <th scope="col" style="min-width: 25%" class="">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_TITLE', 'a.team_name', $listDirn, $listOrder); ?>
                             </th>
 
-                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
+                            <th scope="col" style="min-width:25%; width:20%" class="">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_TITLE'); ?>
                             </th>
 
-                            <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
+                            <th scope="col" style="width: 10%" class="d-none d-xl-table-cell">
                                 <?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
                             </th>
-                            <th scope="col" style="">
+                            <th scope="col" class="d-none d-xl-table-cell text-center">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_ID'); ?>
                             </th>
                         </tr>
@@ -81,9 +83,9 @@ $saveOrder = $listOrder === 'a.ordering';
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'courses.', true, 'cb'); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'results.', true, 'cb'); ?>
                                 </td>
-                                <td class="d-none d-md-table-cell text-center">
+                                <td class="text-center">
                                     <?php
                                     if($item->place_msg){
                                         echo '<span class="small">' . $item->place_msg . '</span>';
@@ -115,7 +117,7 @@ $saveOrder = $listOrder === 'a.ordering';
                                     <?php endif;?>
                                 </td>
 
-                                <td class="d-none d-md-table-cell">
+                                <td class="">
                                     <a class="hasTooltip"
                                        href="<?php echo Route::_('index.php?option=com_marathonmanager&task=event.edit&id=' . (int)$item->event_id); ?>"
                                        target="_blank"
@@ -123,10 +125,10 @@ $saveOrder = $listOrder === 'a.ordering';
                                         <?php echo $this->escape($item->event_name); ?>
                                     </a>
                                 </td>
-                                <td class="small d-none d-md-table-cell text-center">
+                                <td class="small d-none d-xl-table-cell text-center">
                                     <?php echo $item->access_level; ?>
                                 </td>
-                                <td class="d-none d-md-table-cell">
+                                <td class="d-none d-xl-table-cell text-center">
                                     <?php echo $item->id; ?>
                                 </td>
                             </tr>

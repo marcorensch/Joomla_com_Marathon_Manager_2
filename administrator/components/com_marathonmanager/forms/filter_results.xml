@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<form>
+<form
+        addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
+>
     <fields name="filter">
         <field
                 name="search"
@@ -8,6 +10,21 @@
                 description="COM_MARATHONMANAGER_SEARCH_DESC"
                 hint="JSEARCH_FILTER"
         />
+        <field
+                name="published"
+                type="status"
+                label="JOPTION_SELECT_PUBLISHED"
+                onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+        <field name="event_id"
+               type="events"
+               label="COM_MARATHONMANAGER_FILTER_EVENT_LABEL"
+               onchange="this.form.submit();"
+        >
+            <option value="">COM_MARATHONMANAGER_FILTER_EVENT_FILTER_LABEL</option>
+        </field>
     </fields>
     <fields name="list">
         <field
