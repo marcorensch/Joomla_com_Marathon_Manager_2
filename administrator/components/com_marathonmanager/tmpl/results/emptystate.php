@@ -23,7 +23,7 @@ $displayData = [
 $user = Factory::getApplication()->getIdentity();
 
 if ($user->authorise('core.create', 'com_marathonmanager')) {
-    $displayData['createURL'] = 'index.php?option=com_marathonmanager&task=registration.add';
+    $displayData['createURL'] = 'index.php?option=com_marathonmanager&task=result.add';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

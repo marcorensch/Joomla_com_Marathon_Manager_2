@@ -123,7 +123,12 @@ class ResultsController extends AdminController
         Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', []);
         Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', 0);
 
-        $model->processData($formData,$fileData);
+        if($model->processData($formData,$fileData)){
+            Factory::getApplication()->enqueueMessage(Text::_('COM_MARATHONMANAGER_TEXT_IMPORT_SUCCESS'), 'message');
+        }else{
+            throw new \Exception(Text::_('COM_MARATHONMANAGER_ERROR_IMPORT_FAILED'), 500);
+        }
+        $this->setRedirect(Route::_('index.php?option=com_marathonmanager&view=results', false));
     }
 
     public function cancelImport(){

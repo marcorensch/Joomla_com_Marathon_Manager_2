@@ -137,7 +137,8 @@ class ResultsModel extends ListModel
         return parent::getItems();
     }
 
-    public function processData($formData, $fileData){
+    public function processData($formData, $fileData): bool
+    {
 
         // Check if we have data
         if(!count($fileData)) {
@@ -155,11 +156,23 @@ class ResultsModel extends ListModel
         }
         $dataToStore = $this->prepareData($fileData, $columns, $formData['main_import_trigger_column'], $formData['event_id']);
 //        error_log('Data to store: ' . print_r($dataToStore, true));
-        $this->store($dataToStore);
+        return $this->store($dataToStore);
     }
 
     private function prepareData($fileData, $columns, $importTriggerColumn, $eventId):array
     {
+        // Get the public access level.
+
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('id'))
+            ->from($db->quoteName('#__viewlevels'))
+            ->where($db->quoteName('title') . ' = ' . $db->quote('Public'));
+        $db->setQuery($query);
+        $publicAccessId = $db->loadResult();
+
+        error_log('Public Access ID: ' . $publicAccessId);
+
         $dataToStore = [];
         // Loop over data
         $rowCounter = 0;
@@ -189,12 +202,26 @@ class ResultsModel extends ListModel
                 }
             }
             $rowForDb->event_id = $eventId;
+            $rowForDb->access = $publicAccessId;
+            $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
             $dataToStore[] = $rowForDb;
         }
         return $dataToStore;
     }
 
-    private function store($dataset): void
+    private function getTeamIdFromRegistration($teamName, $eventId): int
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('id'))
+            ->from($db->quoteName('#__com_marathonmanager_registrations'))
+            ->where($db->quoteName('team_name') . ' = ' . $db->quote($teamName))
+            ->where($db->quoteName('event_id') . ' = ' . $db->quote($eventId));
+        $db->setQuery($query);
+        return (int)$db->loadResult() ?: 0;
+    }
+
+    private function store($dataset): bool
     {
         $db = $this->getDatabase();
         foreach ($dataset as $row) {
@@ -204,8 +231,10 @@ class ResultsModel extends ListModel
             }catch (\Exception $e){
                 error_log('Error while inserting row: ' . print_r($row, true));
                 error_log('Error: ' . $e->getMessage());
+                return false;
             }
         }
+        return true;
 
     }
 
