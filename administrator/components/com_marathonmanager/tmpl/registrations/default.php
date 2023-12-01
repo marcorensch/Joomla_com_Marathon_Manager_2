@@ -189,6 +189,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php echo $this->pagination->getListFooter(); ?>
                 <?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="">

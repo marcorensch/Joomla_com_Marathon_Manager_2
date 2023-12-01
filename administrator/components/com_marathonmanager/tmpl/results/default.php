@@ -54,20 +54,17 @@ if ($saveOrder && !empty($this->items)) {
                             <td style="width: 1%" class="text-center">
                                 <?php echo HTMLHelper::_('grid.checkall'); ?>
                             </td>
-                            <th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-                                <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
-                            </th>
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
                                 <?php echo TEXT::_('JSTATUS'); ?>
                             </th>
                             <th scope="col" style="width: 1%" class="d-none d-md-table-cell text-center">
-                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_GROUPID_TITLE', 'a.group_id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PLACE_TITLE', 'a.place', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TITLE'); ?>
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_TITLE'); ?>
                             </th>
-                            <th scope="col" style="width: 1%" class="d-none d-md-table-cell">
-                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_MAX_PARTICIPANTS_TITLE'); ?>
+                            <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_TITLE'); ?>
                             </th>
 
                             <th scope="col" style="width: 10%" class="d-none d-md-table-cell">
@@ -94,39 +91,27 @@ if ($saveOrder && !empty($this->items)) {
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                                 </td>
-                                <td class="text-center d-none d-md-table-cell">
-                                    <?php
-                                    $iconClass = '';
-                                    if (!$canChange) {
-                                        $iconClass = ' inactive';
-                                    } elseif (!$saveOrder) {
-                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-                                    }
-                                    ?>
-                                    <span class="sortable-handler <?php echo $iconClass ?>">
-                                            <span class="icon-ellipsis-v" aria-hidden="true"></span>
-                                        </span>
-                                    <?php if ($canChange && $saveOrder) : ?>
-                                        <input type="text" name="order[]" size="5"
-                                               value="<?php echo $item->ordering; ?>"
-                                               class="width-20 text-area-order hidden">
-                                    <?php endif; ?>
-                                </td>
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'courses.', true, 'cb'); ?>
                                 </td>
-                                <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $item->group_id; ?>
+                                <td class="d-none d-md-table-cell text-center">
+                                    <?php
+                                    if($item->place_msg){
+                                        echo '<span class="small">' . $item->place_msg . '</span>';
+                                    }else{
+                                        echo '<span>' . $item->place . '</span>';
+                                    }
+                                    ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <a class="hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=group.edit&id=' . (int)$item->id); ?>"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=result.edit&id=' . (int)$item->id); ?>"
                                        title="<?php echo Text::_('JACTION_EDIT'); ?>">
-                                        <?php echo $this->escape($item->title); ?>
+                                        <?php echo $this->escape($item->team_name); ?>
                                     </a>
                                 </th>
-                                <td class="d-none d-md-table-cell text-center">
-                                    <?php echo $item->max_participants; ?>
+                                <td class="d-none d-md-table-cell">
+                                    <?php echo $item->event_name; ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->access_level; ?>
@@ -138,6 +123,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php echo $this->pagination->getListFooter(); ?>
                 <?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="">
