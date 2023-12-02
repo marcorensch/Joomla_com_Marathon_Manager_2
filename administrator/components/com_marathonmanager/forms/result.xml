@@ -4,7 +4,6 @@
         addformprefix="NXD\Component\MarathonManager\Administrator\Form"
         addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
 >
-    <fieldset name="edit">
         <field
                 name="id"
                 type="number"
@@ -73,25 +72,4 @@
                size="22"
                readonly="true"
                filter="user_utc" />
-
-    </fieldset>
-    <fieldset name="import">
-        <field name="event_id"
-               type="events"
-               label="COM_MARATHONMANAGER_FIELD_EVENT_LABEL"
-               required="true"
-               multiple="false"
-               direction="desc"
-               layout="joomla.form.field.list-fancy-select"
-        />
-        <field
-                name="upload_file"
-                type="file"
-                label="COM_MARATHONMANAGER_FIELD_UPLOAD_LABEL"
-                description="COM_MARATHONMANAGER_FIELD_UPLOAD_DESC"
-                accept=".csv , .xls , .xlsx"
-                size="20"
-                required="true"
-        />
-    </fieldset>
 </form>

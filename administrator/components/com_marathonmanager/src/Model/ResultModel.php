@@ -35,6 +35,20 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
 		return $form;
 	}
 
+    /**
+     * @throws \Exception
+     */
+    public function getImportForm($data = [], $loadData = false)
+    {
+        $form = $this->loadForm($this->typeAlias, 'result_import', ['control' => 'jform', 'load_data' => $loadData]);
+
+        if(empty($form)){
+            return false;
+        }
+
+        return $form;
+    }
+
 	protected function loadFormData()
 	{
 		$app = Factory::getApplication();

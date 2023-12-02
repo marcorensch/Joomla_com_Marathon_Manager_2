@@ -25,16 +25,18 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null): void
     {
-        $this->form = $this->get('Form');
 
         // check if we are in import mode
         if($this->getLayout() === 'import')
         {
+            $this->form = $this->get('ImportForm');
             $this->setLayout('import');
             $this->addImportToolbar();
             parent::display($tpl);
             return;
         }
+
+        $this->form = $this->get('Form');
 
         if($this->getLayout() === 'import_map_fields'){
             // Get Imported Data from Session if their any
@@ -106,7 +108,7 @@ class HtmlView extends BaseHtmlView
                 }
 
                 // If checked out, we can still save
-                if ($user->authorise('core.create', 'com_marathonmanager') && $this->item->checked_out)
+                if ($user->authorise('core.create', 'com_marathonmanager'))
                 {
                     $toolbarButtons[] = ['save2copy', 'result.save2copy'];
                 }

@@ -52,15 +52,6 @@ class ResultsModel extends ListModel
 		parent::__construct($config);
 	}
 
-    /**
-     * @throws \Exception
-     */
-    public function getImportForm(): bool|\Joomla\CMS\Form\Form
-    {
-        error_log('getImportForm in MODEL');
-        return 'foo';
-    }
-
 	protected function getListQuery(): QueryInterface|DatabaseQuery
 	{
 		$db = $this->getDatabase();
@@ -178,8 +169,6 @@ class ResultsModel extends ListModel
         $publicAccessId = ImportHelper::getPublicAccessLevel() ?: null;
         // Group Id's
         $groupIds = ImportHelper::getGroupIds();
-
-        error_log('Group Ids: ' . print_r($groupIds, true));
 
         $dataToStore = [];
         // Loop over data
