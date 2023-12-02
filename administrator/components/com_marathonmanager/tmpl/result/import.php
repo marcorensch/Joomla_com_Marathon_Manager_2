@@ -32,10 +32,8 @@ $tmpl   = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '
 $current_user = Factory::getApplication()->getIdentity();
 
 $title = 'Import';
-$formActionUrl = "index.php?option=com_marathonmanager&view=import&task={$type}{$tmpl}";
-
+$formActionUrl = "index.php?option=com_marathonmanager&view=result{$tmpl}";
 ?>
-
 <form action="<?php echo Route::_($formActionUrl); ?>" method="post" enctype="multipart/form-data" name="adminForm" id="adminForm">
     <div class="row d-flex justify-content-center">
         <div class="col-lg-6">
@@ -49,7 +47,6 @@ $formActionUrl = "index.php?option=com_marathonmanager&view=import&task={$type}{
             </div>
         </div>
     </div>
-    <input type="hidden" name="task" value="<?php echo $type;?>.import">
+    <input type="hidden" name="task" value="results.import">
     <?php echo HTMLHelper::_('form.token'); ?>
-
 </form>

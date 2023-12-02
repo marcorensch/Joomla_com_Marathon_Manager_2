@@ -24,6 +24,7 @@ class HtmlView extends BaseHtmlView
 {
     protected $items;
 
+
     public function display($tpl = null): void
     {
         $this->items = $this->get('Items');
@@ -32,22 +33,11 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->state = $this->get('State');
 
-        // Get Imported Data from Session if their any
-        $this->importData = Factory::getApplication()->getUserState('com_marathonmanager.results.import.data', []);
-
-        $this->addToolbar();
-
-        if(count($this->importData))
-        {
-            $this->setLayout('import_map_fields');
-            parent::display($tpl);
-            return;
-        }
-
         if (!count($this->items) && $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
+        $this->addToolbar();
         parent::display($tpl);
     }
 
@@ -64,8 +54,6 @@ class HtmlView extends BaseHtmlView
         if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
             ToolbarHelper::addNew('result.add');
         }
-
-        ToolbarHelper::cancel('results.cancelImport', 'JTOOLBAR_CANCEL');
 
         // Show the batch buttons only if the layout is not import_map_fields
         if ($user->authorise('core.edit.state', 'com_marathonmanager') && $this->getLayout() !== 'import_map_fields')

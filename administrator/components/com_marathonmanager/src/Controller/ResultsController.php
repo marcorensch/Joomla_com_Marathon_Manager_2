@@ -48,7 +48,7 @@ class ResultsController extends AdminController
 
     public function showImport()
     {
-        $this->setRedirect('index.php?option=com_marathonmanager&view=import&type=results&context=result');
+        $this->setRedirect('index.php?option=com_marathonmanager&view=result&layout=import');
     }
 
     public function import()
@@ -88,11 +88,7 @@ class ResultsController extends AdminController
             Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', $dataset);
             Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', $data['event_id']);
 
-            $view = $this->getView('Results', 'html');
-            $model = $this->getModel('Results');
-            $view->setModel($model, true);
-            $view->display();
-
+            $this->setRedirect(Route::_('index.php?option=com_marathonmanager&view=result&layout=import_map_fields', false));
 
         } else {
             // Handle the upload error
@@ -114,7 +110,6 @@ class ResultsController extends AdminController
         $formData = $input->get('jform', array(), 'array');
         $model = $this->getModel('Results');
 
-
         // Get the data array from the User State
         $fileData = Factory::getApplication()->getUserState('com_marathonmanager.results.import.data', []);
         $formData['event_id'] = Factory::getApplication()->getUserState('com_marathonmanager.results.import.event_id', 0);
@@ -128,14 +123,7 @@ class ResultsController extends AdminController
         }else{
             throw new \Exception(Text::_('COM_MARATHONMANAGER_ERROR_IMPORT_FAILED'), 500);
         }
-        $this->setRedirect(Route::_('index.php?option=com_marathonmanager&view=results', false));
-    }
 
-    public function cancelImport(){
-        error_log('Cancel Import');
-        // Cleanup User State Data
-        Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', []);
-        Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', 0);
         $this->setRedirect(Route::_('index.php?option=com_marathonmanager&view=results', false));
     }
 

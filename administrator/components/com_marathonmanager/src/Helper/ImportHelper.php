@@ -92,10 +92,10 @@ class ImportHelper extends ComponentHelper
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
-        $query->select($db->quoteName('id'))
+        $query->select($db->quoteName(['shortcode','group_id']))
             ->from($db->quoteName('#__com_marathonmanager_groups'));
         $db->setQuery($query);
-        return $db->loadAssocList('shortcode');
+        return $db->loadObjectList('shortcode');
     }
 
 }

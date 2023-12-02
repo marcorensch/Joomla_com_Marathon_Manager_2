@@ -22,17 +22,53 @@ class HtmlView extends BaseHtmlView
 {
 	protected $form;
 	protected $item;
+
     public function display($tpl = null): void
     {
-		$this->form = $this->get('Form');
+        $this->form = $this->get('Form');
+
+        // check if we are in import mode
+        if($this->getLayout() === 'import')
+        {
+            $this->setLayout('import');
+            $this->addImportToolbar();
+            parent::display($tpl);
+            return;
+        }
+
+        if($this->getLayout() === 'import_map_fields'){
+            // Get Imported Data from Session if their any
+            $this->importData = Factory::getApplication()->getUserState('com_marathonmanager.results.import.data', []);
+
+            if (count($this->importData))
+            {
+                $this->setLayout('import_map_fields');
+            }else{
+                Factory::getApplication()->enqueueMessage(Text::_('COM_MARATHONMANAGER_RESULTS_IMPORT_NO_DATA'), 'warning');
+                $this->setLayout('import');
+            }
+            $this->addImportToolbar();
+            parent::display($tpl);
+            return;
+        }
+
+
+
 		$this->item = $this->get('Item');
 
-		$this->addToolbar();
+		$this->addDefaultToolbar();
 
         parent::display($tpl);
     }
 
-	protected function addToolbar(): void
+    protected function addImportToolbar(): void
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
+        ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_RESULTS_IMPORT'), 'fas fa-table');
+        ToolbarHelper::cancel('result.cancel', 'JTOOLBAR_CANCEL');
+    }
+
+	protected function addDefaultToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = (!$this->item->id);

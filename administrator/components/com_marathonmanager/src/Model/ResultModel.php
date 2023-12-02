@@ -13,6 +13,7 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
@@ -138,4 +139,7 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
 
         return parent::save($data);
     }
+
+    // ***************** Import ***************** //
+
 }

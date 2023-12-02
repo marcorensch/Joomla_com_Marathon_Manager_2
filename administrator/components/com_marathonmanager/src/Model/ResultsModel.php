@@ -12,8 +12,10 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
@@ -49,6 +51,15 @@ class ResultsModel extends ListModel
 
 		parent::__construct($config);
 	}
+
+    /**
+     * @throws \Exception
+     */
+    public function getImportForm(): bool|\Joomla\CMS\Form\Form
+    {
+        error_log('getImportForm in MODEL');
+        return 'foo';
+    }
 
 	protected function getListQuery(): QueryInterface|DatabaseQuery
 	{
@@ -168,6 +179,8 @@ class ResultsModel extends ListModel
         // Group Id's
         $groupIds = ImportHelper::getGroupIds();
 
+        error_log('Group Ids: ' . print_r($groupIds, true));
+
         $dataToStore = [];
         // Loop over data
         $rowCounter = 0;
@@ -194,7 +207,7 @@ class ResultsModel extends ListModel
                     // first part is the place in group
                     $rowForDb->place_in_group = intval($category[0]) ?: null;
                     // second part is the group ShortCode, so we need to get the group id
-                    $rowForDb->group_id = ArrayHelper::getValue($groupIds, $category[1]) ?: null;
+                    $rowForDb->group_id = $groupIds[$category[1]]->group_id ?: null;
                 }
                 // all other columns
                 if(trim($resultRow[$column->index])){
@@ -203,7 +216,9 @@ class ResultsModel extends ListModel
             }
             $rowForDb->event_id = $eventId;
             $rowForDb->access = $publicAccessId;
-            $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
+            if(isset($rowForDb->team_name)){
+                $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
+            }
             $rowForDb->created_by = Factory::getApplication()->getIdentity()->id;
             $rowForDb->created = Factory::getDate()->toSql();
             $dataToStore[] = $rowForDb;
@@ -227,7 +242,7 @@ class ResultsModel extends ListModel
     {
         $db = $this->getDatabase();
         foreach ($dataset as $row) {
-            // Insert the object into the user profile table.
+            // Insert the object into the results table.
             try {
                 $result = $db->insertObject('#__com_marathonmanager_results', $row);
             }catch (\Exception $e){
@@ -238,10 +253,5 @@ class ResultsModel extends ListModel
         }
         return true;
 
-    }
-
-    public function getCancelContext(): string
-    {
-        return 'result';
     }
 }

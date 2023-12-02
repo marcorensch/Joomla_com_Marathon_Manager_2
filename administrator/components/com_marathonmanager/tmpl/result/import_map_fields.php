@@ -10,10 +10,9 @@
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 $countOfColumnsInLongestRow = 0;
@@ -34,7 +33,7 @@ for($x = 'A'; $x < 'ZZ'; $x++) {
     }
 }
 
-$action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=component&' . Session::getFormToken() . '=1'
+$action = 'index.php?option=com_marathonmanager&view=result&layout=import_map_fields';
 ?>
 <div class="row pb-4">
     <div class="col-12">
@@ -63,7 +62,7 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
                     </div>
                 </div>
                 <div class="control-group">
-                    <button type="reset" class="btn btn-danger" onclick="return Joomla.task('results.cancelImport')">Cancel</button>
+                    <button type="reset" class="btn btn-danger" onclick="aufrufControllerMethode()">Cancel</button>
                     <button type="submit" class="btn btn-success">Import Data</button>
                 </div>
             </div>
@@ -92,7 +91,7 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
                                     <option value=''>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_LABEL')."</option>
                                     <option value='place'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_PLACE')."</option>
                                     <option value='team_name'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TEAM_NAME')."</option>
-                                    <option value='team_number'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TEAM_NUMBER')."</option>
+                                    <option value='start_number'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TEAM_NUMBER')."</option>
                                     <option value='category'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_CATEGORY')."</option>
                                     <option value='points_total'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_PTS_TOT')."</option>
                                     <option value='time_total'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TIME_TOT')."</option>
@@ -122,5 +121,6 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
         ?>
         </tbody>
     </table>
+    <input type="hidden" name="task" value="results.processdata">
     <?php echo HTMLHelper::_('form.token'); ?>
 </form>
