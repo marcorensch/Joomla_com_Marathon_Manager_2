@@ -202,8 +202,11 @@ class ResultsModel extends ListModel
                     }
                 }
                 if($column->dbColumn === 'category'){
-                    // comes as 1.D, 4.M etc. so we need to split it
+                    // SPECIAL CASE! >> TimeyBoy sends the category as 1.D, 4.M etc. so we need to split it BUT Women are listed as "D" and not "W"
                     $category = explode('.', $resultRow[$column->index]);
+                    if($category[1] === 'D'){
+                        $category[1] = 'W';
+                    }
                     // first part is the place in group
                     $rowForDb->place_in_group = intval($category[0]) ?: null;
                     // second part is the group ShortCode, so we need to get the group id

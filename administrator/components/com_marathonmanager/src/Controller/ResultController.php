@@ -21,13 +21,4 @@ class ResultController extends FormController
 	// Optional: Declare  view name
 	protected $view_list = 'results';
 	protected $default_view = 'result';
-
-    public function cancelImport(): void
-    {
-        error_log('Cancel Import');
-        // Cleanup User State Data
-        Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', []);
-        Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', 0);
-        $this->setRedirect(Route::_('index.php?option=com_marathonmanager&view=results', false));
-    }
 }

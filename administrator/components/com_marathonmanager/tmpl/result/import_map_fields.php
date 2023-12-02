@@ -42,7 +42,7 @@ $action = 'index.php?option=com_marathonmanager&view=result&layout=import_map_fi
     </div>
 </div>
 <form action="<?php echo $action;?>" method="post" name="adminForm" id="adminForm">
-    <div class="col-8 col-md-4 mb-4">
+    <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
                 <div class="control-group">
@@ -51,7 +51,8 @@ $action = 'index.php?option=com_marathonmanager&view=result&layout=import_map_fi
                     </div>
                     <div class="controls">
                         <select name="jform[main_import_trigger_column]" id="jform[main_import_trigger_column]"
-                                class="form-control">
+                                class="form-control"
+                                style="max-width: 400px;">
                             <?php for ($i = 0; $i < $countOfColumnsInLongestRow; $i++) {
                                 echo '<option value="' . $i . '">' . Text::sprintf("COM_MARATHONMANAGER_COLUMN_WITH_INDEX_LABEL", $columnAlphabetical[$i] . ' ('.($i+1).')') . '</option>';
                             } ?>
@@ -61,14 +62,11 @@ $action = 'index.php?option=com_marathonmanager&view=result&layout=import_map_fi
                         <small class="form-text"><?php echo Text::_("COM_MARATHONMANAGER_COLUMN_MAIN_IMPORT_TRIGGER_DESC"); ?></small>
                     </div>
                 </div>
-                <div class="control-group">
-                    <button type="reset" class="btn btn-danger" onclick="aufrufControllerMethode()">Cancel</button>
-                    <button type="submit" class="btn btn-success">Import Data</button>
-                </div>
             </div>
         </div>
         <input type="hidden" value="">
     </div>
+    <div class="col-12 mb-4" style="overflow-x:scroll">
     <table class="table table-striped table-hover">
         <thead>
         <tr>
@@ -121,6 +119,7 @@ $action = 'index.php?option=com_marathonmanager&view=result&layout=import_map_fi
         ?>
         </tbody>
     </table>
+    </div>
     <input type="hidden" name="task" value="results.processdata">
     <?php echo HTMLHelper::_('form.token'); ?>
 </form>

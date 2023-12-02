@@ -48,6 +48,7 @@ class HtmlView extends BaseHtmlView
                 $this->setLayout('import');
             }
             $this->addImportToolbar();
+
             parent::display($tpl);
             return;
         }
@@ -66,6 +67,11 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->input->set('hidemainmenu', true);
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_RESULTS_IMPORT'), 'fas fa-table');
         ToolbarHelper::cancel('result.cancel', 'JTOOLBAR_CANCEL');
+
+        if($this->getLayout() === 'import_map_fields'){
+            ToolbarHelper::custom('results.processdata', 'chevron-right','', 'COM_MARATHONMANAGER_RESULTS_PROCESS_DATA', false);
+        }
+
     }
 
 	protected function addDefaultToolbar(): void
