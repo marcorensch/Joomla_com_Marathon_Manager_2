@@ -24,7 +24,6 @@ $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder === 'a.ordering';
-
 ?>
 <form action="<?php echo $route ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
@@ -57,7 +56,7 @@ $saveOrder = $listOrder === 'a.ordering';
                             <th scope="col" style="width: 160px" class="">
                                 <?php echo '<span class="visually-hidden">' . Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_RESULT_LINK_TITLE') . '</span>'; ?>
                             </th>
-                            <th scope="col" style="min-width: 25%" class="">
+                            <th scope="col" style="min-width: 300px" class="">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_TITLE', 'a.team_name', $listDirn, $listOrder); ?>
                             </th>
 

@@ -65,7 +65,10 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::addNew('result.add');
         }
 
-        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
+        ToolbarHelper::cancel('results.cancelImport', 'JTOOLBAR_CANCEL');
+
+        // Show the batch buttons only if the layout is not import_map_fields
+        if ($user->authorise('core.edit.state', 'com_marathonmanager') && $this->getLayout() !== 'import_map_fields')
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')

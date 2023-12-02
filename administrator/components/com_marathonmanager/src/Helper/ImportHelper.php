@@ -14,6 +14,7 @@ namespace NXD\Component\MarathonManager\Administrator\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 class ImportHelper extends ComponentHelper
 {
@@ -74,6 +75,27 @@ class ImportHelper extends ComponentHelper
             if(!$row) unset($data[$key]);
         }
         return $data;
+    }
+
+    public static function getPublicAccessLevel(): int
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('id'))
+            ->from($db->quoteName('#__viewlevels'))
+            ->where($db->quoteName('title') . ' = ' . $db->quote('Public'));
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
+
+    public static function getGroupIds(): array
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('id'))
+            ->from($db->quoteName('#__com_marathonmanager_groups'));
+        $db->setQuery($query);
+        return $db->loadAssocList('shortcode');
     }
 
 }

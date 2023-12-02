@@ -15,7 +15,6 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use NXD\Component\Footballmanager\Administrator\Helper\ImportHelper;
 
 class ImportController extends FormController
 {

@@ -23,6 +23,17 @@ foreach ($this->importData as $row) {
     }
 }
 
+// create the table header
+$columnAlphabetical = [];
+$i = 0;
+for($x = 'A'; $x < 'ZZ'; $x++) {
+    $columnAlphabetical[] = $x;
+    $i++;
+    if($i == $countOfColumnsInLongestRow){
+        break;
+    }
+}
+
 $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=component&' . Session::getFormToken() . '=1'
 ?>
 <div class="row pb-4">
@@ -43,7 +54,7 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
                         <select name="jform[main_import_trigger_column]" id="jform[main_import_trigger_column]"
                                 class="form-control">
                             <?php for ($i = 0; $i < $countOfColumnsInLongestRow; $i++) {
-                                echo '<option value="' . $i . '">' . Text::sprintf("COM_MARATHONMANAGER_COLUMN_WITH_INDEX_LABEL", $i) . '</option>';
+                                echo '<option value="' . $i . '">' . Text::sprintf("COM_MARATHONMANAGER_COLUMN_WITH_INDEX_LABEL", $columnAlphabetical[$i] . ' ('.($i+1).')') . '</option>';
                             } ?>
                         </select>
                     </div>
@@ -52,7 +63,7 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
                     </div>
                 </div>
                 <div class="control-group">
-                    <button type="reset" class="btn btn-danger">Cancel</button>
+                    <button type="reset" class="btn btn-danger" onclick="return Joomla.task('results.cancelImport')">Cancel</button>
                     <button type="submit" class="btn btn-success">Import Data</button>
                 </div>
             </div>
@@ -62,10 +73,11 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <?php
             for ($colIndex = 0; $colIndex < $countOfColumnsInLongestRow; $colIndex++) {
-                echo "<th scope='col'>{$colIndex}</th>";
+                $colNumber = $colIndex + 1;
+                echo "<th scope='col' class='text-center'>{$columnAlphabetical[$colIndex]} ({$colNumber})</th>";
             } ?>
         </tr>
         </thead>
@@ -77,12 +89,14 @@ $action = 'index.php?option=com_marathonmanager&task=results.processdata&tmpl=co
             for ($colIndex = 0; $colIndex < $countOfColumnsInLongestRow; $colIndex++) {
                 echo "    <td style='min-width:50px'>
                                 <select name='jform[import_map][{$colIndex}]' class='form-control'>
-                                    <option value=''>- Select Mapping -</option>
-                                    <option value='place'>Place</option>
-                                    <option value='team_name'>Team Name</option>
-                                    <option value='category'>Category</option>
-                                    <option value='points_total'>Points Total</option>
-                                    <option value='time_total'>Time Total</option>
+                                    <option value=''>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_LABEL')."</option>
+                                    <option value='place'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_PLACE')."</option>
+                                    <option value='team_name'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TEAM_NAME')."</option>
+                                    <option value='team_number'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TEAM_NUMBER')."</option>
+                                    <option value='category'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_CATEGORY')."</option>
+                                    <option value='points_total'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_PTS_TOT')."</option>
+                                    <option value='time_total'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_TIME_TOT')."</option>
+                                    <option value='penalties'>".Text::_('COM_MARATHONMANAGER_SELECT_COLUMN_PENALTIES')."</option>
                                 </select> 
                          </td>";
             } ?>

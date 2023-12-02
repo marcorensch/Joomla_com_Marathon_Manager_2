@@ -19,6 +19,8 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Session\Session;
+use NXD\Component\MarathonManager\Administrator\Helper\ImportHelper;
+use NXD\Component\MarathonManager\Administrator\Helper\RegistrationHelper;
 
 // The use of the list model allows us to simply extend the list model and just ask for the data we need.
 
@@ -162,16 +164,9 @@ class ResultsModel extends ListModel
     private function prepareData($fileData, $columns, $importTriggerColumn, $eventId):array
     {
         // Get the public access level.
-
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
-        $query->select($db->quoteName('id'))
-            ->from($db->quoteName('#__viewlevels'))
-            ->where($db->quoteName('title') . ' = ' . $db->quote('Public'));
-        $db->setQuery($query);
-        $publicAccessId = $db->loadResult();
-
-        error_log('Public Access ID: ' . $publicAccessId);
+        $publicAccessId = ImportHelper::getPublicAccessLevel() ?: null;
+        // Group Id's
+        $groupIds = ImportHelper::getGroupIds();
 
         $dataToStore = [];
         // Loop over data
@@ -194,7 +189,12 @@ class ResultsModel extends ListModel
                     }
                 }
                 if($column->dbColumn === 'category'){
-                    continue; // @TODO: Implement Category handling
+                    // comes as 1.D, 4.M etc. so we need to split it
+                    $category = explode('.', $resultRow[$column->index]);
+                    // first part is the place in group
+                    $rowForDb->place_in_group = intval($category[0]) ?: null;
+                    // second part is the group ShortCode, so we need to get the group id
+                    $rowForDb->group_id = ArrayHelper::getValue($groupIds, $category[1]) ?: null;
                 }
                 // all other columns
                 if(trim($resultRow[$column->index])){
@@ -204,6 +204,8 @@ class ResultsModel extends ListModel
             $rowForDb->event_id = $eventId;
             $rowForDb->access = $publicAccessId;
             $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
+            $rowForDb->created_by = Factory::getApplication()->getIdentity()->id;
+            $rowForDb->created = Factory::getDate()->toSql();
             $dataToStore[] = $rowForDb;
         }
         return $dataToStore;

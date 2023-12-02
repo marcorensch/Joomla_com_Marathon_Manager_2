@@ -132,6 +132,7 @@ class ResultsController extends AdminController
     }
 
     public function cancelImport(){
+        error_log('Cancel Import');
         // Cleanup User State Data
         Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', []);
         Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', 0);
