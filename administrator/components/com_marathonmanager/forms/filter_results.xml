@@ -25,6 +25,24 @@
         >
             <option value="">COM_MARATHONMANAGER_FILTER_EVENT_FILTER_LABEL</option>
         </field>
+        <field name="parcours_id"
+               type="courses"
+               label="COM_MARATHONMANAGER_FIELD_COURSE_LABEL"
+               multiple="false"
+               direction="desc"
+               onchange="this.form.submit();"
+        >
+            <option value="">COM_MARATHONMANAGER_FILTER_COURSE_FILTER_LABEL</option>
+        </field>
+        <field name="group_id"
+               type="groups"
+               label="COM_MARATHONMANAGER_FIELD_GROUP_LABEL"
+               multiple="false"
+               direction="desc"
+               onchange="this.form.submit();"
+        >
+            <option value="">COM_MARATHONMANAGER_FILTER_GROUP_FILTER_LABEL</option>
+        </field>
     </fields>
     <fields name="list">
         <field

@@ -54,7 +54,7 @@ $saveOrder = $listOrder === 'a.ordering';
                             <th scope="col" style="width: 1%" class="text-center">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_PLACE_TITLE', 'a.place', $listDirn, $listOrder); ?>
                             </th>
-                            <th scope="col" style="width: 160px" class="">
+                            <th scope="col" style="min-width: 120px" class="">
                                 <?php echo '<span class="visually-hidden">' . Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_RESULT_LINK_TITLE') . '</span>'; ?>
                             </th>
                             <th scope="col" style="min-width: 300px" class="">
@@ -63,6 +63,14 @@ $saveOrder = $listOrder === 'a.ordering';
 
                             <th scope="col" style="min-width:25%; width:20%" class="">
                                 <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_EVENT_TITLE'); ?>
+                            </th>
+
+                            <th scope="col" style="min-width:15%;" class="">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_COURSE_TITLE'); ?>
+                            </th>
+
+                            <th scope="col" style="min-width:15%;" class="">
+                                <?php echo Text::_('COM_MARATHONMANAGER_TABLE_TABLEHEAD_GROUP_TITLE'); ?>
                             </th>
 
                             <th scope="col" style="width: 10%" class="d-none d-xl-table-cell">
@@ -124,6 +132,12 @@ $saveOrder = $listOrder === 'a.ordering';
                                        title="<?php echo Text::_('COM_MARATHONMANAGER_EDIT_EVENT')?>">
                                         <?php echo $this->escape($item->event_name); ?>
                                     </a>
+                                </td>
+                                <td>
+                                    <?php echo $this->escape($item->parcours_title); ?>
+                                </td>
+                                <td>
+                                    <?php echo $this->escape($item->group_title); ?>
                                 </td>
                                 <td class="small d-none d-xl-table-cell text-center">
                                     <?php echo $item->access_level; ?>

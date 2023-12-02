@@ -59,8 +59,8 @@ class ResultsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-                ['a.id','a.team_name','a.team_id','a.group_id', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
-                ['id','team_name','team_id','group_id', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
+                ['a.id','a.team_name','a.team_id','g.title','p.title', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
+                ['id','team_name','team_id','group_title','parcours_title', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
             )
 		);
 		// From the table
@@ -68,6 +68,12 @@ class ResultsModel extends ListModel
 
         // Join over the event
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_events', 'e') . ' ON ' . $db->quoteName('a.event_id') . ' = ' . $db->quoteName('e.id'));
+
+        // Join over the group
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_groups', 'g') . ' ON ' . $db->quoteName('a.group_id') . ' = ' . $db->quoteName('g.id'));
+
+        // Join over the parcours
+        $query->join('LEFT', $db->quoteName('#__com_marathonmanager_courses', 'p') . ' ON ' . $db->quoteName('a.parcours_id') . ' = ' . $db->quoteName('p.id'));
 
         // Join over the asset groups
         $query->select($db->quoteName('ag.title','access_level'))
@@ -96,6 +102,20 @@ class ResultsModel extends ListModel
         if (is_numeric($eventId))
         {
             $query->where($db->quoteName('a.event_id') . ' = ' . (int) $eventId);
+        }
+
+        // Filter by parcours id
+        $parcoursId = $this->getState('filter.parcours_id');
+        if(is_numeric($parcoursId))
+        {
+            $query->where($db->quoteName('a.parcours_id') . ' = ' . (int) $parcoursId);
+        }
+
+        // Filter by group id
+        $groupId = $this->getState('filter.group_id');
+        if(is_numeric($groupId))
+        {
+            $query->where($db->quoteName('a.group_id') . ' = ' . (int) $groupId);
         }
 
         // Filter by search title
