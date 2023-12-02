@@ -47,7 +47,10 @@ class HtmlView extends BaseHtmlView
                 $this->setLayout('import_map_fields');
             }else{
                 Factory::getApplication()->enqueueMessage(Text::_('COM_MARATHONMANAGER_RESULTS_IMPORT_NO_DATA'), 'warning');
+                //Redirect to import view
                 $this->setLayout('import');
+                parent::display($tpl);
+                return;
             }
             $this->addImportToolbar();
 

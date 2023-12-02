@@ -27,13 +27,6 @@ class ResultTable extends Table
 		parent::__construct('#__com_marathonmanager_results', 'id', $db);
 	}
 
-	public function generateAlias(): string
-	{
-		$this->alias = ApplicationHelper::stringURLSafe($this->team_name);
-
-		return $this->alias;
-	}
-
 	/**
 	 * @throws \Exception
 	 */

@@ -24,6 +24,7 @@ $canChange = true;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder === 'a.ordering';
+
 ?>
 <form action="<?php echo $route ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">

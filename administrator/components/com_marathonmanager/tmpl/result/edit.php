@@ -55,6 +55,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
             </div>
             <div class="col-lg-4">
                 <?php echo $this->getForm()->renderField('event_id'); ?>
+                <?php echo $this->getForm()->renderField('parcours_id'); ?>
                 <?php echo $this->getForm()->renderField('group_id'); ?>
                 <?php echo $this->getForm()->renderField('place_in_group'); ?>
             </div>

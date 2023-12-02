@@ -67,7 +67,7 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
 
 	protected function prepareTable($table)
 	{
-		$table->generateAlias();
+
 	}
 
     public function save($data)
@@ -92,19 +92,6 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
             if ($app->isClient('site'))
             {
                 $origTable->load($input->getInt('a_id'));
-
-                if ($origTable->title === $data['team_name'])
-                {
-                    /**
-                     * If title of article is not changed, set alias to original article alias so that Joomla! will generate
-                     * new Title and Alias for the copied article
-                     */
-                    $data['alias'] = $origTable->alias;
-                }
-                else
-                {
-                    $data['alias'] = '';
-                }
             }
             else
             {
@@ -113,41 +100,8 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
 
             if ($data['title'] == $origTable->title)
             {
-                list($title, $alias) = $this->generateNewTitle(null, $data['alias'], $data['team_name']);
+                list($title, $alias) = $this->generateNewTitle(null, '', $data['team_name']);
                 $data['team_name'] = $title;
-                $data['alias'] = $alias;
-            }
-            elseif ($data['alias'] == $origTable->alias)
-            {
-                $data['alias'] = '';
-            }
-        }
-
-        // Automatic handling of alias for empty fields
-        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && $data['alias'] == null)
-        {
-            if ($app->get('unicodeslugs') == 1)
-            {
-                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['team_name']);
-            }
-            else
-            {
-                $data['alias'] = OutputFilter::stringURLSafe($data['team_name']);
-            }
-
-            $table = $this->getTable();
-
-            if ($table->load(['alias' => $data['alias']]))
-            {
-                $msg = Text::_('COM_MARATHONMANAGER_SAVE_WARNING');
-            }
-
-            list($title, $alias) = $this->generateNewTitle(null, $data['alias'], $data['team_name']);
-            $data['alias'] = $alias;
-
-            if (isset($msg))
-            {
-                $app->enqueueMessage($msg, 'warning');
             }
         }
 

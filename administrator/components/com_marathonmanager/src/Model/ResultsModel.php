@@ -169,6 +169,8 @@ class ResultsModel extends ListModel
         $publicAccessId = ImportHelper::getPublicAccessLevel() ?: null;
         // Group Id's
         $groupIds = ImportHelper::getGroupIds();
+        $parcoursIds = ImportHelper::getParcourIds();
+        error_log('Parcours Ids: ' . print_r($parcoursIds, true));
 
         $dataToStore = [];
         // Loop over data
@@ -199,7 +201,7 @@ class ResultsModel extends ListModel
                     // first part is the place in group
                     $rowForDb->place_in_group = intval($category[0]) ?: null;
                     // second part is the group ShortCode, so we need to get the group id
-                    $rowForDb->group_id = $groupIds[$category[1]]->group_id ?: null;
+                    $rowForDb->group_id = $groupIds[$category[1]]->id ?: null;
                 }
                 // all other columns
                 if(trim($resultRow[$column->index])){
@@ -208,8 +210,14 @@ class ResultsModel extends ListModel
             }
             $rowForDb->event_id = $eventId;
             $rowForDb->access = $publicAccessId;
+            // Map the team based on the team name with the registration
             if(isset($rowForDb->team_name)){
                 $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
+            }
+            // Set the parcours id based on the Start number 5xx means parcours with id 5 3xx means parcours with id 3, ...
+            if(isset($rowForDb->start_number)) {
+                $parcoursNumber = substr($rowForDb->start_number, 0, 1);
+                $rowForDb->parcours_id = $parcoursIds[$parcoursNumber]->id ?: null;
             }
             $rowForDb->created_by = Factory::getApplication()->getIdentity()->id;
             $rowForDb->created = Factory::getDate()->toSql();

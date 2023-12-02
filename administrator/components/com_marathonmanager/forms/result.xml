@@ -39,6 +39,14 @@
            direction="desc"
            layout="joomla.form.field.list-fancy-select"
     />
+    <field name="parcours_id"
+           type="courses"
+           label="COM_MARATHONMANAGER_FIELD_COURSE_LABEL"
+           required="true"
+           multiple="false"
+           direction="desc"
+           layout="joomla.form.field.list-fancy-select"
+    />
     <field name="group_id"
            type="groups"
            label="COM_MARATHONMANAGER_FIELD_GROUP_LABEL"

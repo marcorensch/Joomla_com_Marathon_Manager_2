@@ -92,10 +92,20 @@ class ImportHelper extends ComponentHelper
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
-        $query->select($db->quoteName(['shortcode','group_id']))
+        $query->select($db->quoteName(['shortcode','id']))
             ->from($db->quoteName('#__com_marathonmanager_groups'));
         $db->setQuery($query);
         return $db->loadObjectList('shortcode');
+    }
+
+    public static function getParcourIds(): array
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(['course_id','id']))
+            ->from($db->quoteName('#__com_marathonmanager_courses'));
+        $db->setQuery($query);
+        return $db->loadObjectList('course_id');
     }
 
 }
