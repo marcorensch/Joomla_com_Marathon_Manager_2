@@ -40,13 +40,23 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'base']); ?>
 
+
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'base', Text::_('COM_MARATHONMANAGER_DETAILS_TAB_TITLE')); ?>
         <div class="row">
             <div class="col-lg-4">
-                <?php echo $this->getForm()->renderField('group_id'); ?>
+                <?php echo $this->getForm()->renderField('place'); ?>
+                <?php echo $this->getForm()->renderField('team_name'); ?>
+                <?php echo $this->getForm()->renderField('start_number'); ?>
             </div>
             <div class="col-lg-4">
-                <?php echo $this->getForm()->renderField('max_participants'); ?>
+                <?php echo $this->getForm()->renderField('time_total'); ?>
+                <?php echo $this->getForm()->renderField('points_total'); ?>
+                <?php echo $this->getForm()->renderField('penalties'); ?>
+            </div>
+            <div class="col-lg-4">
+                <?php echo $this->getForm()->renderField('event_id'); ?>
+                <?php echo $this->getForm()->renderField('group_id'); ?>
+                <?php echo $this->getForm()->renderField('place_in_group'); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
