@@ -30,10 +30,7 @@ class EventRenderHelper {
      */
     public static function createMenuOptions($event):array {
 
-        error_log(print_r($event,true));
         // Check if the results object is empty
-        error_log(var_export(!empty($event->result_files),true));
-        error_log(var_export(count((array)$event->result_files) > 0,true));
         $hasResultFiles = !empty($event->result_files) && count((array)$event->result_files) > 0;
         $currentView = Factory::getApplication()->getInput()->get('view', 'event', 'cmd');
 

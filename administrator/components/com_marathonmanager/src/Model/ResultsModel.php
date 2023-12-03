@@ -232,7 +232,7 @@ class ResultsModel extends ListModel
             $rowForDb->access = $publicAccessId;
             // Map the team based on the team name with the registration
             if(isset($rowForDb->team_name)){
-                $rowForDb->team_id = $this->getTeamIdFromRegistration($rowForDb->team_name, $eventId) ?: null;
+                $rowForDb->registration_id = $this->getRegistrationId($rowForDb->team_name, $eventId) ?: null;
             }
             // Set the parcours id based on the Start number 5xx means parcours with id 5 3xx means parcours with id 3, ...
             if(isset($rowForDb->start_number)) {
@@ -246,7 +246,7 @@ class ResultsModel extends ListModel
         return $dataToStore;
     }
 
-    private function getTeamIdFromRegistration($teamName, $eventId): int
+    private function getRegistrationId($teamName, $eventId): int
     {
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
