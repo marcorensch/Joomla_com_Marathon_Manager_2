@@ -118,7 +118,7 @@ class ResultsModel extends ListModel
             $query->where($db->quoteName('a.group_id') . ' = ' . (int) $groupId);
         }
 
-        // Filter by search title
+        // Filter by search team name
         $search = $this->getState('filter.search');
         if (!empty($search))
         {
