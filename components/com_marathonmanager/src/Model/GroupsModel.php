@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_marathonmanager
+ * @copyright   Copyright (c) 2023 NXD | nx-designs
+ *              All rights reserved
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace NXD\Component\MarathonManager\Site\Model;
+
+\defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use NXD\Component\MarathonManager\Site\Model\RegistrationModel;
+
+/**
+ * (DB) Courses Model
+ *
+ * @since  1.0.0
+ */
+class GroupsModel extends BaseDatabaseModel
+{
+    public function getGroups()
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->select($db->quoteName(['a.id', 'a.title','a.shortcode']))
+            ->from($db->quoteName('#__com_marathonmanager_groups', 'a'))
+            ->where($db->quoteName('a.published') . ' = 1');
+
+        $db->setQuery($query);
+        $items = $db->loadObjectList('id');
+
+        return $items;
+    }
+
+}

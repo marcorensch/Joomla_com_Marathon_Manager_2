@@ -6,14 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_marathonmanager.rule-letters-only",
-      "type": "script",
-      "uri": "com_marathonmanager/rule-letters-only.js",
-      "dependencies": [
-        "core"
-      ]
-    },
-    {
       "name": "com_marathonmanager.rule-checked",
       "type": "script",
       "uri": "com_marathonmanager/rule-checked.js",
@@ -48,6 +40,18 @@
       "version": "1"
     },
     {
+      "name": "com_marathonmanager.results-filter",
+      "type": "script",
+      "uri": "com_marathonmanager/results-filter.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "1"
+    },
+    {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
       "uri": "com_marathonmanager/form-edit.css"
@@ -56,6 +60,11 @@
       "name": "com_marathonmanager.gallery-css",
       "type": "style",
       "uri": "com_marathonmanager/gallery.css"
+    },
+    {
+      "name": "com_marathonmanager.results-table",
+      "type": "style",
+      "uri": "com_marathonmanager/results-table.css"
     }
   ]
 }

@@ -1,0 +1,36 @@
+a span.nxd-team-name,
+span.nxd-team-name {
+    color: rgba(0,0,0,0.7);
+    font-size: 1.1rem;
+    font-weight: bolder;
+}
+.uk-table-striped tbody tr{
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.filtered-hidden{
+    display: none !important;
+}
+
+.nxd-table-middle{
+    background-color: #f8f8f8;
+}
+
+button#reset-filter-btn.uk-disabled{
+    opacity: .2;
+}
+
+ul.uk-accordion.nxd-result-accordion{
+    margin-bottom:0;
+}
+
+span.nxd-result-detail-title{
+    font-weight: bolder;
+    color: rgba(0,0,0,0.6);
+}
+
+span.nxd-not-classified{
+    font-weight: bolder;
+    color: rgba(0,0,0,0.5);
+}

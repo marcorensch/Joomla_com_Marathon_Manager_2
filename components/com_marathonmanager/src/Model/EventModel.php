@@ -80,4 +80,15 @@ class EventModel extends BaseDatabaseModel
         return $resultsModel->getResults($eventId);
     }
 
+    public function getCourses()
+    {
+        $coursesModel = new CoursesModel();
+        return $coursesModel->getCourses();
+    }
+
+    public function getGroups()
+    {
+        $groupsModel = new GroupsModel();
+        return $groupsModel->getGroups();
+    }
 }
