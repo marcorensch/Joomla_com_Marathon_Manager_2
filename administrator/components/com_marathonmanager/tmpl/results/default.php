@@ -111,9 +111,9 @@ $saveOrder = $listOrder === 'a.ordering';
                                     </a>
                                 </td>
                                 <td class="has-context">
-                                    <?php if($item->team_id):?>
+                                    <?php if(isset($item->registration_id)):?>
                                     <a class="hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=registration.edit&id=' . (int)$item->team_id); ?>"
+                                       href="<?php echo Route::_('index.php?option=com_marathonmanager&task=registration.edit&id=' . (int)$item->registration_id); ?>"
                                        target="_blank"
                                        title="<?php echo Text::_('COM_MARATHONMANAGER_EDIT_REGISTRATION')?>">
                                         <?php echo $this->escape($item->team_name); ?>

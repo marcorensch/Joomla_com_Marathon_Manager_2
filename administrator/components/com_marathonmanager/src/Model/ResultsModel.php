@@ -59,8 +59,8 @@ class ResultsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-                ['a.id','a.team_name','a.team_id','g.title','p.title', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
-                ['id','team_name','team_id','group_title','parcours_title', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
+                ['a.id','a.team_name','a.registration_id','g.title','p.title', 'a.published', 'a.place','a.place_msg','a.event_id', 'e.title', 'e.event_date'],
+                ['id','team_name','registration_id','group_title','parcours_title', 'published', 'place','place_msg','event_id', 'event_name', 'event_date']
             )
 		);
 		// From the table
