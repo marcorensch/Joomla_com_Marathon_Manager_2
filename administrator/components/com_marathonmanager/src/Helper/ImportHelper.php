@@ -20,10 +20,12 @@ class ImportHelper extends ComponentHelper
 {
     protected $file = null;
     protected $data = [];
+    protected $params = null;
 
-    public function __construct($file)
+    public function __construct($file, $params)
     {
         $this->file = $file;
+        $this->params = $params;
     }
 
     public function import(): mixed
@@ -60,12 +62,13 @@ class ImportHelper extends ComponentHelper
     {
         $data = [];
         $rowCounter = 0;
+        $divider = $this->params['divider'] ?: ';';
         if (!mb_check_encoding(file_get_contents($file), 'UTF-8')){
             Factory::getApplication()->enqueueMessage(Text::_("COM_MARATHONMANAGER_FILE_NOT_UTF8_ERROR"), 'error');
             return $data;
         }
         if (($handle = fopen($file, "r")) !== FALSE) {
-            while (($data[] = fgetcsv($handle, 0, ";")) !== FALSE) {
+            while (($data[] = fgetcsv($handle, 0, $divider)) !== FALSE) {
                 $rowCounter++;
             }
             fclose($handle);

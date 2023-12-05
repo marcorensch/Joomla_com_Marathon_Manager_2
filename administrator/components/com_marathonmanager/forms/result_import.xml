@@ -22,5 +22,9 @@
                 size="20"
                 required="true"
         />
+        <field
+                name="divider" type="text" default=";" required="true"
+                label="COM_MARATHONMANAGER_FIELD_UPLOAD_CSV_DIVIDER_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_UPLOAD_CSV_DIVIDER_DESC"/>
     </fieldset>
 </form>

@@ -12,6 +12,7 @@ namespace NXD\Component\MarathonManager\Site\View\Event;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
@@ -32,6 +33,7 @@ class HtmlView extends BaseHtmlView
         $this->parcours = $this->get('Courses');
         $this->categories = $this->get('Groups');
         $this->results = $this->get('Results');
+        $this->params = Factory::getApplication()->getParams();
 
 
         if ($this->item) {

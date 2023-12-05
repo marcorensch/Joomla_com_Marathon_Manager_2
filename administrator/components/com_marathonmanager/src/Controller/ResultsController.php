@@ -78,7 +78,7 @@ class ResultsController extends AdminController
 //			move_uploaded_file($tmpFilePath, $destinationPath);
 
             // ... Process the uploaded file further as needed ...
-            $importHelper = new ImportHelper($file);
+            $importHelper = new ImportHelper($file, $data);
             $dataset = $importHelper->import();
             $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ROWS_PARSED', count($dataset) ), 'notice');
 //            echo '<pre>' . print_r($dataset, true) . '</pre>';

@@ -134,7 +134,10 @@ function getFileIcon($file, $fileRootPath): string
 
             </div>
             <table id="results-table" class="uk-table uk-table-striped uk-table-hover uk-overflow-hidden"
-                   uk-scrollspy="target: tr; delay:80; cls: uk-animation-fade">
+                <?php if($this->params->get('show_results_table_scrollspy',0)): ?>
+                   uk-scrollspy="target: tr; delay:80; cls: uk-animation-fade"
+                <?php endif; ?>>
+            >
                 <thead>
                 <tr>
                     <th class="uk-text-center"><?php echo Text::_("COM_MARATHONMANAGER_LABEL_PLACE"); ?></th>
@@ -147,7 +150,10 @@ function getFileIcon($file, $fileRootPath): string
                 </tr>
                 </thead>
                 <tbody id="results-table-body"
-                       uk-scrollspy="target: >tr>td; delay:20; cls: uk-animation-slide-left-small">
+                       <?php if($this->params->get('show_results_table_scrollspy',0)): ?>
+                           uk-scrollspy="cls: uk-animation-slide-left-small uk-animation-fast"
+                       <?php endif; ?>>
+                       >
                 <?php foreach ($this->results as $result):
                     // Add some extra data to the result object for use in the layout
                     $result->parcours_title = isset($this->parcours[$result->parcours_id]) ? $this->parcours[$result->parcours_id]->title : '';

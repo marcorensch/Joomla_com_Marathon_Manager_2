@@ -37,6 +37,13 @@
         <field name="contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_CONTACT_EMAIL_LABEL" default=""/>
         <field name="registration_contact_email" type="email" label="COM_MARATHONMANAGER_CONFIG_REG_CONTACT_EMAIL_LABEL"
                default=""/>
+        <field name="show_results_table_scrollspy" default="0" type="radio" layout="joomla.form.field.radio.switcher"
+               label="COM_MARATHONMANAGER_CONFIG_SHOW_RESULTS_TABLE_SCROLLSPY_LABEL"
+               description="COM_MARATHONMANAGER_CONFIG_SHOW_RESULTS_TABLE_SCROLLSPY_DESC"
+            >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     </fieldset>
     <fieldset
             name="registrations"
