@@ -19,7 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
-use NXD\Component\MarathonManager\Administrator\Helper\RegistrationHelper;
+use NXD\Component\MarathonManager\Site\Helper\RegistrationHelper;
 use NXD\Component\MarathonManager\Administrator\Model\NewsletterModel;
 
 class RegistrationModel extends FormModel
@@ -167,8 +167,8 @@ class RegistrationModel extends FormModel
         }
 
         $registration->participants = json_decode($registration->participants);
-        $registration->course = $this->getCourse($registration->course_id);
-        $registration->group = $this::getGroup($registration->group_id);
+        $registration->course = RegistrationHelper::getCourse($registration->course_id);
+        $registration->group = RegistrationHelper::getGroup($registration->group_id);
 
         $registration->paymentInformation = RegistrationHelper::getPaymentInformation($registration->event_id, $registration->created);
 
@@ -381,27 +381,5 @@ class RegistrationModel extends FormModel
         }
 
         return $data['alias'];
-    }
-
-    private function getCourse($course_id)
-    {
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
-        $query->select('a.*')
-            ->from($db->quoteName('#__com_marathonmanager_courses', 'a'))
-            ->where($db->quoteName('a.id') . ' = ' . $db->quote($course_id));
-        $db->setQuery($query);
-        return $db->loadObject();
-    }
-
-    private function getGroup($group_id)
-    {
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
-        $query->select('a.*')
-            ->from($db->quoteName('#__com_marathonmanager_groups', 'a'))
-            ->where($db->quoteName('a.id') . ' = ' . $db->quote($group_id));
-        $db->setQuery($query);
-        return $db->loadObject();
     }
 }

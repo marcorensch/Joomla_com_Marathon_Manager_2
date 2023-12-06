@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 $params = $app->getParams();
-$tableHeaderCellClasses = 'uk-table-shrink uk-text-nowrap';
 
 // Check access to ressource
 $user = Factory::getApplication()->getIdentity();
@@ -28,6 +27,9 @@ if($this->registration->created_by != $user->id){
     $app->enqueueMessage(Text::_("COM_MARATHONMANAGER_REGISTRATION_NOT_AUTHORIZED"), 'error');
     $app->redirect(Route::_('index.php?option=com_marathonmanager&view=events', false));
 }
+
+$tableHeaderCellClasses = 'uk-table-shrink uk-text-nowrap';
+
 
 // Mail us
 $subject = str_replace(' ', "%20", Text::sprintf("COM_MARATHONMANAGER_REGISTRATION_REQ_EMAIL_SUBJECT",$this->registration->team_name, $this->event->title ));
@@ -41,6 +43,7 @@ $icon = $this->registration->payment_status ? 'fa-check-square' : 'fa-times-circ
 $color = $this->registration->payment_status ? 'green' : '#47070c' ;
 $paymentMsgKey = $this->registration->payment_status ? Text::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_PAYED') : TEXT::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_NOT_PAYED');
 
+$paymentLayout = new FileLayout('event-payment-layout', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 echo $eventHeader->render(compact('event'));
 
@@ -123,155 +126,11 @@ echo $eventHeader->render(compact('event'));
 </section>
 
 <section id="payment-block" class="uk-margin-top" uk-margin>
-    <div class="uk-card uk-card-default">
+    <?php
 
-        <div class="uk-grid uk-flex-middle">
-            <div class="uk-width-1-2@s uk-width-1-4@m">
-                <div>
-                    <?php echo HTMLHelper::image($this->registration->paymentInformation->qr_bank, 'QR Code Bank', array('class' => 'uk-width-1-1 uk-padding-small')); ?>
-                </div>
-            </div>
-            <div class="uk-width-expand">
-                <div class="uk-card-body">
-                    <h3 class="uk-card-title"><?php echo Text::_("COM_MARATHONMANAGER_BANK_PAYMENT_INFO_TITLE"); ?></h3>
-                    <table class="uk-table uk-table-small uk-table-divider">
-                        <?php if (!empty($this->registration->paymentInformation->bankingInformation->recipient)) : ?>
-                            <tr>
-                                <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                    <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_RECIPIENT_LABEL"); ?>
-                                </th>
-                                <td class="uk-width-expand">
-                                <span>
-                                    <?php echo $this->registration->paymentInformation->bankingInformation->recipient ?? ""; ?>
-                                </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <?php if (!empty($this->registration->paymentInformation->bankingInformation->bank_name)) : ?>
-                            <tr>
-                                <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                    <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_BANK_NAME_LABEL"); ?>
-                                </th>
-                                <td>
-                                <span>
-                                    <?php echo $this->registration->paymentInformation->bankingInformation->bank_name ?? ""; ?>
-                                </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <?php if (!empty($this->registration->paymentInformation->bankingInformation->account_number)) : ?>
-                            <tr>
-                                <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                    <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_ACC_NUM_LABEL"); ?>
-                                </th>
-                                <td>
-                                <span>
-                                    <?php echo $this->registration->paymentInformation->bankingInformation->account_number ?? ""; ?>
-                                </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <?php if (!empty($this->registration->paymentInformation->bankingInformation->iban)) : ?>
-                            <tr>
-                                <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                    <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_IBAN_LABEL"); ?>
-                                </th>
-                                <td>
-                                <span>
-                                    <?php echo $this->registration->paymentInformation->bankingInformation->iban ?? ""; ?>
-                                </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <?php if (!empty($this->registration->paymentInformation->bankingInformation->bic)) : ?>
-                            <tr>
-                                <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                    <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_BIC_LABEL"); ?>
-                                </th>
-                                <td>
-                                <span>
-                                    <?php echo $this->registration->paymentInformation->bankingInformation->bic ?? ""; ?>
-                                </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <tr>
-                            <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_REFERENCE_LABEL"); ?>
-                            </th>
-                            <td>
-                                <span>
-                                    <?php echo $this->registration->reference ?? ""; ?>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FEE_LABEL"); ?>
-                            </th>
-                            <td>
-                                <span class="uk-text-bold">
-                                    <?php echo Text::sprintf("COM_MARATHONMANAGER_REGISTRATION_FEE_PRICE", number_format((float)$this->registration->registration_fee, 2, '.')) ?? ""; ?>
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="uk-padding">
-        <div class="uk-grid-small uk-child-width-expand uk-flex-middle" uk-grid>
-            <div>
-                <hr>
-            </div>
-            <div class="uk-width-auto">
-                <div class="uk-heading-medium uk-text-uppercase uk-padding uk-padding-remove-vertical uk-margin-remove">
-                    <?php echo Text::_("COM_MARATHONMANAGER_OR"); ?>
-                </div>
-            </div>
-            <div>
-                <hr>
-            </div>
-        </div>
-    </div>
-    <div class="uk-card uk-card-default">
-        <div class="uk-grid uk-flex-middle">
-            <div class="uk-width-1-2@s uk-width-1-4@m">
-                <div>
-                    <?php echo HTMLHelper::image($this->registration->paymentInformation->qr_twint, 'QR Code Twint', array('class' => 'uk-width-1-1 uk-padding-small')); ?>
-                </div>
-            </div>
-            <div class="uk-width-expand">
-                <div class="uk-card-body">
-                    <h3 class="uk-card-title"><?php echo Text::_("COM_MARATHONMANAGER_TWINT_PAYMENT_INFO_TITLE"); ?></h3>
-                    <div><?php echo Text::_('COM_MARATHONMANAGER_TWINT_PAYMENT_DESCRIPTION'); ?></div>
-                    <table class="uk-table uk-table-small uk-table-divider">
-                        <tr>
-                            <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_REFERENCE_MSG_LABEL"); ?>
-                            </th>
-                            <td>
-                                <span>
-                                    <?php echo $this->registration->reference ?? ""; ?>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="<?php echo $tableHeaderCellClasses; ?>">
-                                <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FEE_LABEL"); ?>
-                            </th>
-                            <td>
-                                <span class="uk-text-bold">
-                                    <?php echo Text::sprintf("COM_MARATHONMANAGER_REGISTRATION_FEE_PRICE", number_format((float)$this->registration->registration_fee, 2, '.')) ?? ""; ?>
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    $registration = $this->registration;
+    $config = ['container_class' => 'uk-card uk-card-default'];
+    echo $paymentLayout->render(compact('registration', 'config'));
+    ?>
 
 </section>

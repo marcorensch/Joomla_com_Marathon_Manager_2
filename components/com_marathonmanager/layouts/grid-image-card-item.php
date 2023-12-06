@@ -11,6 +11,7 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Date\Date;
 
@@ -18,6 +19,9 @@ use Joomla\CMS\Date\Date;
 $item = $displayData['item'];
 $params = $displayData['params'];
 $cardClasses = $params->get('element_cls', '') ?: '';
+
+$dateLayout = new FileLayout('event-date-layout', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+
 
 $previewAspectRatio = explode(':', $params->get('preview_aspect_ratio', '16:9'));
 $previewAspectRatio[0] = $previewAspectRatio[0] * 10000;
@@ -92,19 +96,7 @@ CSS
             <div class="uk-position-cover nxd-event-details-background"></div>
             <h3 class="nxd-event-title"><?php echo $item->title; ?></h3>
             <div class="uk-text-small uk-text-truncate">
-                <?php if($item->event_duration > 1):
-                    $languageConstant = ($item->event_duration > 2) ? "COM_MARATHONMANAGER_EVENT_DATE_FROM_TO_MULTIPLE" : "COM_MARATHONMANAGER_EVENT_DATE_FROM_TO";
-                    $startDate = new Date($item->event_date);
-                    $endDate =  new Date($startDate . '+' . $item->event_duration-1 . ' day');
-                    $dateString = Text::sprintf($languageConstant, HTMLHelper::date($startDate, 'd.'), HTMLHelper::date($endDate, 'DATE_FORMAT_LC3'));
-                    ?>
-                    <span class="nxd-event-date nxd-multiple-days-event"><?php echo $dateString ?></span>
-                <?php else:?>
-                <span class="nxd-event-date"><?php
-                    echo Text::sprintf("COM_MARATHONMANAGER_EVENT_DATE_AT" , HTMLHelper::date($item->event_date, 'DATE_FORMAT_LC3'));
-                    ?>
-                </span>
-                <?php endif; ?>
+                <?php echo $dateLayout->render(compact('item')); ?>
             </div>
         </div>
 
