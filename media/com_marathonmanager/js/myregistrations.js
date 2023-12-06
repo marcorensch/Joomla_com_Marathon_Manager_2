@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-<<<<<<< HEAD
-    console.log('DOM loaded')
-=======
->>>>>>> b6bb91b (Added Animation for My registration elements)
     const registrations = document.querySelectorAll('.registration-card');
     registrations.forEach(function (registration) {
         const registrationHeader = registration.querySelector('.nxd-registration-header');
