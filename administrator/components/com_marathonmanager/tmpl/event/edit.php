@@ -24,8 +24,8 @@ $input = $app->input;
 $this->useCoreUI = true;
 
 $wa->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('com_marathonmanager.rule-letters-only');
+    ->useScript('form.validate');
+
 $wa->addInlineStyle('.control-group .control-label{width:100%;} .control-group .controls{min-width:10px}');
 $wa->addInlineScript('
 // Add Eventlistener for Row Add - Subform needs to have class "nxd-external-table"

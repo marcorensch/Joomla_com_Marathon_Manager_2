@@ -22,3 +22,7 @@
     cursor: pointer;
     background:#fff;
 }
+
+.uk-table.nxd-table-top th{
+    vertical-align: top;
+}
