@@ -1,0 +1,24 @@
+.pulsing{
+    animation: pulsing 2s infinite;
+    -webkit-animation: pulsing 2s infinite;
+    -moz-animation: pulsing 2s infinite;
+    -o-animation: pulsing 2s infinite;
+}
+
+@keyframes pulsing {
+    0% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+.uk-card-header.nxd-registration-header{
+    border-bottom: none !important;
+    cursor: pointer;
+    background:#fff;
+}

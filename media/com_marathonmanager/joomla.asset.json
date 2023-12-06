@@ -52,6 +52,18 @@
       "version": "1"
     },
     {
+      "name": "com_marathonmanager.my-registrations-js",
+      "type": "script",
+      "uri": "com_marathonmanager/myregistrations.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "1"
+    },
+    {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
       "uri": "com_marathonmanager/form-edit.css"
@@ -65,6 +77,11 @@
       "name": "com_marathonmanager.results-table",
       "type": "style",
       "uri": "com_marathonmanager/results-table.css"
+    },
+    {
+      "name": "com_marathonmanager.my-registrations-css",
+      "type": "style",
+      "uri": "com_marathonmanager/myregistrations.css"
     }
   ]
 }
