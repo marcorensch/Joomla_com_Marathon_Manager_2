@@ -34,16 +34,8 @@ $wa->addInlineStyle('.switcher { width: auto; }');
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i class="fas fa-users"></i> Team</h3>
+                <h3 class="uk-h4"><i class="fas fa-users"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_TEAM_TITLE");?></h3>
                 <?php echo $this->form->renderFieldset('teamdata'); ?>
-            </div>
-        </div>
-
-        <div>
-            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i class="fas fa-envelope"></i> Kontakt</h3>
-                <div class="uk-text-meta"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_INTRO");?></div>
-                <?php echo $this->form->renderFieldset('contact'); ?>
             </div>
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded uk-margin-small-top">
                 <h3 class="uk-h4"><i class="fas fa-life-ring"></i> <?php echo Text::_("COM_MARATHONMANAGER_EMERGENCY_CONTACT_TITLE");?></h3>
@@ -51,9 +43,17 @@ $wa->addInlineStyle('.switcher { width: auto; }');
             </div>
         </div>
 
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                <h3 class="uk-h4"><i class="fas fa-envelope"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_CONTACT_TITLE");?></h3>
+                <div class="uk-text-meta"><?php echo Text::_("COM_MARATHONMANAGER_CONTACT_INTRO");?></div>
+                <?php echo $this->form->renderFieldset('contact'); ?>
+            </div>
+        </div>
+
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i class="fas fa-route"></i> Parcours / Category</h3>
+                <h3 class="uk-h4"><i class="fas fa-route"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_PARCOURS_CATEGORY_TITLE");?></h3>
                 <div class="uk-child-width-1-2@m uk-grid-small" uk-grid>
                     <div><?php echo $this->form->renderField('course_id'); ?></div>
                     <div><?php echo $this->form->renderField('group_id'); ?></div>
@@ -64,7 +64,7 @@ $wa->addInlineStyle('.switcher { width: auto; }');
         <?php if($this->mapoption):?>
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i class="fas fa-map"></i> Karten</h3>
+                <h3 class="uk-h4"><i class="fas fa-map"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_MAPS_TITLE");?></h3>
                 <div class="uk-child-width-1-4@m uk-grid-small" uk-grid>
                     <div class="uk-width-expand">
                         <div>
@@ -82,14 +82,14 @@ $wa->addInlineStyle('.switcher { width: auto; }');
 
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i uk-icon="users"></i> Participants</h3>
+                <h3 class="uk-h4"><i uk-icon="users"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_PARTICIPANTS_TITLE");?></h3>
                 <?php echo $this->form->renderFieldset('participants'); ?>
             </div>
         </div>
 
         <div class="uk-width-1-1@m">
             <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-                <h3 class="uk-h4"><i uk-icon="pencil"></i> Legal Agreements</h3>
+                <h3 class="uk-h4"><i uk-icon="pencil"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_LEGAL_TITLE");?></h3>
                 <?php
                 if(isset($this->event->privacy_policy_article_id)) {
                     echo $this->form->renderField('privacy_policy');
@@ -103,11 +103,8 @@ $wa->addInlineStyle('.switcher { width: auto; }');
     <div class="uk-margin">
         <div class="uk-grid-small uk-flex uk-flex-right">
             <div>
-                <button class="uk-button-danger uk-button-large uk-border-rounded">Löschen</button>
-            </div>
-            <div>
                 <!-- Save Form -->
-                <button class="uk-button-primary uk-button-large uk-border-rounded" data-submit-task="registration.submit">Registrieren</button>
+                <button class="uk-button-primary uk-button-large uk-border-rounded" data-submit-task="registration.submit"><?php echo Text::_("JSAVE");?></button>
             </div>
         </div>
     </div>

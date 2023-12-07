@@ -44,7 +44,7 @@ class GroupsField extends ListField
     protected function getOptions(): array
     {
         $options = [];
-        $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_SELECT_COURSE_FIRST'));
+        $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_SELECT_GROUP_FIRST'));
 
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);

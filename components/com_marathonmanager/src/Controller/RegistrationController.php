@@ -19,6 +19,13 @@ use Joomla\CMS\Uri\Uri;
 
 class RegistrationController extends FormController
 {
+    public function clear()
+    {
+        $app = Factory::getApplication();
+        $session = Factory::getApplication()->getSession();
+        $session->clear('com_marathonmanager.registration');
+        $app->redirect(Route::_('index.php?option=com_marathonmanager&view=registration', false));
+    }
     public function submit($key = null, $urlVar = null)
     {
 
