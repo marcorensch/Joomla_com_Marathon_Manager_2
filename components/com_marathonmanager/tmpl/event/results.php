@@ -79,7 +79,7 @@ function getFileIcon($file, $fileRootPath): string
                  uk-grid>
                 <div class="uk-width-medium@m">
                         <span class="uk-text-lead uk-text-muted">
-                            <i class="fas fa-download"></i> Downloads
+                            <i class="fas fa-download"></i> <?php echo Text::_("COM_MARATHONMANAGER_LABEL_DOWNLOAD_RESULTS");?>
                         </span>
                 </div>
                 <?php foreach ($event->result_files as $file):
@@ -110,7 +110,7 @@ function getFileIcon($file, $fileRootPath): string
                     </div>
                     <div class="uk-width-1-3@s uk-width-expand@m">
                         <select name="filter-parcours" id="filter-parcours" class="uk-select">
-                            <option value="">Filter by Parcours</option>
+                            <option value=""><?php echo Text::_("COM_MARATHONMANAGER_FILTER_BY_PARCOURS_LABEL");?></option>
                             <?php foreach ($this->parcours as $parcours) {
                                 echo "<option value=\"{$parcours->id}\">{$parcours->title}</option>";
                             } ?>
@@ -118,7 +118,7 @@ function getFileIcon($file, $fileRootPath): string
                     </div>
                     <div class="uk-width-1-3@s uk-width-expand@m">
                         <select name="filter-category" id="filter-category" class="uk-select">
-                            <option value="">Filter by Category</option>
+                            <option value=""><?php echo Text::_("COM_MARATHONMANAGER_FILTER_BY_CATEGORY_LABEL");?></option>
                             <?php foreach ($this->categories as $cat) {
                                 echo "<option value=\"{$cat->id}\">{$cat->title}</option>";
                             } ?>
@@ -127,7 +127,7 @@ function getFileIcon($file, $fileRootPath): string
                     <div class="uk-width-1-1 uk-width-auto@m">
                         <button class="uk-width-1-1 uk-width-auto@m uk-button uk-button-default uk-disabled"
                                 type="button" id="reset-filter-btn">
-                            <i class="fas fa-times"></i> Reset
+                            <i class="fas fa-times"></i> <?php echo Text::_("COM_MARATHONMANAGER_FILTER_RESET_LABEL");?>
                         </button>
                     </div>
                 </div>
@@ -137,7 +137,6 @@ function getFileIcon($file, $fileRootPath): string
                 <?php if($this->params->get('show_results_table_scrollspy',0)): ?>
                    uk-scrollspy="target: tr; delay:80; cls: uk-animation-fade"
                 <?php endif; ?>>
-            >
                 <thead>
                 <tr>
                     <th class="uk-text-center"><?php echo Text::_("COM_MARATHONMANAGER_LABEL_PLACE"); ?></th>
@@ -153,7 +152,6 @@ function getFileIcon($file, $fileRootPath): string
                        <?php if($this->params->get('show_results_table_scrollspy',0)): ?>
                            uk-scrollspy="cls: uk-animation-slide-left-small uk-animation-fast"
                        <?php endif; ?>>
-                       >
                 <?php foreach ($this->results as $result):
                     // Add some extra data to the result object for use in the layout
                     $result->parcours_title = isset($this->parcours[$result->parcours_id]) ? $this->parcours[$result->parcours_id]->title : '';
@@ -174,33 +172,27 @@ function getFileIcon($file, $fileRootPath): string
                         </td>
                         <td>
                             <div class="uk-hidden@m">
-                                <?php
-                                echo $teamMobileLayout->render(compact('result'));
-                                ?>
+                                <?php echo $teamMobileLayout->render(compact('result')); ?>
                             </div>
 
                             <div class="uk-visible@m">
-                                <?php
-
-                                echo $teamLayout->render(compact('result'));
-                                ?>
+                                <?php echo $teamLayout->render(compact('result')); ?>
                             </div>
 
                         </td>
                         <td class="uk-visible@m"><?php echo $this->parcours[$result->parcours_id]->title; ?></td>
-                        <td class="uk-visible@m"><?php
-                            if (isset($this->categories[$result->group_id])) echo $this->categories[$result->group_id]->title;
-                            ?></td>
-                        <td class="uk-visible@m uk-text-center"><?php
-                            echo $result->place_in_group ?: "-";
-                            ?></td>
+                        <td class="uk-visible@m">
+                            <?php if (isset($this->categories[$result->group_id])) echo $this->categories[$result->group_id]->title; ?>
+                        </td>
+                        <td class="uk-visible@m uk-text-center">
+                            <?php echo $result->place_in_group ?: "-"; ?>
+                        </td>
                         <td class="uk-visible@m"><?php echo $result->points_total; ?></td>
                         <td class="uk-visible@m"><?php echo $result->time_total; ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <?php echo '<pre>' . var_export($this->results, 1) . '</pre>' ?>
         </div>
     </div>
 </section>
