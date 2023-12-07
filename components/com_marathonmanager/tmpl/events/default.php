@@ -18,22 +18,6 @@ use Joomla\Registry\Registry;
 
 $params = new Registry($this->params);
 $items = $this->items;
-
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$css = <<<CSS
-body main.tm-main{
-padding-top:0;
-}
-body main.tm-main>div.uk-container{
-    padding:0;
-    margin:0;
-    max-width:100%;
-}
-CSS;
-$wa->addInlineStyle($css);
-
-
-
 // Grid Columns
 $gridColumnsClassString = ' uk-child-width-1-' . $this->params->get('events_cols', 1) . ' ';
 $gridColumnsClassString .= 'uk-child-width-1-' . $this->params->get('events_cols_s', 2) . '@s ';
@@ -53,21 +37,10 @@ if ($params->get('debug', 0)) {
     echo $debugLayout->render(compact('items', 'params'));
 }
 ?>
-<?php if ($params->get('page_header', '')) {
-    $page = Factory::getApplication()->getMenu()->getActive();
-    $pageParams = $page->getParams();
-    $heading = $pageParams->get('page_heading') ?: $page->title;
-    echo '<section class="uk-cover-container uk-height-large">';
-    echo HTMLHelper::image($params->get('page_header', ''), 'header', array('class' => '', 'uk-cover' => ''));
-    echo '<div class="uk-position-cover" style="background-color: rgba(0, 0, 0, 0.58);"></div>';
-    echo '<div class="uk-container uk-position-center uk-light">                
-                   <div class="uk-width-1-1">              
-                        <div class="uk-text-lead uk-text-center">Swiss International Mountain Marathon</div>
-                        <h1 class="uk-heading-large uk-margin-remove-top uk-text-center">' . $heading . '</h1>
-                    </div>
-          </div>';
-    echo '</section>';
-}
+<?php
+$headerLayout = new FileLayout('marathon-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+echo $headerLayout->render();
+
 ?>
 
 <section class="uk-section">

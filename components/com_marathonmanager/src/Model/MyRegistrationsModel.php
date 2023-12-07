@@ -17,7 +17,7 @@ class MyRegistrationsModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
 
-        $query->select(['a.*', 'b.title AS event_title', 'b.event_date', 'b.event_duration','d.date AS arrival_date', 'c.title AS arrival_option_title'])
+        $query->select(['a.*', 'b.title AS event_title','b.image AS event_image', 'b.event_date', 'b.event_duration','d.date AS arrival_date', 'c.title AS arrival_option_title'])
             ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
             ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId));
 

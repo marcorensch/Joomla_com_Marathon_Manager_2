@@ -82,6 +82,11 @@
       "name": "com_marathonmanager.my-registrations-css",
       "type": "style",
       "uri": "com_marathonmanager/myregistrations.css"
+    },
+    {
+      "name": "com_marathonmanager.full-width-layout",
+      "type": "style",
+      "uri": "com_marathonmanager/full-width-layout.css"
     }
   ]
 }

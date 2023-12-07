@@ -6,6 +6,9 @@
         </message>
     </layout>
     <fields name="params">
-
+        <fieldset name="media" label="Media" class="col-lg-6">
+            <field name="page_header" type="media"
+                   label="COM_MARATHONMANAGER_FIELD_EVENTS_PAGE_HEADER_IMG_LABEL"/>
+        </fieldset>
     </fields>
 </metadata>
