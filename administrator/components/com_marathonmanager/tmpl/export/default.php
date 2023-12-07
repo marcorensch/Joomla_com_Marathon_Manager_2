@@ -52,7 +52,6 @@ $route = Route::_('index.php?option=com_marathonmanager&view=export');
 <div class="row d-flex justify-content-center">
     <div class="col-lg-6">
         <h1><?php echo Text::_('COM_MARATHONMANAGER_EXPORT'); ?></h1>
-        <p>Blablabla</p>
     </div>
 </div>
 <form action="<?php echo $route ?>" method="post" name="adminForm" id="adminForm">
