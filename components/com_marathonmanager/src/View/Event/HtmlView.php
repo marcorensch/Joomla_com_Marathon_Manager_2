@@ -14,6 +14,7 @@ namespace NXD\Component\MarathonManager\Site\View\Event;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 class HtmlView extends BaseHtmlView
@@ -37,6 +38,10 @@ class HtmlView extends BaseHtmlView
 
 
         if ($this->item) {
+            $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+            $event = $this->item;
+            echo $eventHeader->render(compact('event'));
+
             parent::display($tpl);
         } else {
             throw new \Exception('Item not found', 404);

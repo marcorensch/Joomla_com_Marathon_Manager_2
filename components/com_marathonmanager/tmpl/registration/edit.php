@@ -27,11 +27,6 @@ if ($isLoggedIn) {
 
 $loginUrl = Route::_('index.php?option=com_users&view=login&return=' . base64_encode("index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=" . $this->event->id));
 
-$event = $this->event;
-
-$eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
-echo $eventHeader->render(compact('event'));
-
 ?>
 
 <?php if ($isAdmin) echo LayoutHelper::render('uk-alert', ['text' => Text::_('COM_MARATHONMANAGER_EVENT_ALREADY_REGISTERED_ADMIN_NOTE'), 'type' => 'danger', 'size']); ?>

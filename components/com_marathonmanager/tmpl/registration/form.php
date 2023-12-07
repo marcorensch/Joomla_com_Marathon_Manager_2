@@ -104,7 +104,7 @@ $wa->addInlineStyle('.switcher { width: auto; }');
         <div class="uk-grid-small uk-flex uk-flex-right">
             <div>
                 <!-- Save Form -->
-                <button class="uk-button-primary uk-button-large uk-border-rounded" data-submit-task="registration.submit"><?php echo Text::_("JSAVE");?></button>
+                <button class="uk-button-primary uk-button-large uk-border-rounded" data-submit-task="registration.submit"><?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_REGISTER_NOW_BTN");?></button>
             </div>
         </div>
     </div>

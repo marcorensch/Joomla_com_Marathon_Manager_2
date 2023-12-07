@@ -32,6 +32,7 @@ class EventRenderHelper {
 
         // Check if the results object is empty
         $hasResultFiles = !empty($event->result_files) && count((array)$event->result_files) > 0;
+        $hasResultData = !empty($event->result_data) && count((array)$event->result_data) > 0;
         $currentView = Factory::getApplication()->getInput()->get('view', 'event', 'cmd');
 
         if($currentView === 'registration') {

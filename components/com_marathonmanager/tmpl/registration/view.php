@@ -44,8 +44,6 @@ $color = $this->registration->payment_status ? 'green' : '#47070c' ;
 $paymentMsgKey = $this->registration->payment_status ? Text::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_PAYED') : TEXT::_('COM_MARATHONMANAGER_REGISTRATION_PAYMENT_STATUS_NOT_PAYED');
 
 $paymentLayout = new FileLayout('event-payment-layout', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
-$eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
-echo $eventHeader->render(compact('event'));
 
 ?>
 <section id="registration-details">

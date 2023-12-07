@@ -76,6 +76,13 @@ class RegistrationModel extends FormModel
             throw new Exception('Event not found', 404);
         }
 
+        // Decode the result files
+        try {
+            $event->result_files = json_decode($event->result_files, true);
+        } catch (\Exception $e) {
+            $event->result_files = array();
+        }
+
         // Set the map option id for this event
         $this->eventMapOptionId = $event->map_option_id;
 

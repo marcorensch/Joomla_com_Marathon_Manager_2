@@ -24,11 +24,11 @@ class RegistrationController extends FormController
         $app = Factory::getApplication();
         $session = Factory::getApplication()->getSession();
         $session->clear('com_marathonmanager.registration');
-        $app->redirect(Route::_('index.php?option=com_marathonmanager&view=registration', false));
+        $url = $this->getReturnPage();
+        $app->redirect(Route::_($url, false));
     }
     public function submit($key = null, $urlVar = null)
     {
-
         $app = Factory::getApplication();
         $model = $this->getModel('Registration');
         $form = $model->getForm();

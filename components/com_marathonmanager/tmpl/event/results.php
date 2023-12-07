@@ -19,12 +19,10 @@ $event = $this->item;
 $parcours = $this->parcours;
 $categories = $this->categories;
 
-$eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 $teamMobileLayout = new FileLayout('results-table-item-mobile', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 $teamLayout = new FileLayout('results-table-item', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 
 $fileRootPath = '/media/com_marathonmanager/results/';
-
 
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useStyle('com_marathonmanager.results-table');
@@ -67,8 +65,6 @@ function getFileIcon($file, $fileRootPath): string
 }
 
 ?>
-
-<?php echo $eventHeader->render(compact('event')); ?>
 
 <section>
     <h2>Results</h2>

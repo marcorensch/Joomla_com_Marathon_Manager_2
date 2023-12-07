@@ -8,17 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use NXD\Component\MarathonManager\Site\Helper\EventGalleryHelper;
 
 \defined('_JEXEC') or die;
-// Create the $event object for use in the template
-$event = $this->item;
-
-$eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 
 $picturesTree = EventGalleryHelper::getPictures($this->item->gallery_content);
 
@@ -28,7 +22,6 @@ $wa->registerAndUseStyle('com_marathonmanager.gallery-css');
 
 ?>
 
-<?php echo $eventHeader->render(compact('event')); ?>
 <section>
     <h2>Gallery</h2>
     <div id="event-gallery">

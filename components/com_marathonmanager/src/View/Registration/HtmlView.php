@@ -15,6 +15,7 @@ namespace NXD\Component\MarathonManager\Site\View\Registration;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use NXD\Component\MarathonManager\Site\Model\EventModel;
@@ -44,6 +45,11 @@ class HtmlView extends BaseHtmlView
         $isLoggedIn = !empty($user->id);
 
         if ($this->event) {
+
+            $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
+            $event = $this->event;
+            echo $eventHeader->render(compact('event'));
+
             // Set the Layout by default to "edit"
             $this->setLayout('edit');
 
