@@ -64,6 +64,18 @@
       "version": "1"
     },
     {
+      "name": "com_marathonmanager.parcours-groups",
+      "type": "script",
+      "uri": "com_marathonmanager/parcours-groups.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "1"
+    },
+    {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
       "uri": "com_marathonmanager/form-edit.css"
