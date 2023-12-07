@@ -47,6 +47,7 @@
     <!-- Optional: Moves the language files to the right place -->
     <languages folder="components/com_marathonmanager/language">
         <language tag="en-GB">en-GB/com_marathonmanager.ini</language>
+        <language tag="de-DE">de-DE/com_marathonmanager.ini</language>
     </languages>
 
     <administration>
@@ -121,6 +122,8 @@
         <languages folder="administrator/components/com_marathonmanager/language">
             <language tag="en-GB">en-GB/com_marathonmanager.ini</language>
             <language tag="en-GB">en-GB/com_marathonmanager.sys.ini</language>
+            <language tag="de-DE">de-DE/com_marathonmanager.ini</language>
+            <language tag="de-DE">de-DE/com_marathonmanager.sys.ini</language>
         </languages>
 
     </administration>
