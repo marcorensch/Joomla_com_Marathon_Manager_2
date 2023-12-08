@@ -55,7 +55,6 @@ class ThumbnailImage
     // Create the GD library source Image based on the filetype
     private function createSourceImage($sourceImagePath) : ?\GdImage
     {
-        error_log('Create Source Image: ' . $sourceImagePath);
         $sourceImagePath = Path::clean($sourceImagePath);
 
         return match (exif_imagetype($sourceImagePath)) {

@@ -179,7 +179,6 @@ class ResultsModel extends ListModel
             $columns[] = $importConfig;
         }
         $dataToStore = $this->prepareData($fileData, $columns, $formData['main_import_trigger_column'], $formData['event_id']);
-//        error_log('Data to store: ' . print_r($dataToStore, true));
         return $this->store($dataToStore);
     }
 
@@ -190,7 +189,6 @@ class ResultsModel extends ListModel
         // Group Id's
         $groupIds = ImportHelper::getGroupIds();
         $parcoursIds = ImportHelper::getParcourIds();
-        error_log('Parcours Ids: ' . print_r($parcoursIds, true));
 
         $dataToStore = [];
         // Loop over data
@@ -198,7 +196,6 @@ class ResultsModel extends ListModel
         foreach ($fileData as $resultRow) {
             $rowCounter++;
             if(!$resultRow[$importTriggerColumn]){
-//                error_log('No value for trigger column found in row ' . $rowCounter);
                 continue;
             }
             $rowForDb = new \stdClass();
