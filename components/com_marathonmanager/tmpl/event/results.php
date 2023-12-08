@@ -67,7 +67,7 @@ function getFileIcon($file, $fileRootPath): string
 ?>
 
 <section>
-    <h2>Results</h2>
+    <h2><?php echo Text::_("COM_MARATHONMANAGER_SITE_RESULTS_LABEL")?></h2>
     <div id="event-results">
         <hr>
         <div class="uk-padding-small">

@@ -33,7 +33,7 @@ $loginUrl = Route::_('index.php?option=com_users&view=login&return=' . base64_en
 
 <section class="nxd-section uk-margin-small-top" uk-margin>
     <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-        <h2 class="uk-h2">Registration</h2>
+        <h2><?php echo Text::_("COM_MARATHONMANAGER_SITE_REGISTRATION_LABEL")?></h2>
     </div>
 
     <?php if (!$isAdmin): ?>

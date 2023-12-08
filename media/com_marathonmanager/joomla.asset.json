@@ -76,14 +76,26 @@
       "version": "1"
     },
     {
+      "name": "com_marathonmanager.event-gallery-js",
+      "type": "script",
+      "uri": "com_marathonmanager/event-gallery.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "1"
+    },
+    {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
       "uri": "com_marathonmanager/form-edit.css"
     },
     {
-      "name": "com_marathonmanager.gallery-css",
+      "name": "com_marathonmanager.event-gallery-css",
       "type": "style",
-      "uri": "com_marathonmanager/gallery.css"
+      "uri": "com_marathonmanager/event-gallery.css"
     },
     {
       "name": "com_marathonmanager.results-table",
