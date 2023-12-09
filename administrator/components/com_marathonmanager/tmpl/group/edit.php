@@ -44,6 +44,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         <div class="row">
             <div class="col-lg-4">
                 <?php echo $this->getForm()->renderField('group_id'); ?>
+                <?php echo $this->getForm()->renderField('shortcode'); ?>
             </div>
             <div class="col-lg-4">
                 <?php echo $this->getForm()->renderField('max_participants'); ?>

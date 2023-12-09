@@ -116,7 +116,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'courses.', true, 'cb'); ?>
+                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'groups.', true, 'cb'); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php echo $item->group_id; ?>
