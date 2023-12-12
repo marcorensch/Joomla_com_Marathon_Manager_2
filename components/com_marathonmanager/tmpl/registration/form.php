@@ -92,8 +92,9 @@ $wa->addInlineStyle('.switcher { width: auto; }');
                 <h3 class="uk-h4"><i uk-icon="pencil"></i> <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_FORM_LEGAL_TITLE");?></h3>
                 <?php
                 if(isset($this->event->privacy_policy_article_id)) {
+                    $link = Route::_('index.php?option=com_content&view=article&id=' . $this->event->privacy_policy_article_id);
                     echo $this->form->renderField('privacy_policy');
-                    echo '<small class="form-text">' . Text::_('COM_MARATHONMANAGER_PRIVACY_POLICY_TEXT', $this->event->privacy_policy_article_id) . '</small>';
+                    echo '<small class="form-text">' . Text::sprintf('COM_MARATHONMANAGER_PRIVACY_POLICY_TEXT', $link) . '</small>';
                 }
                 echo $this->form->renderField('insurance_notice');
                 ?>
