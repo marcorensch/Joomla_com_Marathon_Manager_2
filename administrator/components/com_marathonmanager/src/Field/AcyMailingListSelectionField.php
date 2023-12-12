@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  *              Joomla.Site
- * @subpackage  com_footballmanager
+ * @subpackage  com_marathonmanager
  * @author      Marco Rensch
  * @since        1.0.0
  *

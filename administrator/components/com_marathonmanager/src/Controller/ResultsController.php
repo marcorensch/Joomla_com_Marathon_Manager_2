@@ -83,7 +83,7 @@ class ResultsController extends AdminController
             $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ROWS_PARSED', count($dataset) ), 'notice');
 //            echo '<pre>' . print_r($dataset, true) . '</pre>';
             // Redirect or return a response after processing
-//            $app->enqueueMessage(Text::sprintf('COM_FOOTBALLMANAGER_TEXT_IMPORT_SUCCESS', $fileName ), 'message');
+//            $app->enqueueMessage(Text::sprintf('COM_COMPONENT_TEXT_IMPORT_SUCCESS', $fileName ), 'message');
             // Send data back to view via User State
             Factory::getApplication()->setUserState('com_marathonmanager.results.import.data', $dataset);
             Factory::getApplication()->setUserState('com_marathonmanager.results.import.event_id', $data['event_id']);
@@ -98,7 +98,6 @@ class ResultsController extends AdminController
         }
 
 //        $app->enqueueMessage('Importing seasons is not supported yet', 'warning');
-//        $this->setRedirect(Route::_('index.php?option=com_footballmanager&view=seasons', false));
     }
 
     public function processdata(){

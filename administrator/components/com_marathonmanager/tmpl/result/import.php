@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_footballmanager
+ * @subpackage  com_marathonmanager
  *
  * @copyright   Copyright (c) 2023 NXD | nx-designs
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
