@@ -13,16 +13,10 @@
 
 namespace NXD\Component\MarathonManager\Site\Field;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\Field\NumberField;
-use Joomla\CMS\Form\Field\TextField;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseInterface;
-use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\NumberField;
+use Joomla\Database\DatabaseInterface;
 
 defined('_JEXEC') or die;
 
@@ -96,6 +90,7 @@ class MapsCountField extends NumberField
     public function getInput(): string
     {
         $this->mapOptionId = $this->getSelectedMapOptionIdFromEvent();
+
         if($this->mapOptionId) {
             $this->mapOptionData = $this->getMapOptionData();
 
@@ -181,6 +176,8 @@ class MapsCountField extends NumberField
                 const mapPriceElement = document.getElementById('calculated_maps_price');
                 const countOfIncludedMaps = inputElement.dataset.countOfIncludedMaps;
                 const price_per_map = inputElement.dataset.mapPrice;
+                
+                alert('hello')
                 
                 calculateMapPrice();
                 

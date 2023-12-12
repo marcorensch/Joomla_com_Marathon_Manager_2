@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form>
+<form
+        addfieldprefix="NXD\Component\MarathonManager\Site\Field"
+        addruleprefix="NXD\Component\MarathonManager\Site\Rule"
+>
     <fieldset name="teamdata"
-              addfieldprefix="NXD\Component\MarathonManager\Site\Field"
-              addruleprefix="NXD\Component\MarathonManager\Site\Rule"
     >
         <field
                 name="id"
@@ -86,7 +87,7 @@
         />
     </fieldset>
     <fieldset name="maps">
-        <field name="maps_count" type="mapscount" label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL"/>
+        <field name="maps_count" type="MapsCount" label="COM_MARATHONMANAGER_FIELD_MAPS_COUNT_LABEL" />
     </fieldset>
     <fieldset name="participants">
         <field name="participants"

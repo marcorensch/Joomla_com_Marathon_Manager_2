@@ -1,13 +1,17 @@
-let PARTICIPANTS_MAX = 99;
+let PARTICIPANTS_MAX = 2;
 // parcoursIds and parcoursGroups are set in the CoursesField.php as JSON string
 document.addEventListener('DOMContentLoaded', function() {
     const parcourIds = JSON.parse(parcoursIds);
     const groups = JSON.parse(parcoursGroups);
+    const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
+
+    // Set the max participants for the subformField
+    subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
 
     const parcoursSelect = document.getElementById('jform_course_id');
     const groupSelect = document.getElementById('jform_group_id');
-    const selectedParcourId = parcoursSelect.value;
-    if(selectedParcourId) setGroupOptionsByParcourId(selectedParcourId);
+    const selectedParcoursId = parcoursSelect.value;
+    if(selectedParcoursId) setGroupOptionsByParcourId(selectedParcoursId);
 
     function setGroupOptionsByParcourId(parcoursId) {
         const oldValue = groupSelect.value;
@@ -35,13 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if(groups.length === 0) return;
         const groupId = groupSelect.value;
         if(!groupId){
-            PARTICIPANTS_MAX = 99;
+            PARTICIPANTS_MAX = 10;
             return;
         }
-        PARTICIPANTS_MAX = groups[selectedParcourId].group_ids.find(group => group.id === parseInt(groupId) )['max'];
+        PARTICIPANTS_MAX = groups[selectedParcoursId].group_ids.find(group => group.id === parseInt(groupId) )['max'];
 
         // Set the max participants for the subformField
-        const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
         subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
     });
 

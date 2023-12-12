@@ -73,7 +73,7 @@
       "attributes": {
         "defer": true
       },
-      "version": "1"
+      "version": "2"
     },
     {
       "name": "com_marathonmanager.event-gallery-js",
