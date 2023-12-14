@@ -72,8 +72,8 @@
             <option value="1">COM_MARATHONMANAGER_FIELD_ENLIST_EMAIL_NEWSLETTER_OPT_YES</option>
         </field>
         <field name="team_language_id"
-               type="teamlanguages"
-               label="JFIELD_LANGUAGE_LABEL"
+               type="TeamLanguages"
+               label="COM_MARATHONMANAGER_FIELD_TEAM_LANGUAGE_LAST_INFO_LABEL"
         />
     </fieldset>
     <fieldset name="emergency">

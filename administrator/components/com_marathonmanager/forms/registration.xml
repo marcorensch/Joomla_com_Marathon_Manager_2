@@ -79,7 +79,7 @@
         />
 
 
-        <field name="createdbyuserinfo" type="createdbyuser" />
+        <field name="createdbyuserinfo" type="CreatedByUser" />
 
         <field name="team_language_id"
                type="teamlanguages"

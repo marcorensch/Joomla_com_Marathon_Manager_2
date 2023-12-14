@@ -59,9 +59,6 @@ class NxdCountriesField extends ListField{
             $options[] = HTMLHelper::_('select.option', $option->id, $option->title);
         }
 
-        $options[] = HTMLHelper::_('select.option', 'other', Text::_('COM_MARATHONMANAGER_FIELD_OPT_OTHER'));
-
-
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $options);
 

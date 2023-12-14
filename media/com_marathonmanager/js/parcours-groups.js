@@ -3,35 +3,16 @@ let PARTICIPANTS_MAX = 2;
 document.addEventListener('DOMContentLoaded', function() {
     const parcourIds = JSON.parse(parcoursIds);
     const groups = JSON.parse(parcoursGroups);
-    const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
-
-    // Set the max participants for the subformField
-    subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
 
     const parcoursSelect = document.getElementById('jform_course_id');
     const groupSelect = document.getElementById('jform_group_id');
-    const selectedParcoursId = parcoursSelect.value;
-    if(selectedParcoursId) setGroupOptionsByParcourId(selectedParcoursId);
 
-    function setGroupOptionsByParcourId(parcoursId) {
-        const oldValue = groupSelect.value;
-        const groupOptions = Object.keys(groups).length ? groups[parcoursId].group_ids : null;
-        if(!groupOptions) return;
-        groupSelect.innerHTML = '<option value="">'+Joomla.Text._("COM_MARATHONMANAGER_SELECT_GROUP", "- Please Select -")+'</option>';
-        groupOptions.forEach(group => {
-            const option = document.createElement('option');
-            option.value = group.id;
-            option.text = group.title;
-            groupSelect.appendChild(option);
-        });
-        // re set old value if still available
-        if(groupOptions.find(group => group.id === parseInt(oldValue))) {
-            groupSelect.value = oldValue;
-        }
-    }
+    // Initialize the group options
+    if(parcoursSelect.value) setGroupOptionsByParcoursId(parcoursSelect.value);
+
     // handle parcours change
     parcoursSelect.addEventListener('change', function() {
-        setGroupOptionsByParcourId(parcoursSelect.value);
+        setGroupOptionsByParcoursId(parcoursSelect.value);
     });
 
     // handle group change
@@ -39,12 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if(groups.length === 0) return;
         const groupId = groupSelect.value;
         if(!groupId){
-            PARTICIPANTS_MAX = 10;
+            PARTICIPANTS_MAX = 99;
             return;
         }
-        PARTICIPANTS_MAX = groups[selectedParcoursId].group_ids.find(group => group.id === parseInt(groupId) )['max'];
+
+        PARTICIPANTS_MAX = groups[parcoursSelect.value].group_ids.find(group => group.id === parseInt(groupId) )['max'];
 
         // Set the max participants for the subformField
+        const subFormField = document.querySelector('joomla-field-subform[name="jform[participants]"]');
         subFormField.setAttribute('maximum', PARTICIPANTS_MAX);
     });
 
@@ -66,6 +49,28 @@ document.addEventListener('DOMContentLoaded', function() {
             handleUserNotification(participantsSubform);
         }, 200)
     });
+
+    /**
+     * Set the group options by parcours id
+     * @param parcoursId
+     */
+    function setGroupOptionsByParcoursId(parcoursId) {
+        const oldValue = groupSelect.value;
+        const groupOptions = Object.keys(groups).length ? groups[parcoursId].group_ids : null;
+        if(!groupOptions) return;
+        groupSelect.innerHTML = '<option value="">'+Joomla.Text._("COM_MARATHONMANAGER_SELECT_GROUP", "- Please Select -")+'</option>';
+        groupOptions.forEach(group => {
+            const option = document.createElement('option');
+            option.value = group.id;
+            option.text = group.title;
+            groupSelect.appendChild(option);
+        });
+
+        // reset old value for group if still available in this parcours
+        if(groupOptions.find(group => group.id === parseInt(oldValue))) {
+            groupSelect.value = oldValue;
+        }
+    }
 
     /**
      * Check if the max participants are reached
