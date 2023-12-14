@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -17,6 +18,13 @@ $registration = $displayData['registration'];
 $config = $displayData['config'];
 
 $tableHeaderCellClasses = 'uk-table-shrink uk-text-nowrap';
+
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->addInlineStyle('
+    .uk-table th {
+        vertical-align: top;
+    }
+    ');
 
 ?>
 
@@ -39,9 +47,9 @@ $tableHeaderCellClasses = 'uk-table-shrink uk-text-nowrap';
                                 <?php echo Text::_("COM_MARATHONMANAGER_REGISTRATION_BANKING_RECIPIENT_LABEL"); ?>
                             </th>
                             <td class="uk-width-expand">
-                                <span>
-                                    <?php echo $registration->paymentInformation->bankingInformation->recipient ?? ""; ?>
-                                </span>
+                                <p>
+                                    <?php echo nl2br($registration->paymentInformation->bankingInformation->recipient) ?? ""; ?>
+                                </p>
                             </td>
                         </tr>
                     <?php endif; ?>

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace NXD\Component\MarathonManager\Site\View\MyRegistrations;
+namespace NXD\Component\MarathonManager\Site\View\Registrations;
 
 \defined('_JEXEC') or die;
 
@@ -26,7 +26,7 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null): void
     {
-        $this->items = $this->get('MyRegistrations');
+        $this->items = $this->get('Registrations');
         if(empty($this->items)){
             $this->setLayout('empty');
         }

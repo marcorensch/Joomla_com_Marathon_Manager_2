@@ -6,10 +6,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use NXD\Component\MarathonManager\Site\Helper\RegistrationHelper;
 
-class MyRegistrationsModel extends BaseDatabaseModel
+class RegistrationsModel extends BaseDatabaseModel
 {
 
-    public function getMyRegistrations(): array
+    public function getRegistrations(): array
     {
         $userId = Factory::getApplication()->getIdentity()->id;
         if(!$userId) return [];
