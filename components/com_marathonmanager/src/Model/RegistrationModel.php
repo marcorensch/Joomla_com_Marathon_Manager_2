@@ -19,8 +19,9 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
-use NXD\Component\MarathonManager\Site\Helper\RegistrationHelper;
 use NXD\Component\MarathonManager\Administrator\Model\NewsletterModel;
+use NXD\Component\MarathonManager\Site\Helper\RegistrationHelper;
+use NXD\Component\MarathonManager\Site\Helper\AcyMailingHelper;
 
 class RegistrationModel extends FormModel
 {
@@ -285,6 +286,8 @@ class RegistrationModel extends FormModel
 
         if($status) {
             $this->handleNewsletterSubscriptions($data);
+            $this->sendConfirmationMail($data);
+
             // Clear the user state
             Factory::getApplication()->setUserState('com_marathonmanager.registration.data', null);
         }
@@ -292,17 +295,31 @@ class RegistrationModel extends FormModel
         return $status;
     }
 
+    private function sendConfirmationMail($data): void
+    {
+        $params = Factory::getApplication()->getParams();
+        if(!$params->get('registration_confirmation_mail_id', 0)) return;
+        AcyMailingHelper::sendConfirmationMail($data, $params->get('registration_confirmation_mail_id', 0));
+    }
+
     private function handleNewsletterSubscriptions($data): void
     {
         $app = Factory::getApplication();
         $params = $app->getParams();
 
-        $newsletterModel = new NewsletterModel();
-        $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
-
         // Enlist for newsletter if requested
         if($data['newsletter_enlist'] && $generalNewsletterListId = $params->get('newsletter_list_id', null)) {
-            if($newsletterModel->subscribe($generalNewsletterListId)){
+            $newsletterModel = new NewsletterModel();
+            $newsletterUser = $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
+            $subscriptionStatus = $newsletterModel->subscribeToList($generalNewsletterListId);
+
+
+            error_log('Newsletter subscription status: ');
+            error_log(print_r($newsletterUser, true));
+            error_log(print_r($newsletterModel->getUser(), true));
+            error_log('Newsletter list id: ' . $generalNewsletterListId);
+
+            if($subscriptionStatus){
                 $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_SUCCESS_SUBSCRIBE_NEWSLETTER'), 'success');
             }else{
                 $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
@@ -313,7 +330,7 @@ class RegistrationModel extends FormModel
         $event = $this->getEvent($data['event_id']);
         if($event && $event->lastinfos_newsletter_list_id)
         {
-            if(!$newsletterModel->subscribe($event->lastinfos_newsletter_list_id)){
+            if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
                 error_log('Could not subscribe user to last info newsletter');
                 error_log(print_r($newsletterModel->getUser(), true));
                 error_log('Last info newsletter id: ' . $event->lastinfos_newsletter_list_id);
@@ -330,7 +347,7 @@ class RegistrationModel extends FormModel
                     $newsletterModel->saveUser($participant->email, $participant->first_name, $participant->last_name, $data['created_by']);
                     if($event && $event->lastinfos_newsletter_list_id)
                     {
-                        if(!$newsletterModel->subscribe($event->lastinfos_newsletter_list_id)){
+                        if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
                             error_log('Could not subscribe user to last info newsletter');
                             error_log(print_r($newsletterModel->getUser(), true));
                             error_log('Last info newsletter id: ' . $event->lastinfos_newsletter_list_id);

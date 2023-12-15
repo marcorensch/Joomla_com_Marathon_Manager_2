@@ -12,6 +12,8 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use AcyMailing\Classes\UserClass;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * NewsletterModel
@@ -49,18 +51,43 @@ class NewsletterModel
         $userClass->sendConf = true;
         $this->user->id = $userClass->save($this->user);
 
+        // If the user already exists, we need to get the User ID by EMail
+        if(!$this->user->id){
+            $this->user->id = $this->getAcyMailingUserIDByEmail($email);
+        }
+
         return $this->user;
     }
 
-    public function subscribe(int $listId): bool
+    private function getAcyMailingUserIDByEmail($email): int
+    {
+        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        $query = $db->getQuery(true);
+        $query->select('id');
+        $query->from('#__acym_user');
+        $query->where($db->quoteName('email') . ' = ' . $db->quote($email));
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
+
+    public function subscribeToList(int $listId): bool
     {
         $userClass = new UserClass();
         $subscribe = array($listId);
         if(!empty($subscribe) && $this->user->id){
             // The last two parameters are to make sure to send the welcome email
-            return $userClass->subscribe($this->user->id, $subscribe, true, true);
+            // Fire and forget - we don't need to wait for the result - returns false if already registered
+            $userClass->subscribe($this->user->id, $subscribe, false, false);
+            return true;
+        }else{
+            if(empty($subscribe)){
+                error_log('No list to subscribe user ' . $this->user->id . ' to');
+            }
+            if(!$this->user->id){
+                error_log('No user to subscribe to list ' . $listId);
+            }
+            return false;
         }
-        return false;
     }
 }
 
