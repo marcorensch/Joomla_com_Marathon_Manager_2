@@ -54,6 +54,7 @@
                 name="contact_email"
                 type="text"
                 label="COM_MARATHONMANAGER_FIELD_EMAIL_LABEL"
+                description="COM_MARATHONMANAGER_FIELD_CONTACT_EMAIL_DESC"
                 hint="email.address@example.com"
                 required="true"
         />
@@ -82,7 +83,7 @@
         <field name="createdbyuserinfo" type="CreatedByUser" />
 
         <field name="team_language_id"
-               type="teamlanguages"
+               type="TeamLanguages"
                label="JFIELD_LANGUAGE_LABEL"
         />
 

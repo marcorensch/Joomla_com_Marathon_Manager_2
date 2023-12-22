@@ -62,6 +62,7 @@ class EventRenderHelper {
         if($event->gallery_content !== "-1") {
             $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_GALLERY_SUBMENU_LABEL"), 'gallery', 'image', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $event->id . '&layout=gallery'), $currentLayout);
         }
+
         return $menuOptions;
 
     }

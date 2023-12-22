@@ -306,18 +306,12 @@ class RegistrationModel extends FormModel
     {
         $app = Factory::getApplication();
         $params = $app->getParams();
+        $newsletterModel = new NewsletterModel();
 
         // Enlist for newsletter if requested
         if($data['newsletter_enlist'] && $generalNewsletterListId = $params->get('newsletter_list_id', null)) {
-            $newsletterModel = new NewsletterModel();
-            $newsletterUser = $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
+            $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
             $subscriptionStatus = $newsletterModel->subscribeToList($generalNewsletterListId);
-
-
-            error_log('Newsletter subscription status: ');
-            error_log(print_r($newsletterUser, true));
-            error_log(print_r($newsletterModel->getUser(), true));
-            error_log('Newsletter list id: ' . $generalNewsletterListId);
 
             if($subscriptionStatus){
                 $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_SUCCESS_SUBSCRIBE_NEWSLETTER'), 'success');
@@ -330,10 +324,8 @@ class RegistrationModel extends FormModel
         $event = $this->getEvent($data['event_id']);
         if($event && $event->lastinfos_newsletter_list_id)
         {
+            $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
             if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
-                error_log('Could not subscribe user to last info newsletter');
-                error_log(print_r($newsletterModel->getUser(), true));
-                error_log('Last info newsletter id: ' . $event->lastinfos_newsletter_list_id);
                 $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
             }
         }

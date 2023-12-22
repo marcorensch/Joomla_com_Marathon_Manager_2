@@ -45,7 +45,7 @@ class EventsField extends ListField{
     protected function getOptions(): array
     {
         // Get the direction from the xml form field
-        $direction = $this->element['direction'] ?? 'asc';
+        $direction = $this->element['direction'] ?? 'desc';
         $this->direction = $direction;
 
         $options = [];

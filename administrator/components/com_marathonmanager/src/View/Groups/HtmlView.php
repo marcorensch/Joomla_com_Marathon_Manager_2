@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance();
 
         // Add New Button if user has permissions to create
-        if ($user->authorise('core.create', 'com_marathonmanager') || count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+        if ($user->authorise('core.create', 'com_marathonmanager')) {
             ToolbarHelper::addNew('group.add');
         }
 
