@@ -38,6 +38,14 @@
         />
 
         <field
+                name="result_description"
+                type="editor"
+                label="COM_MARATHONMANAGER_RESULT_DESCRIPTION_LABEL"
+                filter="safehtml"
+                buttons="true"
+        />
+
+        <field
                 name="earlybird_fee"
                 type="text"
                 showon="earlybird_end_date!:"

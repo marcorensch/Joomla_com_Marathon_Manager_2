@@ -213,6 +213,14 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'attachments', '<i class="far fa-comment-alt"></i> ' . Text::_('COM_MARATHONMANAGER_RESULTS_DESCRIPTION_TAB_TITLE')); ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <?php echo $this->getForm()->renderField('result_description'); ?>
+            </div>
+        </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'attachments', '<i class="fas fa-paperclip"></i> ' . Text::_('COM_MARATHONMANAGER_ATTACHMENTS_TAB_TITLE')); ?>
         <div class="row">
