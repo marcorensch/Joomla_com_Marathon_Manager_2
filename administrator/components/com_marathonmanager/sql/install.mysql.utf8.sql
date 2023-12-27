@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__com_marathonmanager_events`
     `alias`                        varchar(400) NOT NULL DEFAULT '',
     `description`                  text         NOT NULL,
     `earlybird_fee`                float                 DEFAULT NULL,
-    `normal_fee`                   float        NOT NULL DEFAULT '0',
+    `regular_fee`                   float        NOT NULL DEFAULT '0',
     `earlybird_end_date`           DATETIME              DEFAULT NULL,
     `registration_start_date`      DATETIME              DEFAULT NULL,
     `registration_end_date`        DATETIME              DEFAULT NULL,

@@ -53,6 +53,9 @@ class EventRenderHelper {
         $menuOptions = array();
         $menuOptions[] = new EventContentModel(Text::_('COM_MARATHONMANAGER_BACK_TO_EVENTS'), 'back', 'thumbnails', Route::_('index.php?option=com_marathonmanager&view=events'), $currentLayout);
         $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_DESCRIPTION_SUBMENU_LABEL"), 'default', 'file-text', Route::_('index.php?option=com_marathonmanager&view=event&id='.$event->id), $currentLayout);
+        if (isset($event->teams) && count($event->teams)) {
+            $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_REGISTERED_SUBMENU_LABEL"), 'teams', 'list', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $event->id . '&layout=teams'), $currentLayout);
+        }
         if ($registrationOpen) {
             $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_REGISTRATION_SUBMENU_LABEL"), 'registration', 'file-edit', Route::_('index.php?option=com_marathonmanager&view=registration&event_id=' . $event->id), $currentLayout);
         }

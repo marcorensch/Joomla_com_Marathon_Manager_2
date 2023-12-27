@@ -60,6 +60,9 @@ class EventModel extends BaseDatabaseModel
                     $data->result_files = array();
                 }
 
+                // Add the Registered Teams
+                $data->teams = $this->getTeams($pk);
+
                 $this->_item[$pk] = $data;
             } catch (\Exception $e) {
                 $this->setError($e->getMessage());
@@ -68,6 +71,13 @@ class EventModel extends BaseDatabaseModel
         }
 
         return $this->_item[$pk];
+    }
+
+    public function getTeams($pk)
+    {
+        if ($pk === null) return array();
+        $teamsModel = new TeamsModel();
+        return $teamsModel->getTeams($pk, true);
     }
 
     /**

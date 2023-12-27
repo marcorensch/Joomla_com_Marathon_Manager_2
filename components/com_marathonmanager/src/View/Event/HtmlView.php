@@ -36,7 +36,6 @@ class HtmlView extends BaseHtmlView
         $this->results = $this->get('Results');
         $this->params = Factory::getApplication()->getParams();
 
-
         if ($this->item) {
             $eventHeader = new FileLayout('event-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
             $event = $this->item;
