@@ -47,13 +47,21 @@ class EventRenderHelper {
         $isLoggedIn = !empty($user->id);
         $today = date('Y-m-d H:i:s');
 
+        // Check if the event date is in the future
+        $eventDate = new \DateTime($event->event_date);
+        $eventDate->setTime(0, 0, 0);
+        $todayDate = new \DateTime($today);
+        $todayDate->setTime(0, 0, 0);
+        $eventDateInFuture = $eventDate > $todayDate;
+
+
         $registrationOpen = ($event->registration_start_date < $today) && ($event->registration_end_date > $today);
 
         // Create the required menu options
         $menuOptions = array();
         $menuOptions[] = new EventContentModel(Text::_('COM_MARATHONMANAGER_BACK_TO_EVENTS'), 'back', 'thumbnails', Route::_('index.php?option=com_marathonmanager&view=events'), $currentLayout);
         $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_DESCRIPTION_SUBMENU_LABEL"), 'default', 'file-text', Route::_('index.php?option=com_marathonmanager&view=event&id='.$event->id), $currentLayout);
-        if (isset($event->teams) && count($event->teams)) {
+        if (isset($event->teams) && count($event->teams) && $eventDateInFuture) {
             $menuOptions[] = new EventContentModel(Text::_("COM_MARATHONMANAGER_REGISTERED_SUBMENU_LABEL"), 'teams', 'list', Route::_('index.php?option=com_marathonmanager&view=event&id=' . $event->id . '&layout=teams'), $currentLayout);
         }
         if ($registrationOpen) {
