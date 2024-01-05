@@ -92,7 +92,7 @@
     <fieldset name="participants">
         <field name="participants"
                type="subform"
-               min="1"
+               min="2"
                layout="joomla.form.field.subform.repeatable"
                formsource="administrator/components/com_marathonmanager/forms/subform_participants.xml"
                groupByFieldset="true"
