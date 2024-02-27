@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+  <component name="PublishConfigData" serverName="Marathon24(J5)" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="Deployment">
@@ -25,7 +25,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Joomla 5">
+      <paths name="Marathon24(J5)">
         <serverdata>
           <mappings>
             <mapping deploy="administrator" local="$PROJECT_DIR$/administrator" web="/" />
