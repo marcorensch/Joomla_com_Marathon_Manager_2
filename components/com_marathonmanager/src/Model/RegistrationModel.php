@@ -84,6 +84,9 @@ class RegistrationModel extends FormModel
             $event->result_files = array();
         }
 
+        // Add the Registered Teams
+        $event->teams = $this->getTeams($eventId);
+
         // Set the map option id for this event
         $this->eventMapOptionId = $event->map_option_id;
 
@@ -92,6 +95,13 @@ class RegistrationModel extends FormModel
         $event->alreadyRegistered = $this->isRegistered($event->id, $user->id);
 
         return $event;
+    }
+
+    private function getTeams($pk)
+    {
+        if ($pk === null) return array();
+        $teamsModel = new TeamsModel();
+        return $teamsModel->getTeams($pk, true, 1);
     }
 
     public function getMapOption(): object|null

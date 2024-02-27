@@ -18,7 +18,7 @@ class TeamsModel extends BaseDatabaseModel
     {
     }
 
-    public function getTeams($eventId = null, $onlyPaid = false)
+    public function getTeams($eventId = null, $onlyPaid = false, $limit = null)
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
@@ -34,6 +34,7 @@ class TeamsModel extends BaseDatabaseModel
 
         if ($eventId) $query->where($db->quoteName('a.event_id') . ' = ' . $db->quote($eventId));
         if ($onlyPaid) $query->where($db->quoteName('a.payment_status') . ' = 1');
+        if($limit) $query->setLimit($limit);
 
         $db->setQuery($query);
         $data = $db->loadObjectList();
