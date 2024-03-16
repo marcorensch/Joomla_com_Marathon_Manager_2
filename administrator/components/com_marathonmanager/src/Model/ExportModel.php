@@ -159,6 +159,10 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         $labelsCreated = false;
         $labels = array();
         foreach ($registrations as $registration) {
+
+            $unFilteredParticipantsArray = json_decode($registration['participants'], true);
+            $participantEmailsArray = $this->getParticipantEmails($unFilteredParticipantsArray);
+
             $registrationData = array();
             $registrationData['id'] = $registration['registration_id'];
             $registrationData['event_id'] = $registration['event_id'];
@@ -171,7 +175,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData['parcours'] = $registration['parcours_title'] . " " . $registration['group_title'];
             $registrationData['language'] = $registration['language'];
             $registrationData['contact'] = $registration['contact_first_name'] . " " . $registration['contact_last_name'];
-            $registrationData['contact_email'] = $registration['contact_email'];
+            $registrationData['contact_email'] = $this->combineEmails($registration['contact_email'], $participantEmailsArray);
             $registrationData['contact_phone'] = $registration['contact_phone'];
             $registrationData['arrival_type'] = $registration['arrival_type'];
             $registrationData['arrival_date'] = $registration['arrival_date'] ? HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5')) : '';
@@ -185,8 +189,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
 
             // Add Participants
-            // not all participant data goes into the export here
-            $participantsArray = $this->removeUnwantedParticipantData($registration['participants']);
+            // not all participant data goes into the export here, but we need to strip out emails before
+            $participantsArray = $this->removeUnwantedParticipantData($unFilteredParticipantsArray);
             $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $participantsArray));
 
             // Add Row to Export Array
@@ -210,7 +214,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     private function addParticipantsLabels($labels): array
     {
         // Add Participant Labels
-        for ($r = 1; $r < 7; $r++) {
+        for ($r = 1; $r <= 5; $r++) {
             $labels[] = Text::sprintf('COM_MARATHONMANAGER_EXPORT_RUNNER_N_FIRSTNAME', $r);
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
@@ -336,9 +340,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $registrations;
     }
 
-    private function removeUnwantedParticipantData(string $participants) : array
+    private function removeUnwantedParticipantData(array $participants) : array
     {
-        $participants = json_decode($participants, true);
         $keys = array('first_name', 'last_name','age', 'residence','public_transport_reduction');
 
         // Remove unwanted data from participants
@@ -347,5 +350,30 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
         return $participants;
 
+    }
+
+    private function getParticipantEmails(array $unFilteredParticipantsArray): array
+    {
+        $participantEmails = array();
+        foreach ($unFilteredParticipantsArray as $participant) {
+            if (!empty($participant['email'])) {
+                $participantEmails[] = $participant['email'];
+            }
+        }
+        return $participantEmails;
+    }
+
+    private function combineEmails(string $contact_email, array $participantEmailsArray):string
+    {
+        // Remove duplicates
+        $participantEmailsArray = array_unique($participantEmailsArray);
+        // Remove empty values
+        $participantEmailsArray = array_filter($participantEmailsArray);
+
+        // Generates Semicolon separated list of emails
+        if (!empty($participantEmailsArray)) {
+            $contact_email .= "; " . implode("; ", $participantEmailsArray);
+        }
+        return $contact_email;
     }
 }
