@@ -135,17 +135,17 @@ class RegistrationsModel extends ListModel
             $query->where($db->quoteName('a.event_id') . ' = ' . (int) $eventID);
         }
 
-        // Filter by a single or group of team categories.
-        $teamCategoryID = $this->getState('filter.team_category_id');
-        if (is_numeric($teamCategoryID))
+        // Filter by a team category.
+        $courseId = $this->getState('filter.course_id');
+        if (is_numeric($courseId))
         {
-            $query->where($db->quoteName('a.team_category_id') . ' = ' . (int) $teamCategoryID);
+            $query->where($db->quoteName('a.course_id') . ' = ' . (int) $courseId);
         }
-        elseif (is_array($teamCategoryID))
+        elseif (is_array($courseId))
         {
-            $teamCategoryID = ArrayHelper::toInteger($teamCategoryID);
-            $teamCategoryID = implode(',', $teamCategoryID);
-            $query->where($db->quoteName('a.team_category_id') . ' IN (' . $teamCategoryID . ')');
+            $courseId = ArrayHelper::toInteger($courseId);
+            $courseId = implode(',', $courseId);
+            $query->where($db->quoteName('a.course_id') . ' IN (' . $courseId . ')');
         }
 
         // Filter by search team name / Reference

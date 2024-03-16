@@ -19,7 +19,7 @@
             <option value="">COM_MARATHONMANAGER_FILTER_EVENT_FILTER_LABEL</option>
         </field>
 
-        <field name="team_category_id"
+        <field name="course_id"
                type="TeamCategories"
                label="COM_MARATHONMANAGER_FILTER_TEAM_CATEGORIES_LABEL"
                onchange="this.form.submit();"

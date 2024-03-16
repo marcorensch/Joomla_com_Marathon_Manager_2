@@ -12,14 +12,15 @@ class RegistrationsModel extends BaseDatabaseModel
     public function getRegistrations(): array
     {
         $userId = Factory::getApplication()->getIdentity()->id;
-        if(!$userId) return [];
+        if (!$userId) return [];
 
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
 
-        $query->select(['a.*', 'b.title AS event_title','b.image AS event_image', 'b.event_date', 'b.event_duration','d.date AS arrival_date', 'c.title AS arrival_option_title'])
+        $query->select(['a.*', 'b.title AS event_title', 'b.image AS event_image', 'b.event_date', 'b.event_duration', 'd.date AS arrival_date', 'c.title AS arrival_option_title'])
             ->from($db->quoteName('#__com_marathonmanager_registrations', 'a'))
-            ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId));
+            ->where($db->quoteName('a.created_by') . ' = ' . $db->quote($userId))
+            ->where($db->quoteName('a.published') . ' = ' . $db->quote(1));
 
         //Join over the Event data
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_events', 'b') . ' ON (' . $db->quoteName('a.event_id') . ' = ' . $db->quoteName('b.id') . ')');
