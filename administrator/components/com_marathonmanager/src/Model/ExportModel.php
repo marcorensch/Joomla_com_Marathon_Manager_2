@@ -27,6 +27,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private $countries;
 
+    private $numOfParticipants = 5;
+
     private $app;
 
     /**
@@ -149,6 +151,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
      * @param $exportConfiguration
      * @param $rows
      * @return array
+     * @throws \Exception
      * @since 1.0.0
      */
     private function buildExportLayout($exportConfiguration, $rows): array
@@ -161,6 +164,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         foreach ($registrations as $registration) {
 
             $unFilteredParticipantsArray = json_decode($registration['participants'], true);
+            $unFilteredParticipantsArray = $this->getCountryNames($unFilteredParticipantsArray);
             $participantEmailsArray = $this->getParticipantEmails($unFilteredParticipantsArray);
 
             $registrationData = array();
@@ -181,17 +185,24 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData['arrival_date'] = $registration['arrival_date'] ? HTMLHelper::date($registration['arrival_date'], Text::_('DATE_FORMAT_LC5')) : '';
             $registrationData['payment_status'] = $registration['payment_status'];
 
+            $additionalDataArray = array();
+            $additionalDataArray['si_card_1'] = '';
+            $additionalDataArray['si_card_2'] = '';
+            $additionalDataArray['runner_country_1'] = $unFilteredParticipantsArray['participants0']['country'] ?? '';
+            $additionalDataArray['runner_country_2'] = $unFilteredParticipantsArray['participants1']['country'] ?? '';
+
             if (!$labelsCreated) {
                 // While we are in the first loop, we add the participants labels
                 $translatedLabels = $this->translateLabels(array_keys($registrationData));
                 $labels = $this->addParticipantsLabels($translatedLabels);
+                $labels = $this->addAdditionalLabels($labels);
                 $labelsCreated = true;
             }
 
             // Add Participants
             // not all participant data goes into the export here, but we need to strip out emails before
-            $participantsArray = $this->removeUnwantedParticipantData($unFilteredParticipantsArray);
-            $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $participantsArray));
+            $participantsArray = $this->prepareParticipantsData($unFilteredParticipantsArray);
+            $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $participantsArray), $additionalDataArray);
 
             // Add Row to Export Array
             $exportArray[] = $rowData;
@@ -214,7 +225,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
     private function addParticipantsLabels($labels): array
     {
         // Add Participant Labels
-        for ($r = 1; $r <= 5; $r++) {
+        for ($r = 1; $r <= $this->numOfParticipants; $r++) {
             $labels[] = Text::sprintf('COM_MARATHONMANAGER_EXPORT_RUNNER_N_FIRSTNAME', $r);
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
@@ -340,7 +351,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         return $registrations;
     }
 
-    private function removeUnwantedParticipantData(array $participants) : array
+    private function prepareParticipantsData(array $participants) : array
     {
         $keys = array('first_name', 'last_name','age', 'residence','public_transport_reduction');
 
@@ -348,6 +359,10 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         foreach ($participants as &$participant) {
             $participant = array_intersect_key($participant, array_flip($keys));
         }
+
+        // Make sure the array has the correct length
+        $participants = array_pad($participants, $this->numOfParticipants, array('first_name' => '', 'last_name' => '', 'age' => '', 'residence' => '', 'public_transport_reduction' => ''));
+
         return $participants;
 
     }
@@ -375,5 +390,30 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $contact_email .= "; " . implode("; ", $participantEmailsArray);
         }
         return $contact_email;
+    }
+
+    private function addAdditionalLabels(array $labels):array
+    {
+        $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_SI_CARD_1');
+        $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_SI_CARD_2');
+        $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY_1');
+        $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY_2');
+        return $labels;
+    }
+
+    private function getCountryNames(array $unFilteredParticipantsArray): array
+    {
+        if (is_array($unFilteredParticipantsArray)) {
+            foreach ($unFilteredParticipantsArray as $key => $participant) {
+                if (array_key_exists('country', $participant)) {
+                    if (array_key_exists($participant['country'], $this->countries)) {
+                        $unFilteredParticipantsArray[$key]['country'] = $this->countries[$participant['country']]['title'];
+                    } else {
+                        $unFilteredParticipantsArray[$key]['country'] = Text::_("COM_MARATHONMANAGER_EXPORT_COUNTRY_OTHER");
+                    }
+                }
+            }
+        }
+        return $unFilteredParticipantsArray;
     }
 }
