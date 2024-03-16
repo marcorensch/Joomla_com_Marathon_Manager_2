@@ -170,7 +170,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $registrationData = array();
             $registrationData['id'] = $registration['registration_id'];
             $registrationData['event_id'] = $registration['event_id'];
-            $registrationData['registration_date'] = HTMLHelper::date($registration['created'], Text::_('DATE_FORMAT_LC3'));
+            $registrationData['registration_date'] = HTMLHelper::date($registration['created'], Text::_('DATE_FORMAT_LC5'));
             $registrationData['team_name'] = $registration['team_name'];
             if (array_key_exists('start_number', $registration)) {
                 $registrationData['start_number'] = $registration['start_number'];
@@ -230,9 +230,9 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_AGE');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_TR');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_RESIDENCE');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY');
-            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_TR');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_EMAIL');
         }
 
@@ -353,15 +353,17 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function prepareParticipantsData(array $participants) : array
     {
-        $keys = array('first_name', 'last_name','age', 'residence','public_transport_reduction');
+        $keys = array('first_name', 'last_name','age','public_transport_reduction','residence');
 
         // Remove unwanted data from participants
         foreach ($participants as &$participant) {
             $participant = array_intersect_key($participant, array_flip($keys));
+            // Make sure the array has the correct sorting
+            $participant = array_replace(array_flip($keys), $participant);
         }
 
         // Make sure the array has the correct length
-        $participants = array_pad($participants, $this->numOfParticipants, array('first_name' => '', 'last_name' => '', 'age' => '', 'residence' => '', 'public_transport_reduction' => ''));
+        $participants = array_pad($participants, $this->numOfParticipants, array('first_name' => '', 'last_name' => '', 'age' => '', 'public_transport_reduction' => '', 'residence' => ''));
 
         return $participants;
 
