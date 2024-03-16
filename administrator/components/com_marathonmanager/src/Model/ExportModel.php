@@ -211,12 +211,12 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         for ($r = 1; $r < 7; $r++) {
             $labels[] = Text::sprintf('COM_MARATHONMANAGER_EXPORT_RUNNER_N_FIRSTNAME', $r);
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
-            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
+//            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_AGE');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_RESIDENCE');
-            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY');
+//            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_TR');
-            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_EMAIL');
+//            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_EMAIL');
         }
 
         return $labels;
