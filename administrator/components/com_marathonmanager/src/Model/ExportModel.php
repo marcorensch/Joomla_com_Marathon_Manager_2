@@ -185,7 +185,9 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             }
 
             // Add Participants
-            $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $registration['participants']));
+            // not all participant data goes into the export here
+            $participantsArray = $this->removeUnwantedParticipantData($registration['participants']);
+            $rowData = array_merge($registrationData, $this->buildParticipants($registration['registration_id'], $participantsArray));
 
             // Add Row to Export Array
             $exportArray[] = $rowData;
@@ -227,8 +229,6 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
      */
     private function buildParticipants($regId, $participants): array
     {
-        $participants = json_decode($participants, true);
-
         if (empty($participants)) {
             return array();
         }
@@ -334,5 +334,18 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         return $registrations;
+    }
+
+    private function removeUnwantedParticipantData(string $participants) : array
+    {
+        $participants = json_decode($participants, true);
+        $keys = array('first_name', 'last_name','age', 'residence','public_transport_reduction');
+
+        // Remove unwanted data from participants
+        foreach ($participants as &$participant) {
+            $participant = array_intersect_key($participant, array_flip($keys));
+        }
+        return $participants;
+
     }
 }
