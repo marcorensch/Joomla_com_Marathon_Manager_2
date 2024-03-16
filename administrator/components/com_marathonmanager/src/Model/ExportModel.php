@@ -134,6 +134,8 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_options', 'at') . ' ON ' . $db->quoteName('r.arrival_option_id') . ' = ' . $db->quoteName('at.id'));
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_dates', 'ad') . ' ON ' . $db->quoteName('r.arrival_date_id') . ' = ' . $db->quoteName('ad.id'));
 
+        $query->where('r.published = 1');
+
         if ($configuration['only_paid']) {
             $query->where('r.payment_status = 1');
         }
