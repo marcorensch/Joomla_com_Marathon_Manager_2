@@ -9,7 +9,7 @@
         <fileTransfer mountedRoot="$USER_HOME$/Deployment/Joomla/MarathonManager 2" accessType="MOUNT" port="0" />
       </webServer>
       <webServer id="df92599f-d98c-4fd4-b6da-68907064c3f6" name="Marathon24(J5)" url="http://localhost">
-        <fileTransfer mountedRoot="$USER_HOME$/Development/docker_mountainmarathon24/htdocs/html/web" accessType="MOUNT" port="0" />
+        <fileTransfer mountedRoot="$USER_HOME$/Sites/marathon.local" accessType="MOUNT" port="0" />
       </webServer>
     </option>
   </component>
