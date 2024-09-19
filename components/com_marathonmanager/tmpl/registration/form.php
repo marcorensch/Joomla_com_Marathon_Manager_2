@@ -26,6 +26,12 @@ $wa->useScript('keepalive')
 $wa->useStyle('com_marathonmanager.form-edit');
 $wa->addInlineStyle('.switcher { width: auto; } .control-group {position:relative;}');
 
+
+// Make language strings available in JS
+Text::script('COM_MARATHONMANAGER_FIELD_BIRTHYEAR_INVALID_FORMAT');
+Text::script('COM_MARATHONMANAGER_FIELD_BIRTHYEAR_TOO_SMALL');
+Text::script('COM_MARATHONMANAGER_FIELD_BIRTHYEAR_TOO_LARGE');
+
 ?>
 
 <form class="form-validate" action="<?php echo Route::_('index.php?option=com_marathonmanager&id='.$this->event->id); ?>"

@@ -7,26 +7,21 @@ document.addEventListener('DOMContentLoaded', function() {
         document.formvalidator.setHandler('age', function(value, element) {
             const regex = /^\d{4}$/;
             if(!regex.test(value)){
-                element.dataset.validationText = 'Please enter a valid year of birth (4 digits)';
+                element.dataset.validationText = Joomla.Text._("COM_MARATHONMANAGER_FIELD_BIRTHYEAR_INVALID_FORMAT");
                 return false;
             }
 
             value = parseInt(value);
             let min = parseInt(element.getAttribute('min')) || 1940;
             let max = parseInt(element.getAttribute('max')) || new Date().getFullYear();
+            let min_age = parseInt(element.getAttribute('data-min-age')) || new Date().getFullYear();
 
-            // Check that the value is a number with four digits and is between the min and max values
-            if(isNaN(value) || value < 999 || value > 9999){
-                element.dataset.validationText = 'Please enter a valid year of birth';
-                return false;
-            }
             if(value < min){
-                element.dataset.validationText = `The first year of birth is ${min}`;
+                element.dataset.validationText = Joomla.Text._("COM_MARATHONMANAGER_FIELD_BIRTHYEAR_TOO_SMALL") + min;
                 return false;
             }
             if(value > max){
-                const minimumAge =  new Date().getFullYear() - max;
-                element.dataset.validationText = 'Minimum Age is ' + minimumAge + ' years';
+                element.dataset.validationText = Joomla.Text._("COM_MARATHONMANAGER_FIELD_BIRTHYEAR_TOO_LARGE") + min_age;
                 return false;
             }
 

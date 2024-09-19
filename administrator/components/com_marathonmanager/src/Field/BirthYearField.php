@@ -15,6 +15,7 @@ namespace NXD\Component\MarathonManager\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\NumberField;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 
 
@@ -62,7 +63,7 @@ class BirthYearField extends NumberField
 		if ($return)
 		{
 			// It is better not to force any default limits if none is specified
-			$this->max  = isset($this->element['min-age']) ? (int) $year - intval($this->element['min-age']) : $year - $this->min_age;
+			$this->max  = isset($this->element['data-min-age']) ? (int) $year - intval($this->element['data-min-age']) : $year - $this->min_age;
 			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : null;
 			$this->step = isset($this->element['step']) ? (float) $this->element['step'] : $this->step;
 		}
