@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
     ->useScript('com_marathonmanager.rule-age-check');
 
 $wa->useStyle('com_marathonmanager.form-edit');
-$wa->addInlineStyle('.switcher { width: auto; } .control-group {position:relative;} .form-control-feedback {float:none;position:absolute;right:10px;top:-15px;}');
+$wa->addInlineStyle('.switcher { width: auto; } .control-group {position:relative;}');
 
 ?>
 

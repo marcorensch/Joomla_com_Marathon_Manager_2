@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             if(value > max){
-                const minimumAge =  new Date().getFullYear() - max + 1;
+                const minimumAge =  new Date().getFullYear() - max;
                 element.dataset.validationText = 'Minimum Age is ' + minimumAge + ' years';
                 return false;
             }

@@ -1,10 +1,14 @@
 .control-group,
 joomla-field-subform{
     & span.form-control-feedback{
-        float: right;
-        font-weight: bolder;
-        color: red;
         display: block;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .switcher label .form-control-feedback {
+        display: inline;
     }
 
     & label.invalid,

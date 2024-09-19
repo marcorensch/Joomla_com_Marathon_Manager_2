@@ -90,7 +90,8 @@
     {
       "name": "com_marathonmanager.form-edit",
       "type": "style",
-      "uri": "com_marathonmanager/form-edit.css"
+      "uri": "com_marathonmanager/form-edit.css",
+      "version": "2.0.0"
     },
     {
       "name": "com_marathonmanager.rule-age-check",
