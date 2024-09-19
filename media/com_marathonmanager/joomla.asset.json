@@ -93,6 +93,17 @@
       "uri": "com_marathonmanager/form-edit.css"
     },
     {
+      "name": "com_marathonmanager.rule-age-check",
+      "type": "script",
+      "uri": "com_marathonmanager/client-validation-age.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "com_marathonmanager.event-gallery-css",
       "type": "style",
       "uri": "com_marathonmanager/event-gallery.css"

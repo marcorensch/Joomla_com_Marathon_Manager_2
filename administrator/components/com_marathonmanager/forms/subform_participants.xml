@@ -29,7 +29,7 @@
         </field>
     </fieldset>
     <fieldset name="fs_age" class="col-lg-2">
-        <field name="age" type="number" default="6" label="COM_MARATHONMANAGER_FIELD_AGE_LABEL" min="6" max="100" />
+        <field name="birth_year" class="validate-age" type="birthyear" default="" hint="1980" label="COM_MARATHONMANAGER_FIELD_BIRTHYEAR_LABEL" min="1920" min-age="6" pattern="^\d{4}$" />
     </fieldset>
     <fieldset name="fs_loc" class="col-lg-6">
         <field name="residence" type="text" required="true" label="COM_MARATHONMANAGER_FIELD_RESIDENCE_LABEL" pattern="^[^\d]*$"/>

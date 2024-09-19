@@ -24,6 +24,7 @@
       <path value="$PROJECT_DIR$/administrator/components/com_marathonmanager/vendor/markbaker/complex" />
       <path value="$PROJECT_DIR$/administrator/components/com_marathonmanager/vendor/phpoffice/phpspreadsheet" />
       <path value="$USER_HOME$/Sites/marathon24.site" />
+      <path value="$USER_HOME$/Sites/marathon.local" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">

@@ -20,10 +20,11 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_marathonmanager.form-edit')
-    ->useScript('com_marathonmanager.rule-checked');
+    ->useScript('com_marathonmanager.rule-checked')
+    ->useScript('com_marathonmanager.rule-age-check');
 
 $wa->useStyle('com_marathonmanager.form-edit');
-$wa->addInlineStyle('.switcher { width: auto; }');
+$wa->addInlineStyle('.switcher { width: auto; } .control-group {position:relative;} .form-control-feedback {float:none;position:absolute;right:10px;top:-15px;}');
 
 ?>
 

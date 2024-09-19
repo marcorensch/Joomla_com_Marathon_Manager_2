@@ -137,6 +137,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         $query->join('LEFT', $db->quoteName('#__com_marathonmanager_arrival_dates', 'ad') . ' ON ' . $db->quoteName('r.arrival_date_id') . ' = ' . $db->quoteName('ad.id'));
 
         $query->where('r.published = 1');
+        $query->where('r.event_id = ' . $configuration['event_id']);
 
         if ($configuration['only_paid']) {
             $query->where('r.payment_status = 1');
@@ -229,7 +230,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
             $labels[] = Text::sprintf('COM_MARATHONMANAGER_EXPORT_RUNNER_N_FIRSTNAME', $r);
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_LASTNAME');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_GENDER');
-            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_AGE');
+            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_BIRTH_YEAR');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_TR');
             $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_RESIDENCE');
 //            $labels[] = Text::_('COM_MARATHONMANAGER_EXPORT_RUNNER_COUNTRY');
@@ -353,7 +354,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
 
     private function prepareParticipantsData(array $participants) : array
     {
-        $keys = array('first_name', 'last_name','age','public_transport_reduction','residence');
+        $keys = array('first_name', 'last_name','birth_year','public_transport_reduction','residence');
 
         // Remove unwanted data from participants
         foreach ($participants as &$participant) {
@@ -363,7 +364,7 @@ class ExportModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         // Make sure the array has the correct length
-        $participants = array_pad($participants, $this->numOfParticipants, array('first_name' => '', 'last_name' => '', 'age' => '', 'public_transport_reduction' => '', 'residence' => ''));
+        $participants = array_pad($participants, $this->numOfParticipants, array('first_name' => '', 'last_name' => '', 'birth_year' => '', 'public_transport_reduction' => '', 'residence' => ''));
 
         return $participants;
 
