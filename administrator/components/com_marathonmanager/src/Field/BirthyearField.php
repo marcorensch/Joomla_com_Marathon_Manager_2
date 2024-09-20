@@ -15,11 +15,10 @@ namespace NXD\Component\MarathonManager\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\NumberField;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 
 
-class BirthYearField extends NumberField
+class BirthyearField extends NumberField
 {
 
 	/**
@@ -28,7 +27,7 @@ class BirthYearField extends NumberField
 	 * @var    string
 	 * @since  1.0.0
 	 */
-	protected $type = 'birthyear';
+	protected $type = 'Birthyear';
 	protected $max = null;
 	protected $min = null;
 	protected $step = 1;

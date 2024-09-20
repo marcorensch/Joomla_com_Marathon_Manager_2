@@ -97,6 +97,7 @@
       "name": "com_marathonmanager.rule-age-check",
       "type": "script",
       "uri": "com_marathonmanager/client-validation-age.js",
+      "version": "2.0.0",
       "dependencies": [
         "core"
       ],
