@@ -53,7 +53,7 @@ class BirthyearField extends NumberField
 			$this->event_date = $db->loadResult();
 		}
 
-		if($this->event_date){
+		if(isset($this->event_date)){
 			$year = date('Y', strtotime($this->event_date));
 		}else{
 			$year = date('Y');
