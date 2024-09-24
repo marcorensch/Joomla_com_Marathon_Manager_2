@@ -320,7 +320,10 @@ class RegistrationModel extends FormModel
 
         // Enlist for newsletter if requested
         if($data['newsletter_enlist'] && $generalNewsletterListId = $params->get('newsletter_list_id', null)) {
-            $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
+			if(!$newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name'])){
+				$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $data['contact_email']), 'warning');
+				return;
+			}
             $subscriptionStatus = $newsletterModel->subscribeToList($generalNewsletterListId);
 
             if($subscriptionStatus){
@@ -334,7 +337,10 @@ class RegistrationModel extends FormModel
         $event = $this->getEvent($data['event_id']);
         if($event && $event->lastinfos_newsletter_list_id)
         {
-            $newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name']);
+            if(!$newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name'])){
+				$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $data['contact_email']), 'warning');
+				return;
+			}
             if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
                 $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
             }
@@ -346,7 +352,10 @@ class RegistrationModel extends FormModel
             foreach ($participants as $participant) {
                 if($participant->email){
                     $newsletterModel = new NewsletterModel();
-                    $newsletterModel->saveUser($participant->email, $participant->first_name, $participant->last_name, $data['created_by']);
+                    if(!$newsletterModel->saveUser($participant->email, $participant->first_name, $participant->last_name, $data['created_by'])){
+						$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $participant->email), 'warning');
+						return;
+                    }
                     if($event && $event->lastinfos_newsletter_list_id)
                     {
                         if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){

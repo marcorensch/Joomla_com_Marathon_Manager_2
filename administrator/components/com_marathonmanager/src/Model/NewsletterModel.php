@@ -37,8 +37,13 @@ class NewsletterModel
         return $this->user;
     }
 
-    public function saveUser($email, $firstName, $lastName, $cmsUserId = null): newsLetterUser
+    public function saveUser($email, $firstName, $lastName, $cmsUserId = null): newsLetterUser | false
     {
+		// Check E-Mail
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			error_log('Invalid E-Mail address: ' . $email);
+			return false;
+	    }
         $this->user = new newsLetterUser();
         $this->user->email = $email;
         $this->user->name = $firstName . ' ' . $lastName;
@@ -54,12 +59,16 @@ class NewsletterModel
         // If the user already exists, we need to get the User ID by EMail
         if(!$this->user->id){
             $this->user->id = $this->getAcyMailingUserIDByEmail($email);
+			if(!$this->user->id){
+				error_log('Could not identify AcyMailing user by email: ' . $email);
+				return false;
+			}
         }
 
         return $this->user;
     }
 
-    private function getAcyMailingUserIDByEmail($email): int
+    private function getAcyMailingUserIDByEmail($email): int | null
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
         $query = $db->getQuery(true);
