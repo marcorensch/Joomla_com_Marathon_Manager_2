@@ -11,8 +11,8 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use AcyMailing\Classes\UserClass;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -21,6 +21,17 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.0.0
  */
+
+$ds = DIRECTORY_SEPARATOR;
+$acyHelper = rtrim(JPATH_ADMINISTRATOR, $ds).$ds.'components'.$ds.'com_acym'.$ds.'helpers'.$ds.'helper.php';
+if (!include_once($acyHelper)) {
+	$msg =  'COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR';
+	Factory::getApplication()->enqueueMessage(Text::_($msg), 'warning');
+	return false;
+}
+
+use AcyMailing\Classes\UserClass;
+
 
 class NewsletterModel
 {
