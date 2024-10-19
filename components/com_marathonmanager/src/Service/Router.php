@@ -95,8 +95,13 @@ class Router extends RouterView
         $registration->setKey('event_id');
         $this->registerView($registration);
 
-        $myregistrations = new RouterViewConfiguration('myregistrations');
-        $this->registerView($myregistrations);
+	    $registrations = new RouterViewConfiguration('registrations');
+	    $registrations->setKey('event_id');
+	    $this->registerView($registrations);
+
+		// IDK if it's necessary to register this view / if it is in use:
+        $myRegistrations = new RouterViewConfiguration('myregistrations');
+        $this->registerView($myRegistrations);
 
 //        $this->registerView(new RouterViewConfiguration('featured'));
         $form = new RouterViewConfiguration('form');
