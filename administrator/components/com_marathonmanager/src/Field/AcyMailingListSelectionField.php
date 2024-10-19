@@ -21,7 +21,7 @@ use Joomla\CMS\Form\FormHelper;
 
 $ds = DIRECTORY_SEPARATOR;
 $acyHelper = rtrim(JPATH_ADMINISTRATOR, $ds).$ds.'components'.$ds.'com_acym'.$ds.'helpers'.$ds.'helper.php';
-if (include_once($acyHelper)) {
+if (!include_once($acyHelper)) {
 	$msg =  'COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR';
 	Factory::getApplication()->enqueueMessage(Text::_($msg), 'warning');
 	return false;
