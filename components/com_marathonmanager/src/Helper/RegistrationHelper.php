@@ -37,9 +37,13 @@ class RegistrationHelper
             $result->qr_bank = $registrationDate < $earlybirdEndDate ? $data->qr_bank_earlybird : $data->qr_bank;
             $result->qr_twint = $registrationDate < $earlybirdEndDate ? $data->qr_twint_earlybird : $data->qr_twint;
         }else{
-            $result->qr_bank = $data->qr_bank;
-            $result->qr_twint = $data->qr_twint;
+            $result->qr_bank = trim($data->qr_bank);
+            $result->qr_twint = trim($data->qr_twint);
         }
+
+		// Handle the QR Code's
+	    $result->qr_bank = $result->qr_bank && $result->qr_bank !== "/" ? $result->qr_bank : null;
+		$result->qr_twint = $result->qr_twint && $result->qr_twint !=="/" ? $result->qr_twint : null;
 
         $result->bankingInformation = self::mergeBankingInformation($data->banking_details);
 
