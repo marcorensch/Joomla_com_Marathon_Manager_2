@@ -22,11 +22,10 @@ use Joomla\Database\DatabaseDriver;
  * @since  1.0.0
  */
 
-$ds = DIRECTORY_SEPARATOR;
-$acyHelper = rtrim(JPATH_ADMINISTRATOR, $ds).$ds.'components'.$ds.'com_acym'.$ds.'helpers'.$ds.'helper.php';
+$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
 if (!include_once($acyHelper)) {
 	$msg =  'COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR';
-	Factory::getApplication()->enqueueMessage(Text::_($msg), 'warning');
+	Factory::getApplication()->enqueueMessage(Text::_($msg), 'error');
 	return false;
 }
 
