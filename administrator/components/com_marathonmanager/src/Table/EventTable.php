@@ -9,7 +9,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -54,6 +56,10 @@ class EventTable extends Table
 		// Set publish_up, publish_down to null if not set
 //		$this->publish_up = (!$this->publish_up) ? null : $this->publish_up;
 //		$this->publish_down = (!$this->publish_down) ? null : $this->publish_down;
+
+		if($this->price_per_map === null){
+			$this->price_per_map = "0";
+		}
 
 		return true;
 	}

@@ -8,10 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-
-\defined('_JEXEC') or die;
 
 $headerLayout = new FileLayout('marathon-header', $basePath = JPATH_ROOT . '/components/com_marathonmanager/layouts');
 echo $headerLayout->render();

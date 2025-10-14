@@ -10,63 +10,75 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Course;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use NXD\Component\MarathonManager\Administrator\Model\CourseModel;
 
 class HtmlView extends BaseHtmlView
 {
 	protected $form;
 	protected $item;
-    public function display($tpl = null): void
-    {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+
+	public function display($tpl = null): void
+	{
+		/* @var CourseModel $model */
+		$model      = $this->getModel();
+		$this->form = $model->getForm();
+		$this->item = $model->getItem();
+
 
 		$this->addToolbar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
 	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
-		$isNew = (!$this->item->id);
-        $user = Factory::getApplication()->getIdentity();
-        $toolbarButtons = [];
-        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_COURSE_NEW') : Text::_('COM_MARATHONMANAGER_COURSE_EDIT'), 'fas fa-folder-open');
+		$isNew          = (!$this->item->id);
+		$user           = Factory::getApplication()->getIdentity();
+		$toolbarButtons = [];
+		ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_COURSE_NEW') : Text::_('COM_MARATHONMANAGER_COURSE_EDIT'), 'fas fa-folder-open');
 
-        // Build the actions for new and existing records.
-        if ($isNew) {
-            if ($user->authorise('core.create', 'com_marathonmanager')) {
-                ToolbarHelper::apply('course.apply');
-                $toolbarButtons = [
-                    ['save', 'course.save'],
-                    ['save2new', 'course.save2new'],
-                    ['save2copy', 'course.save2copy']
-                ];
-            }
-        } else {
-            $itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || ($user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id);
+		// Build the actions for new and existing records.
+		if ($isNew)
+		{
+			if ($user->authorise('core.create', 'com_marathonmanager'))
+			{
+				ToolbarHelper::apply('course.apply');
+				$toolbarButtons = [
+					['save', 'course.save'],
+					['save2new', 'course.save2new'],
+					['save2copy', 'course.save2copy']
+				];
+			}
+		}
+		else
+		{
+			$itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || ($user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id);
 
-            if ($itemEditable)
-            {
-                ToolbarHelper::apply('course.apply');
-                $toolbarButtons[] = ['save', 'course.save'];
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($user->authorise('core.create', 'com_marathonmanager'))
-                {
-                    $toolbarButtons[] = ['save2new', 'course.save2new'];
-                    $toolbarButtons[] = ['save2copy', 'course.save2copy'];
-                }
-            }
-        }
+			if ($itemEditable)
+			{
+				ToolbarHelper::apply('course.apply');
+				$toolbarButtons[] = ['save', 'course.save'];
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($user->authorise('core.create', 'com_marathonmanager'))
+				{
+					$toolbarButtons[] = ['save2new', 'course.save2new'];
+					$toolbarButtons[] = ['save2copy', 'course.save2copy'];
+				}
+			}
+		}
 
-        ToolbarHelper::saveGroup($toolbarButtons);
+		ToolbarHelper::saveGroup($toolbarButtons);
 		ToolbarHelper::cancel('course.cancel', 'JTOOLBAR_CLOSE');
 	}
 }

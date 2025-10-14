@@ -10,13 +10,12 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
-use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
@@ -24,7 +23,6 @@ use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\Menu\AbstractMenu;
 use NXD\Component\MarathonManager\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 

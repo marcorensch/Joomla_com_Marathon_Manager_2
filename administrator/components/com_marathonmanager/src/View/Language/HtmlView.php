@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Language;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -26,8 +28,10 @@ class HtmlView extends BaseHtmlView
 	protected $item;
     public function display($tpl = null): void
     {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\LanguageModel $model */
+	    $model = $this->getModel();
+		$this->form = $model->getForm();
+		$this->item = $model->getItem();
 
 		$this->addToolbar();
 
@@ -44,7 +48,7 @@ class HtmlView extends BaseHtmlView
 
         // Build the actions for new and existing records.
         if ($isNew) {
-            if (count($user->getAuthorisedCategories('com_marathonmanager', 'core.create')) > 0) {
+            if ($user->authorise('core.create', 'com_marathonmanager')) {
                 ToolbarHelper::apply('language.apply');
                 $toolbarButtons = [
                     ['save', 'language.save'],

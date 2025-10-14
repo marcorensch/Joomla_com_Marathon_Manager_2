@@ -13,10 +13,13 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\NumberField;
 use Joomla\Database\DatabaseInterface;
-
 
 class BirthyearField extends NumberField
 {

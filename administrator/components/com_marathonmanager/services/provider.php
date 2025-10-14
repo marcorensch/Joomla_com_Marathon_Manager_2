@@ -20,12 +20,15 @@ use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use NXD\Component\MarathonManager\Administrator\Extension\MarathonManagerComponent;
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
+use NXD\Component\MarathonManager\Administrator\Extension\MarathonManagerComponent;
 
-// Autoload dependencies with Composer
-require_once __DIR__ . '/../vendor/autoload.php';
+// Autoload dependencies with Composer - nur wenn vendor existiert
+$vendorPath = __DIR__ . '/../vendor/autoload.php';
+if (file_exists($vendorPath)) {
+	require_once $vendorPath;
+}
 
 return new class implements ServiceProviderInterface {
 	public function register(Container $container): void

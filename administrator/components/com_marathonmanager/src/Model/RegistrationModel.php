@@ -9,7 +9,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -49,9 +51,9 @@ class RegistrationModel extends \Joomla\CMS\MVC\Model\AdminModel
             $data = $this->getItem();
 
             // Prime some default values.
-            if ($this->getState('registration.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.registrations.filter.category_id'), 'int'));
-            }
+	        if ($this->getState('event.id') == 0) {
+		        $data->catid = $app->input->get('catid', $app->getUserState('com_marathonmanager.events.filter.category_id'), 'int');
+	        }
         }
 
         $this->preprocessData($this->typeAlias, $data);

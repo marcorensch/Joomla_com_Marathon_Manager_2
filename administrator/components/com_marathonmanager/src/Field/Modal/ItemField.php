@@ -11,7 +11,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field\Modal;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;

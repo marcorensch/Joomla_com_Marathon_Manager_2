@@ -7,15 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
-
 
 // The class name must always be the same as the filename (in camel case)
 class IconSelectorField extends FormField
@@ -492,10 +492,9 @@ class IconSelectorField extends FormField
         "fas fa-yen-sign",
     );
 
-    private function includeAssets()
+    private function includeAssets(): void
     {
-        $doc = \JFactory::getDocument();
-        $wa = $doc->getWebAssetManager();
+	    $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
         $wa->addInlineStyle('.nxd-icon-preview-container .card{cursor:pointer;}');
         $wa->addInlineScript('
             document.addEventListener("DOMContentLoaded", () => {

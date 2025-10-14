@@ -2,14 +2,11 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="2ebae6b7-2eb0-4e9f-9eaa-19d29bd5c6eb" name="Joomla 4" url="http://joomla4.site">
-        <fileTransfer mountedRoot="$USER_HOME$/Sites/joomla4.site" accessType="MOUNT" port="0" />
-      </webServer>
       <webServer id="8121782d-9825-4781-b829-180fe0834efd" name="Deployment" url="http://localhost">
         <fileTransfer mountedRoot="$USER_HOME$/Deployment/MarathonManager2" accessType="MOUNT" port="0" />
       </webServer>
       <webServer id="df92599f-d98c-4fd4-b6da-68907064c3f6" name="Marathon24(J5)" url="http://localhost">
-        <fileTransfer mountedRoot="$USER_HOME$/Sites/marathon.local" accessType="MOUNT" port="0" />
+        <fileTransfer mountedRoot="$USER_HOME$/Sites/mountainmarathon" accessType="MOUNT" port="0" />
       </webServer>
     </option>
   </component>

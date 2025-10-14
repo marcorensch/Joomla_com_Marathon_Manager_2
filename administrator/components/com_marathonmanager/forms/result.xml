@@ -14,7 +14,6 @@
             default="0"
     />
 
-
     <field
             name="event_id"
             type="events"
@@ -30,7 +29,23 @@
         <field name="time_total" type="text" label="COM_MARATHONMANAGER_FIELD_TIME_TOTAL_LABEL" required="false"/>
         <field name="points_total" type="text" label="COM_MARATHONMANAGER_FIELD_POINTS_TOTAL_LABEL" required="false"/>
         <field name="penalties" type="number" label="COM_MARATHONMANAGER_FIELD_PENALTIES_LABEL" required="true"
-               default="0"/>
+               default="0"
+        />
+
+    <field name="registration_id"
+           label="COM_MARATHONMANAGER_FIELD_LINKED_TEAM_LABEL"
+           description="COM_MARATHONMANAGER_FIELD_LINKED_TEAM_DESCRIPTION"
+           type="sql"
+           sql_select="r.*"
+           sql_from="#__com_marathonmanager_registrations AS r"
+           sql_order="r.id ASC"
+           sql_filter="event_id,published"
+           sql_default_published="1"
+           key_field="id"
+           value_field="team_name"
+           context="sqlfield"
+    />
+
     <field name="event_id"
            type="events"
            label="COM_MARATHONMANAGER_FIELD_EVENT_LABEL"

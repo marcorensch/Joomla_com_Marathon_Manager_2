@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Export;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -18,12 +20,15 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use NXD\Component\MarathonManager\Administrator\Model\ExportModel;
 
 class HtmlView extends BaseHtmlView
 {
     public function display($tpl = null): void
     {
-        $this->form = $this->get('Form');
+		/** @var ExportModel $model */
+	    $model = $this->getModel();
+        $this->form = $model->getForm();
 
 		$this->addToolbar();
 
@@ -34,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', false);
         $user = Factory::getApplication()->getIdentity();
-        $toolbar =  Toolbar::getInstance('toolbar');
+		$toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_EXPORT'), 'fas fa-file-download');
         $canExport = $user->authorise('marathonmanager.export', 'com_marathonmanager');

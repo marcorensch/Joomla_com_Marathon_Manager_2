@@ -9,7 +9,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -45,7 +47,7 @@ class ArrivaloptionModel extends \Joomla\CMS\MVC\Model\AdminModel
 
 			// Prime some default values.
 			if ($this->getState('event.id') == 0) {
-				$data->set('catid', $app->input->get('catid', $app->getUserState('com_marathonmanager.arrivaloptions.filter.category_id'), 'int'));
+				$data->catid = $app->input->get('catid', $app->getUserState('com_marathonmanager.events.filter.category_id'), 'int');
 			}
 		}
 

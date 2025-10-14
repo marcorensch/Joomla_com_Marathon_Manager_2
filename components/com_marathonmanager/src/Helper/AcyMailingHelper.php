@@ -2,8 +2,11 @@
 
 namespace NXD\Component\MarathonManager\Site\Helper;
 
-use AcyMailing\Helpers\MailerHelper;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
+use AcyMailing\Helpers\MailerHelper;
 
 class AcyMailingHelper
 {

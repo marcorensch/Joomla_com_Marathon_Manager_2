@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Registrations;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,13 +27,15 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null): void
     {
-        $this->items = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
-        $this->filterForm = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->state = $this->get('State');
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\RegistrationsModel $model */
+	    $model = $this->getModel();
+        $this->items = $model->getItems();
+        $this->pagination = $model->getPagination();
+        $this->filterForm = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->state = $model->getState();
 
-        if (!count($this->items) && $this->get('IsEmptyState')) {
+        if (!count($this->items) && $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -45,9 +49,9 @@ class HtmlView extends BaseHtmlView
         $user = Factory::getApplication()->getIdentity();
 
         ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_REGISTRATIONS_TITLE'), 'fas fa-file-signature');
-        $toolbar = Toolbar::getInstance();
+	    $toolbar = $this->getDocument()->getToolbar();
 
-        // Add New Button if user has permissions to create
+	    // Add New Button if user has permissions to create
         if ($user->authorise('core.create', 'com_marathonmanager')) {
             ToolbarHelper::addNew('registration.add');
         }

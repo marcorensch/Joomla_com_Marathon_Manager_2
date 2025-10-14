@@ -10,7 +10,10 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Registration;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -22,58 +25,65 @@ class HtmlView extends BaseHtmlView
 {
 	protected $form;
 	protected $item;
-    public function display($tpl = null): void
-    {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+
+	public function display($tpl = null): void
+	{
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\RegistrationModel $model */
+		$model      = $this->getModel();
+		$this->form = $model->getForm();
+		$this->item = $model->getItem();
 
 		$this->addToolbar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
 	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
-		$isNew = (!$this->item->id);
-        $user = Factory::getApplication()->getIdentity();
-        $toolbarButtons = [];
-        ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_REGISTRATION_NEW') : Text::_('COM_MARATHONMANAGER_REGISTRATION_EDIT'), 'fas fa-file-signature');
+		$isNew          = (!$this->item->id);
+		$user           = Factory::getApplication()->getIdentity();
+		$toolbarButtons = [];
+		ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_REGISTRATION_NEW') : Text::_('COM_MARATHONMANAGER_REGISTRATION_EDIT'), 'fas fa-file-signature');
 
-        // Build the actions for new and existing records.
-        if ($isNew) {
-            if ($user->authorise('core.create', 'com_marathonmanager')) {
-                ToolbarHelper::apply('registration.apply');
-                $toolbarButtons = [
-                    ['save', 'registration.save'],
-                    ['save2new', 'registration.save2new'],
-                    ['save2copy', 'registration.save2copy']
-                ];
-            }
-        } else {
+		// Build the actions for new and existing records.
+		if ($isNew)
+		{
+			if ($user->authorise('core.create', 'com_marathonmanager'))
+			{
+				ToolbarHelper::apply('registration.apply');
+				$toolbarButtons = [
+					['save', 'registration.save'],
+					['save2new', 'registration.save2new'],
+					['save2copy', 'registration.save2copy']
+				];
+			}
+		}
+		else
+		{
 
-            $itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || $user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id;
+			$itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || $user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id;
 
-            if ($itemEditable)
-            {
-                ToolbarHelper::apply('registration.apply');
-                $toolbarButtons[] = ['save', 'registration.save'];
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($user->authorise('core.create', 'com_marathonmanager'))
-                {
-                    $toolbarButtons[] = ['save2new', 'registration.save2new'];
-                }
+			if ($itemEditable)
+			{
+				ToolbarHelper::apply('registration.apply');
+				$toolbarButtons[] = ['save', 'registration.save'];
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($user->authorise('core.create', 'com_marathonmanager'))
+				{
+					$toolbarButtons[] = ['save2new', 'registration.save2new'];
+				}
 
-                // If checked out, we can still save
-                if ($user->authorise('core.create', 'com_marathonmanager'))
-                {
-                    $toolbarButtons[] = ['save2copy', 'registration.save2copy'];
-                }
+				// If checked out, we can still save
+				if ($user->authorise('core.create', 'com_marathonmanager'))
+				{
+					$toolbarButtons[] = ['save2copy', 'registration.save2copy'];
+				}
 
-            }
-        }
+			}
+		}
 
-        ToolbarHelper::saveGroup($toolbarButtons);
+		ToolbarHelper::saveGroup($toolbarButtons);
 
 		ToolbarHelper::cancel('registration.cancel', 'JTOOLBAR_CLOSE');
 

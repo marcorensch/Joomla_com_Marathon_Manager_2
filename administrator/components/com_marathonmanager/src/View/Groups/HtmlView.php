@@ -10,7 +10,10 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Groups;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -21,76 +24,80 @@ use Joomla\CMS\Helper\ContentHelper;
 
 class HtmlView extends BaseHtmlView
 {
-    protected $items;
+	protected $items;
 
-    public function display($tpl = null): void
-    {
-        $this->items = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
-        $this->filterForm = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->state = $this->get('State');
+	public function display($tpl = null): void
+	{
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\GroupsModel $model */
+		$model               = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
+		$this->state         = $model->getState();
 
-        if (!count($this->items) && $this->get('IsEmptyState')) {
-            $this->setLayout('emptystate');
-        }
+		if (!count($this->items) && $model->getIsEmptyState())
+		{
+			$this->setLayout('emptystate');
+		}
 
-        $this->addToolbar();
+		$this->addToolbar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    protected function addToolbar(): void
-    {
-        $user = Factory::getApplication()->getIdentity();
-        ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_GROUPS_TITLE'), 'fas fa-folder-open');
-        $toolbar = Toolbar::getInstance();
+	protected function addToolbar(): void
+	{
+		$user = Factory::getApplication()->getIdentity();
+		ToolbarHelper::title(Text::_('COM_MARATHONMANAGER_GROUPS_TITLE'), 'fas fa-folder-open');
+		$toolbar = $this->getDocument()->getToolbar();
 
-        // Add New Button if user has permissions to create
-        if ($user->authorise('core.create', 'com_marathonmanager')) {
-            ToolbarHelper::addNew('group.add');
-        }
+		// Add New Button if user has permissions to create
+		if ($user->authorise('core.create', 'com_marathonmanager'))
+		{
+			ToolbarHelper::addNew('group.add');
+		}
 
-        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
-        {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
-                ->toggleSplit(false)
-                ->icon('fa fa-ellipsis-h')
-                ->buttonClass('btn btn-action')
-                ->listCheck(true);
+		if ($user->authorise('core.edit.state', 'com_marathonmanager'))
+		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-            $childBar = $dropdown->getChildToolbar();
-            $childBar->publish('groups.publish')->listCheck(true);
-            $childBar->unpublish('groups.unpublish')->listCheck(true);
-            $childBar->archive('groups.archive')->listCheck(true);
+			$childBar = $dropdown->getChildToolbar();
+			$childBar->publish('groups.publish')->listCheck(true);
+			$childBar->unpublish('groups.unpublish')->listCheck(true);
+			$childBar->archive('groups.archive')->listCheck(true);
 
-            if ($user->authorise('core.admin', 'com_marathonmanager'))
-            {
-                $childBar->checkin('groups.checkin')->listCheck(true);
-            }
+			if ($user->authorise('core.admin', 'com_marathonmanager'))
+			{
+				$childBar->checkin('groups.checkin')->listCheck(true);
+			}
 
-            if ($this->state->get('filter.published') != -2)
-            {
-                $childBar->trash('groups.trash')->listCheck(true);
-            }
-        }
+			if ($this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('groups.trash')->listCheck(true);
+			}
+		}
 
-        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
-        {
-            $toolbar->delete('groups.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
-                ->message('JGLOBAL_CONFIRM_DELETE')
-                ->listCheck(true);
-        }
+		if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
+		{
+			$toolbar->delete('groups.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
+		}
 
-        $toolbar->appendButton('Link', 'map-signs', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_COURSES', '/administrator/index.php?option=com_marathonmanager&view=courses');
+		$toolbar->appendButton('Link', 'map-signs', 'COM_MARATHONMANAGER_BTN_LABEL_SWITCH_TO_COURSES', '/administrator/index.php?option=com_marathonmanager&view=courses');
 
-        // Add Options Button if user has permissions to edit
-        if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
-        {
-            $toolbar->preferences('com_marathonmanager');
-        }
+		// Add Options Button if user has permissions to edit
+		if ($user->authorise('core.admin', 'com_marathonmanager') || $user->authorise('core.options', 'com_marathonmanager'))
+		{
+			$toolbar->preferences('com_marathonmanager');
+		}
 
-    }
+	}
 }

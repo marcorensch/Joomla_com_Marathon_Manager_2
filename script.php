@@ -10,7 +10,7 @@
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
@@ -19,148 +19,193 @@ use Joomla\CMS\Factory;
 
 class Com_MarathonmanagerInstallerScript
 {
-    private $minimumJoomlaVersion = '4.0';
+	private $minimumJoomlaVersion = '4.0';
 
-    private $minimumPhpVersion = JOOMLA_MINIMUM_PHP;
+	private $minimumPhpVersion = JOOMLA_MINIMUM_PHP;
 
-    /**
-     * @throws Exception
-     */
-    public function install($parent): bool
-    {
-//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL');
-        if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
+	/**
+	 * @throws Exception
+	 */
+	public function install($parent): bool
+	{
+		$this->createMediaDirectories();
+		return true;
+	}
+
+	public function update($parent): bool
+	{
         $this->createMediaDirectories();
-        return true;
-    }
+		return true;
+	}
 
-    public function update($parent): bool
-    {
-//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UPDATE');
-        if(!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
-        $this->createMediaDirectories();
-        return true;
-    }
+	public function uninstall($parent): bool
+	{
+		return true;
+	}
 
-    public function uninstall($parent): bool
-    {
-//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_UNINSTALL');
-        return true;
-    }
+	public function preflight($type, $parent): bool
+	{
+		if ($type !== 'uninstall')
+		{
+			// Check minimum PHP Version
+			if (!empty($this->minimumPhpVersion) && version_compare(PHP_VERSION, $this->minimumPhpVersion, '<'))
+			{
+				Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhpVersion), Log::WARNING, 'jerror');
 
-    public function preflight($type, $parent): bool
-    {
-        if ($type !== 'uninstall') {
-            // Check minimum PHP Version
-            if (!empty($this->minimumPhpVersion) && version_compare(PHP_VERSION, $this->minimumPhpVersion, '<')) {
-                Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhpVersion), Log::WARNING, 'jerror');
-                return false;
-            }
-        }
+				return false;
+			}
+		}
+
 //        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_PREFLIGHT_' . strtoupper($type));
-        return true;
-    }
+		return true;
+	}
 
-    public function postflight($type, $parent): bool
-    {
-//        echo Text::_('COM_MARATHONMANAGER_INSTALLERSCRIPT_POSTFLIGHT_' . strtoupper($type));
-        return true;
-    }
+	/**
+	 * @throws Exception
+	 * @since 1.1.0
+	 */
+	public function postflight($type, $parent): bool
+	{
 
-    /**
-     * @throws Exception
-     */
-    private function installCategory($categoryTitle): bool
-    {
-        if (!$categoryTitle) return false;
-        $alias = ApplicationHelper::stringURLSafe($categoryTitle);
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
+		if ($type === 'install' || $type === 'update')
+		{
+			if (!$this->checkIfCategoryExists('Uncategorised')) $this->installCategory('Uncategorised');
+		}
 
-        $category = Table::getInstance('Category');
+		return true;
+	}
 
-        $data = [
-            'extension' => 'com_marathonmanager',
-            'title' => $categoryTitle,
-            'alias' => $alias,
-            'published' => 1,
-            'access' => 1,
-            'params' => '{"category_layout":"","image":""}',
-            'metadescription' => '',
-            'metakey' => '',
-            'metadata' => '{"page_title":"","author":"","robots":""}',
-            'language' => '*',
-            'created_user_id' => $this->getAdminId(),
-            'created_time' => Factory::getDate()->toSql(),
-            'parent_id' => 1,
-            'rules' => [],
-        ];
+	/**
+	 * @throws Exception
+	 * @since 1.1.0
+	 */
+	private function installCategory(string $categoryTitle): void
+	{
+		if (!$categoryTitle)
+		{
+			return;
+		}
 
-        $category->setLocation(1, 'last-child');
+		$alias = ApplicationHelper::stringURLSafe($categoryTitle);
+		$db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        // Bind data to the table
-        if (!$category->bind($data)) {
-            Factory::getApplication()->enqueueMessage($category->getError(), 'error');
-            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
-            return false;
-        }
+		try
+		{
+			// Hole die höchste rgt-Nummer aus der Categories-Tabelle
+			$query = $db->getQuery(true);
+			$query->select('MAX(rgt)')
+				->from('#__categories');
+			$db->setQuery($query);
+			$maxRgt = (int) $db->loadResult();
 
-        // Check the data.
-        if (!$category->check()) {
-            Factory::getApplication()->enqueueMessage($category->getError(), 'error');
-            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
+			// Die neue Kategorie bekommt lft = maxRgt + 1 und rgt = maxRgt + 2
+			$newLft = $maxRgt + 1;
+			$newRgt = $maxRgt + 2;
 
-            return false;
-        }
+			$now = Factory::getDate()->toSql();
 
-        // Store the data.
-        if (!$category->store(true)) {
-            Factory::getApplication()->enqueueMessage($category->getError(), 'error');
-            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', "Uncategorised"), 'error');
+			// Erstelle die Kategorie direkt in der Datenbank
+			$columns = [
+				'parent_id',
+				'lft',
+				'rgt',
+				'level',
+				'path',
+				'extension',
+				'title',
+				'alias',
+				'published',
+				'access',
+				'language',
+				'params',
+				'created_user_id',
+				'created_time',
+				'modified_time'
+			];
 
-            return false;
-        }
+			$values = [
+				1, // Root parent
+				$newLft,
+				$newRgt,
+				1,
+				$db->quote($alias),
+				$db->quote('com_marathonmanager'),
+				$db->quote($categoryTitle),
+				$db->quote($alias),
+				1,
+				1,
+				$db->quote('*'),
+				$db->quote('{}'),
+				$this->getAdminId(),
+				$db->quote($now),
+				$db->quote($now)
+			];
 
-        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_TRUE', $categoryTitle), 'notice');
+			$query = $db->getQuery(true);
+			$query->insert('#__categories')
+				->columns($columns)
+				->values(implode(',', $values));
 
-        return true;
+			$db->setQuery($query);
+			$db->execute();
 
-    }
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_TRUE', $categoryTitle),
+				'notice'
+			);
+		}
+		catch (\Exception $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('COM_MARATHONMANAGER_INSTALLERSCRIPT_INSTALL_CATEGORY_FALSE', $categoryTitle),
+				'error'
+			);
+		}
+	}
 
-    private function checkIfCategoryExists($categoryTitle){
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
-        $query->select('id');
-        $query->from('#__categories');
-        $query->where('title = ' . $db->quote($categoryTitle));
-        $query->where('extension = ' . $db->quote('com_marathonmanager'));
-        $db->setQuery($query);
-        $result = $db->loadResult();
-        if($result) return true;
-        return false;
-    }
+	private function checkIfCategoryExists(string $categoryTitle): bool
+	{
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
+		$query = $db->getQuery(true);
+		$query->select('id');
+		$query->from('#__categories');
+		$query->where('title = ' . $db->quote($categoryTitle));
+		$query->where('extension = ' . $db->quote('com_marathonmanager'));
+		$db->setQuery($query);
+		$result = $db->loadResult();
+		if ($result) return true;
 
-    private function createMediaDirectories(): void
-    {
-        $foldernames = array('events', 'participants', 'results','registrations');
-        $path = JPATH_ROOT . '/media/com_marathonmanager';
-        foreach ($foldernames as $foldername) {
-            if (!Folder::exists($path . '/' . $foldername)) {
-                try {
-                    Folder::create($path . '/' . $foldername);
-                    Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_FOLDER_CREATED_TRUE', $foldername), 'notice');
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                    Log::add(Text::sprintf('COM_MARATHONMANAGER_FOLDER_CREATED_FALSE', $foldername), Log::WARNING, 'jerror');
-                }
-            }
-        }
-    }
+		return false;
+	}
 
-    private function getAdminId(): int
-    {
-        $app = Factory::getApplication();
-        $user = $app->getIdentity();
-        return $user->id;
-    }
+	private function createMediaDirectories(): void
+	{
+		$foldernames = array('events', 'participants', 'results', 'registrations');
+		$path        = JPATH_ROOT . '/media/com_marathonmanager';
+		foreach ($foldernames as $foldername)
+		{
+			if (!Folder::exists($path . '/' . $foldername))
+			{
+				try
+				{
+					Folder::create($path . '/' . $foldername);
+					Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_FOLDER_CREATED_TRUE', $foldername), 'notice');
+				}
+				catch (Exception $e)
+				{
+					echo $e->getMessage();
+					Log::add(Text::sprintf('COM_MARATHONMANAGER_FOLDER_CREATED_FALSE', $foldername), Log::WARNING, 'jerror');
+				}
+			}
+		}
+	}
+
+	private function getAdminId(): int
+	{
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
+
+		return $user->id;
+	}
 }

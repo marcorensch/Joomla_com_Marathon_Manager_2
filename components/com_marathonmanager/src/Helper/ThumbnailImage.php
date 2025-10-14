@@ -2,6 +2,10 @@
 
 namespace NXD\Component\MarathonManager\Site\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Filesystem\Path;
 
 class ThumbnailImage

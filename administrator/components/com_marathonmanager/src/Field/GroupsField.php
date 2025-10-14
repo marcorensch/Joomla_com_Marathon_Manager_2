@@ -13,16 +13,14 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
-
-defined('_JEXEC') or die;
 
 class GroupsField extends ListField{
     /**

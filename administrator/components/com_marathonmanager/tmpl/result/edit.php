@@ -8,7 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -46,6 +48,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
             <div class="col-lg-4">
                 <?php echo $this->getForm()->renderField('place'); ?>
                 <?php echo $this->getForm()->renderField('team_name'); ?>
+                <?php echo $this->getForm()->renderField('registration_id'); ?>
                 <?php echo $this->getForm()->renderField('start_number'); ?>
             </div>
             <div class="col-lg-4">

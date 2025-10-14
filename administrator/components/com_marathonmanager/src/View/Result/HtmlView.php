@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Result;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -26,17 +28,20 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null): void
     {
 
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\ResultModel $model */
+	    $model = $this->getModel();
+
         // check if we are in import mode
         if($this->getLayout() === 'import')
         {
-            $this->form = $this->get('ImportForm');
+            $this->form = $model->getImportForm();
             $this->setLayout('import');
             $this->addImportToolbar();
             parent::display($tpl);
             return;
         }
 
-        $this->form = $this->get('Form');
+        $this->form = $model->getForm();
 
         if($this->getLayout() === 'import_map_fields'){
             // Get Imported Data from Session if their any
@@ -60,7 +65,7 @@ class HtmlView extends BaseHtmlView
 
 
 
-		$this->item = $this->get('Item');
+		$this->item = $model->getItem();
 
 		$this->addDefaultToolbar();
 

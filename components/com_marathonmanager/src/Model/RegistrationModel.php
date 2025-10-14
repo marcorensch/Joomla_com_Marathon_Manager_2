@@ -10,6 +10,10 @@
 
 namespace NXD\Component\MarathonManager\Site\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -387,8 +391,7 @@ class RegistrationModel extends FormModel
         return !empty($db->loadResult());
     }
 
-    public
-    function getReturnPage(): string
+    public function getReturnPage(): string
     {
         $currentEventId = Factory::getApplication()->input->getInt('event_id');
         $this->setState('return_page', Route::_('index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=' . $currentEventId));

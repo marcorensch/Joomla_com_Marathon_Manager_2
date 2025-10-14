@@ -1,6 +1,18 @@
 <?php
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_marathonmanager
+ * @copyright   Copyright (c) 2023 NXD | nx-designs
+ *              All rights reserved
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace NXD\Component\MarathonManager\Site\Model;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -37,8 +49,31 @@ class TeamsModel extends BaseDatabaseModel
         if($limit) $query->setLimit($limit);
 
         $db->setQuery($query);
-        $data = $db->loadObjectList();
+        $teams = $db->loadObjectList();
 
-        return $data;
+		foreach($teams as $teamData){
+			$this->prepareTeamData($teamData);
+		}
+
+        return $teams;
     }
+
+	private function prepareTeamData($teamData){
+		$teamData->participants = $this->prepareParticipants($teamData->participants);
+	}
+
+	private function prepareParticipants(string $participants){
+		try {
+			$participants = json_decode($participants, true);
+			// Prüfe auf JSON-Decode-Fehler
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				return array();
+			}
+			// Stelle sicher, dass es ein Array ist
+			if(!is_array($participants)) $participants = array();
+		} catch (\Exception $e) {
+			$participants = array();
+		}
+		return $participants;
+	}
 }

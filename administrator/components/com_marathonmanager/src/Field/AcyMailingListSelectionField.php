@@ -13,48 +13,66 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormHelper;
-
-$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
-if (!include_once($acyHelper)) {
-	$msg =  'COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR';
-	Factory::getApplication()->enqueueMessage(Text::_($msg), 'warning');
-	return false;
-}
-
-use AcyMailing\Classes\ListClass;
 use Joomla\Database\DatabaseInterface;
-
-defined('_JEXEC') or die;
-
-FormHelper::loadFieldClass('list');
 
 class AcyMailingListSelectionField extends ListField
 {
 
     protected $type = 'AcyMailingListSelection';
 
-    protected function getOptions(): array
-    {
-        $options = [];
-        $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_DEFAULT_SELECT_ACYMAILING_LIST'));
+	protected function getOptions(): array
+	{
+		$options = [];
+		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_DEFAULT_SELECT_ACYMAILING_LIST'));
 
-        $listClass = new ListClass;
-        $allLists = $listClass->getAll();
+		// Check if AcyMailing is installed
+		if (!$this->isAcyMailingInstalled()) {
+			Factory::getApplication()->enqueueMessage(
+				Text::_('COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR'),
+				'warning'
+			);
+			return array_merge(parent::getOptions(), $options);
+		}
 
-        if (!empty($allLists)) {
-            foreach ($allLists as $option) {
-                $options[] = HTMLHelper::_('select.option', $option->id, $option->name);
-            }
-        }
+		// Load the class dynamically
+		$listClass = new \AcyMailing\Classes\ListClass();
+		$allLists = $listClass->getAll();
 
-        return array_merge(parent::getOptions(), $options);
+		if (!empty($allLists)) {
+			foreach ($allLists as $option) {
+				$options[] = HTMLHelper::_('select.option', $option->id, $option->name);
+			}
+		}
 
-    }
+		return array_merge(parent::getOptions(), $options);
+	}
+
+	/**
+	 * Checks whether AcyMailing is installed and available
+	 *
+	 * @return bool
+	 * @since 1.1.0
+	 */
+	private function isAcyMailingInstalled(): bool
+	{
+		$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
+
+		if (!file_exists($acyHelper)) {
+			return false;
+		}
+
+		include_once($acyHelper);
+
+		return class_exists('AcyMailing\Classes\ListClass');
+	}
 
 	private function getAcymLists($onlyActive = false): array
 	{

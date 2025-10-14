@@ -9,7 +9,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -152,13 +154,14 @@ class RegistrationsModel extends ListModel
         $search = $this->getState('filter.search');
         if (!empty($search))
         {
+	        $search = mb_strtolower(trim($search), 'UTF-8');
             if (stripos($search, 'id:') === 0)
             {
                 $query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
             }
             else
             {
-                $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+	            $search = $db->quote('%' . preg_replace('/\s+/', '%', $db->escape(trim($search), true) . '%'));
                 $query->where('(' . $db->quoteName('a.team_name') . ' LIKE ' . $search . ')');
                 $query->orWhere('(' . $db->quoteName('a.reference') . ' LIKE ' . $search . ')');
                 $query->orWhere('(' . $db->quoteName('a.participants') . ' LIKE ' . $search . ')');

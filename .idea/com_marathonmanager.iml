@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/administrator/components/com_marathonmanager/vendor/composer" />
-      <excludeFolder url="file://$MODULE_DIR$/administrator/components/com_marathonmanager/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/administrator/components/com_marathonmanager/vendor/maennchen/zipstream-php" />
       <excludeFolder url="file://$MODULE_DIR$/administrator/components/com_marathonmanager/vendor/markbaker/complex" />
       <excludeFolder url="file://$MODULE_DIR$/administrator/components/com_marathonmanager/vendor/markbaker/matrix" />

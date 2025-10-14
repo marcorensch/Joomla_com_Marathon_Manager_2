@@ -7,7 +7,7 @@
     <authorUrl>https://www.nx-designs.ch</authorUrl>
     <copyright>Copyright 2023 by NXD nx-designs</copyright>
     <license>GNU General Public License version 2 or later;</license>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
     <description>COM_MARATHONMANAGER_XML_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <namespace path="src">NXD\Component\MarathonManager</namespace>

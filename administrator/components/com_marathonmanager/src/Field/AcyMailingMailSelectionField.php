@@ -13,16 +13,15 @@
 
 namespace NXD\Component\MarathonManager\Administrator\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\Database\DatabaseInterface;
-
-FormHelper::loadFieldClass('list');
-
-defined('_JEXEC') or die;
 
 class AcyMailingMailSelectionField extends ListField
 {
@@ -34,22 +33,44 @@ class AcyMailingMailSelectionField extends ListField
         $options = [];
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_MARATHONMANAGER_FIELD_DEFAULT_SELECT_ACYMAILING_MAIL'));
 
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
-        $query->select('id, name');
-        $query->from('#__acym_mail');
-        $query->where($db->quoteName('type') . ' = ' . $db->quote('standard'));
-        $query->order('id DESC');
-        $db->setQuery($query);
-        $mails = $db->loadObjectList();
+		if($this->isAcyMailingInstalled()){
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+			$query = $db->getQuery(true);
+			$query->select('id, name');
+			$query->from('#__acym_mail');
+			$query->where($db->quoteName('type') . ' = ' . $db->quote('standard'));
+			$query->order('id DESC');
+			$db->setQuery($query);
+			$mails = $db->loadObjectList();
 
-        foreach ($mails as $mail) {
-            $name = !mb_check_encoding($mail->name, 'UTF-8') ? utf8_encode($mail->name) : $mail->name;
-            $options[] = HTMLHelper::_('select.option', $mail->id, $name);
-        }
+			foreach ($mails as $mail) {
+				$name = !mb_check_encoding($mail->name, 'UTF-8') ? mb_convert_encoding($mail->name, 'UTF-8', 'ISO-8859-1') : $mail->name;
+				$options[] = HTMLHelper::_('select.option', $mail->id, $name);
+			}
+		}
+
 
         return array_merge(parent::getOptions(), $options);
 
     }
+
+	/**
+	 * Checks whether AcyMailing is installed and available
+	 *
+	 * @return bool
+	 * @since 1.1.0
+	 */
+	private function isAcyMailingInstalled(): bool
+	{
+		$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
+
+		if (!file_exists($acyHelper)) {
+			return false;
+		}
+
+		include_once($acyHelper);
+
+		return class_exists('AcyMailing\Classes\ListClass');
+	}
 
 }

@@ -9,15 +9,15 @@
 
 namespace NXD\Component\MarathonManager\Site\Helper;
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use stdClass;
-
-\defined('_JEXEC') or die;
 
 class EventGalleryHelper{
     public static function getPictures(String $pathInsideImagesFolder):array

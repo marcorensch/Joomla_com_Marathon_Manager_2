@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Map;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -24,8 +26,10 @@ class HtmlView extends BaseHtmlView
 	protected $item;
     public function display($tpl = null): void
     {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		/* @var \NXD\Component\MarathonManager\Administrator\Model\MapModel $model */
+	    $model = $this->getModel();
+		$this->form = $model->getForm();
+		$this->item = $model->getItem();
 
 		$this->addToolbar();
 

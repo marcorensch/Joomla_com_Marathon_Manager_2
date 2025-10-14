@@ -10,7 +10,9 @@
 
 namespace NXD\Component\MarathonManager\Administrator\View\Arrivaloption;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -19,6 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use NXD\Component\MarathonManager\Administrator\Model\ArrivaloptionModel;
 
 class HtmlView extends BaseHtmlView
 {
@@ -26,8 +29,10 @@ class HtmlView extends BaseHtmlView
 	protected $item;
     public function display($tpl = null): void
     {
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		/* @var ArrivaloptionModel $model */
+	    $model = $this->getModel();
+		$this->form = $model->getForm();
+		$this->item = $model->getItem();
 
 		$this->addToolbar();
 

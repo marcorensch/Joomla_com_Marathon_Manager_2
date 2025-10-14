@@ -8,7 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -62,7 +64,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                             </th>
                             <th scope="col" style="width: 1%; min-width: 85px" class="text-center">
-                                <?php echo TEXT::_('JSTATUS'); ?>
+                                <?php echo Text::_('JSTATUS'); ?>
                             </th>
                             <th scope="col" style="min-width: 150px" class="d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'COM_MARATHONMANAGER_TABLE_TABLEHEAD_TEAM_NAME', 'a.team_name', $listDirn, $listOrder); ?>
