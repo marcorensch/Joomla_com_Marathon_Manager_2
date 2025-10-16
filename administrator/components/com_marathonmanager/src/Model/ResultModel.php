@@ -85,6 +85,7 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
         }
 
         $data['modified_by'] = $user->id;
+        $data['registration_id'] = !$data['registration_id'] ? null : $data['registration_id'];
 
         // Alter the title for save as copy
         if ($input->get('task') == 'save2copy')
@@ -109,7 +110,5 @@ class ResultModel extends \Joomla\CMS\MVC\Model\AdminModel
 
         return parent::save($data);
     }
-
-    // ***************** Import ***************** //
 
 }

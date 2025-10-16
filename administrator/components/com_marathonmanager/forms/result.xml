@@ -44,7 +44,10 @@
            key_field="id"
            value_field="team_name"
            context="sqlfield"
-    />
+           layout="joomla.form.field.list-fancy-select"
+    >
+        <option value="">Bitte wählen</option>
+    </field>
 
     <field name="event_id"
            type="events"

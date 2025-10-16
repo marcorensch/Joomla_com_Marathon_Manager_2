@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
 
 class Com_MarathonmanagerInstallerScript
 {
-	private $minimumJoomlaVersion = '4.0';
+	private $minimumJoomlaVersion = '5.4';
 
 	private $minimumPhpVersion = JOOMLA_MINIMUM_PHP;
 
@@ -47,11 +47,16 @@ class Com_MarathonmanagerInstallerScript
 	{
 		if ($type !== 'uninstall')
 		{
+			// Check minimum Joomla Version
+			if (!empty($this->minimumJoomlaVersion) && version_compare(JVERSION, $this->minimumJoomlaVersion, '<'))
+			{
+				Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomlaVersion), Log::WARNING, 'jerror');
+				return false;
+			}
 			// Check minimum PHP Version
 			if (!empty($this->minimumPhpVersion) && version_compare(PHP_VERSION, $this->minimumPhpVersion, '<'))
 			{
 				Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhpVersion), Log::WARNING, 'jerror');
-
 				return false;
 			}
 		}
