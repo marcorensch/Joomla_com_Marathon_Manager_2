@@ -46,7 +46,7 @@
            context="sqlfield"
            layout="joomla.form.field.list-fancy-select"
     >
-        <option value="">Bitte wählen</option>
+        <option value="">COM_MARATHONMANAGER_FIELD_SELECT_LINKED_TEAM_OPT</option>
     </field>
 
     <field name="event_id"
