@@ -74,6 +74,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::saveGroup($toolbarButtons);
 		ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::inlinehelp();
 
 	}
 }

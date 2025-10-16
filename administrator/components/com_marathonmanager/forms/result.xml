@@ -4,6 +4,10 @@
         addformprefix="NXD\Component\MarathonManager\Administrator\Form"
         addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
 >
+    <config>
+        <inlinehelp button="show"/>
+    </config>
+
     <field
             name="id"
             type="number"

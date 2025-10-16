@@ -73,6 +73,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::saveGroup($toolbarButtons);
 
 		ToolbarHelper::cancel('map.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::inlinehelp();
 
 	}
 }

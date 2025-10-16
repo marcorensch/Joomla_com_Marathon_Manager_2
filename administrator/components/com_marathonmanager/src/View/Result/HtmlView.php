@@ -92,7 +92,7 @@ class HtmlView extends BaseHtmlView
         $toolbarButtons = [];
         ToolbarHelper::title($isNew ? Text::_('COM_MARATHONMANAGER_RESULT_NEW') : Text::_('COM_MARATHONMANAGER_RESULT_EDIT'), 'fas fa-table');
 
-        // Build the actions for new and existing records.
+		// Build the actions for new and existing records.
         if ($isNew) {
             if ($user->authorise('core.create', 'com_marathonmanager')) {
                 ToolbarHelper::apply('result.apply');
@@ -127,6 +127,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::saveGroup($toolbarButtons);
 
 		ToolbarHelper::cancel('result.cancel', 'JTOOLBAR_CLOSE');
+
+		ToolbarHelper::inlinehelp();
 
 	}
 }

@@ -3,6 +3,9 @@
       addformprefix="NXD\Component\MarathonManager\Administrator\Form"
       addfieldprefix="NXD\Component\MarathonManager\Administrator\Field"
 >
+    <config>
+        <inlinehelp button="show"/>
+    </config>
 
     <fieldset name="fs_fn" class="col-lg-4">
         <field

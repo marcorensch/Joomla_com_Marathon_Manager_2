@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
+    <config>
+        <inlinehelp button="show"/>
+    </config>
+
     <fieldset>
         <field name="rule_type" type="list" label="COM_MARATHONMANAGER_CONFIG_RULES_TYPE_LABEL" description="COM_MARATHONMANAGER_CONFIG_RULES_TYPE_DESC" default="before" class="">
             <option value="before">COM_MARATHONMANAGER_CONFIG_RULES_OPT_BEFORE</option>

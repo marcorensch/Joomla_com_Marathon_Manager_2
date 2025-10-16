@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <form>
+    <config>
+        <inlinehelp button="show"/>
+    </config>
+
     <fieldset name="course" class="col-lg-6">
     <field
             name="course_id"
