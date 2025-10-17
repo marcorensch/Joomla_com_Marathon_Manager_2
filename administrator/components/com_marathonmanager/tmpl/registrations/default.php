@@ -24,7 +24,7 @@ $wa->useScript('table.columns');
 
 $route = Route::_('index.php?option=com_marathonmanager&view=registrations');
 $user = Factory::getApplication()->getIdentity();
-$canEdit = $user->authorise('core.edit', 'com_marathonmanager');
+$canEdit = $user->authorise('registration.edit', 'com_marathonmanager');
 $canSetPaymentStatus = $user->authorise('marathonmanager.edit.payment', 'com_marathonmanager');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

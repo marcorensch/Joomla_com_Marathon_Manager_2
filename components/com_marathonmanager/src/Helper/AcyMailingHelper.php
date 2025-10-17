@@ -23,6 +23,7 @@ class AcyMailingHelper
         }
 
         $mailer = new MailerHelper();
+		// $mailer->setFrom('', 'AcyMailing'); // @ToDo: set from address and name
         $mailer->report = false; // set it to true or false if you want Acy to display a confirmation message or not (message successfully sent to...)
         $mailer->trackEmail = true; // set it to true or false if you want Acy to track the message or not (it will be inserted in the statistics table)
         $mailer->autoAddUser = false; // set it to true if you want Acy to automatically create the user if it does not exist in AcyMailing

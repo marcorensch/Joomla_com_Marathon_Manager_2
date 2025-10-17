@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 		// Build the actions for new and existing records.
 		if ($isNew)
 		{
-			if ($user->authorise('core.create', 'com_marathonmanager'))
+			if ($user->authorise('registration.create', 'com_marathonmanager'))
 			{
 				ToolbarHelper::apply('registration.apply');
 				$toolbarButtons = [
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 
-			$itemEditable = $user->authorise('core.edit', 'com_marathonmanager') || $user->authorise('core.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id;
+			$itemEditable = $user->authorise('registration.edit', 'com_marathonmanager') || $user->authorise('registration.edit.own', 'com_marathonmanager') && $this->item->created_by == $user->id;
 
 			if ($itemEditable)
 			{
