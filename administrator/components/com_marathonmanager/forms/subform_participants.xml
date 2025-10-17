@@ -7,7 +7,7 @@
         <inlinehelp button="show"/>
     </config>
 
-    <fieldset name="fs_fn" class="col-lg-4">
+    <fieldset name="fs_fn" class="col-md-6 col-xl-3">
         <field
                 name="first_name"
                 type="text"
@@ -15,7 +15,7 @@
                 required="true"
         />
     </fieldset>
-    <fieldset name="fs_ln" class="col-lg-4">
+    <fieldset name="fs_ln" class="col-md-6 col-xl-3">
         <field
                 name="last_name"
                 type="text"
@@ -23,7 +23,7 @@
                 required="true"
         />
     </fieldset>
-    <fieldset name="fs_gender" class="col-lg-2">
+    <fieldset name="fs_gender" class="col-md-6 col-xl-3">
         <field name="gender" type="list" multiple="false" label="COM_MARATHONMANAGER_FIELD_GENDER_LABEL">
             <option value="">COM_MARATHONMANAGER_FIELD_OPT_SELECT</option>
             <option value="w">COM_MARATHONMANAGER_FIELD_GENDER_OPT_WOMEN</option>
@@ -31,7 +31,7 @@
             <option value="d">COM_MARATHONMANAGER_FIELD_GENDER_OPT_DIVERS</option>
         </field>
     </fieldset>
-    <fieldset name="fs_age" class="col-lg-2">
+    <fieldset name="fs_age" class="col-md-6 col-xl-3">
         <field name="birth_year" class="validate-age" type="Birthyear" default="" hint="1980" label="COM_MARATHONMANAGER_FIELD_BIRTHYEAR_LABEL" min="1920" data-min-age="6" pattern="^\d{4}$" />
     </fieldset>
     <fieldset name="fs_loc" class="col-lg-6">
