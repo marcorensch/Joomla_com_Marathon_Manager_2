@@ -3,10 +3,10 @@
 namespace NXD\Component\MarathonManager\Site\Helper;
 
 // phpcs:disable PSR1.Files.SideEffects
-use Joomla\CMS\Log\Log;
-
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
+
+use Joomla\CMS\Log\Log;
 
 class AcyMailingHelper
 {
@@ -54,7 +54,7 @@ class AcyMailingHelper
 		// $mailer->setFrom('', 'AcyMailing'); // @ToDo: set from address and name
         $mailer->report = false; // set it to true or false if you want Acy to display a confirmation message or not (message successfully sent to...)
         $mailer->trackEmail = true; // set it to true or false if you want Acy to track the message or not (it will be inserted in the statistics table)
-        $mailer->autoAddUser = false; // set it to true if you want Acy to automatically create the user if it does not exist in AcyMailing
+        $mailer->autoAddUser = true; // set it to true if you want Acy to automatically create the user if it does not exist in AcyMailing
 //        $mailer->addParam('team_name', $data['team_name']); // Acy will automatically replace the tag {var1} by the value specified in the second parameter... you can use this function several times to replace tags in your email
 //        $mailer->addParam('reference', $data['reference']);
 //        $mailer->addParam('registration_fee', $data['registration_fee']);
@@ -68,6 +68,7 @@ class AcyMailingHelper
 			    error_log($mailer->reportMessage);
 			    error_log("----------------------------------------------------------------------------------------");
 		    }
+		    Log::add('AcyMailingHelper::sendConfirmationMail success for: ' . $emailId . " and " . $data['contact_email'], Log::INFO, 'com_marathonmanager.registration');
 	    }catch (\Exception $e){
 			Log::add('AcyMailingHelper::sendConfirmationMail - sending failed: ' . $e->getMessage() . "\n" .
 				"E-Mail ID: " . $emailId . "\n" .

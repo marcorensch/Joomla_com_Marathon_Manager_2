@@ -1,6 +1,6 @@
 # Marathon Manager 2 Changelog
 
-## 2.0.0
+## 2.0.1
 ### December 2025
 - **Changed** Raised version to 2.0.0 to match component naming
 - **Improved** Error handling & logging on registration

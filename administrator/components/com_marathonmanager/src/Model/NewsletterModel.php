@@ -15,6 +15,7 @@ namespace NXD\Component\MarathonManager\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -23,16 +24,6 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.0.0
  */
-
-$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
-if (!include_once($acyHelper)) {
-	$msg =  'COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR';
-	Factory::getApplication()->enqueueMessage(Text::_($msg), 'error');
-	return false;
-}
-
-use AcyMailing\Classes\UserClass;
-
 
 class NewsletterModel
 {
@@ -44,6 +35,42 @@ class NewsletterModel
 
     }
 
+	/**
+	 * Check if AcyMailing is installed and available
+	 *
+	 * @return bool
+	 * @since 2.0.1
+	 */
+	private function isAcyMailingAvailable(): bool
+	{
+		$acyHelper = JPATH_ADMINISTRATOR . '/components/com_acym/helpers/helper.php';
+
+		if (!file_exists($acyHelper)) {
+			Log::add('AcyMailing helper file not found at: ' . $acyHelper, Log::ERROR, 'com_marathonmanager.newsletter');
+
+			try {
+				Factory::getApplication()->enqueueMessage(
+					Text::_('COM_MARATHONMANMANAGER_FIELD_ACYM_NOT_FOUND_ERROR'),
+					'error'
+				);
+			} catch (\Exception $e) {
+				// Application not available (e.g. CLI context)
+				Log::add('Could not enqueue message: ' . $e->getMessage(), Log::WARNING, 'com_marathonmanager.newsletter');
+			}
+
+			return false;
+		}
+
+		include_once($acyHelper);
+
+		if (!class_exists('AcyMailing\Classes\UserClass')) {
+			Log::add('AcyMailing UserClass not found after loading helper', Log::ERROR, 'com_marathonmanager.newsletter');
+			return false;
+		}
+
+		return true;
+	}
+
     public function getUser(): newsLetterUser
     {
         return $this->user;
@@ -51,9 +78,18 @@ class NewsletterModel
 
     public function saveUser($email, $firstName, $lastName, $cmsUserId = null): newsLetterUser | false
     {
+	    // Check if AcyMailing is available forward exception
+	    if (!$this->isAcyMailingAvailable())
+	    {
+		    return false;
+	    }
+
+		Log::add('Saving user ' . $email . ", " . $firstName . ", " . $lastName, Log::INFO, 'com_marathonmanager.newsletter');
+
 		// Check E-Mail
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 			error_log('Invalid E-Mail address: ' . $email);
+			Log::add('Invalid E-Mail address: ' . $email, Log::ERROR, 'com_marathonmanager.newsletter');
 			return false;
 	    }
         $this->user = new newsLetterUser();
@@ -64,14 +100,15 @@ class NewsletterModel
             $this->user->cms_id = $cmsUserId;
         }
 
-        $userClass = new UserClass();
-        $userClass->sendConf = true;
+        $userClass = new \AcyMailing\Classes\UserClass();
+        $userClass->sendConf = false;
         $this->user->id = $userClass->save($this->user);
 
         // If the user already exists, we need to get the User ID by EMail
         if(!$this->user->id){
             $this->user->id = $this->getAcyMailingUserIDByEmail($email);
 			if(!$this->user->id){
+				Log::add('Could not identify AcyMailing user by email: ' . $email, Log::ERROR, 'com_marathonmanager.newsletter');
 				error_log('Could not identify AcyMailing user by email: ' . $email);
 				return false;
 			}
@@ -93,7 +130,12 @@ class NewsletterModel
 
     public function subscribeToList(int $listId): bool
     {
-        $userClass = new UserClass();
+	    if (!$this->isAcyMailingAvailable())
+	    {
+		    return false;
+	    }
+
+	    $userClass = new \AcyMailing\Classes\UserClass();
         $subscribe = array($listId);
         if(!empty($subscribe) && $this->user->id){
             // The last two parameters are to make sure to send the welcome email
@@ -102,9 +144,11 @@ class NewsletterModel
             return true;
         }else{
             if(empty($subscribe)){
+				Log::add('No list to subscribe user ' . $this->user->id . ' to', Log::WARNING, 'com_marathonmanager.newsletter');
                 error_log('No list to subscribe user ' . $this->user->id . ' to');
             }
             if(!$this->user->id){
+				Log::add('No user to subscribe to list ' . $listId, Log::INFO, 'com_marathonmanager.newsletter');
                 error_log('No user to subscribe to list ' . $listId);
             }
             return false;
