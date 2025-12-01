@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="component" method="upgrade">
     <name>COM_MARATHONMANAGER</name>
-    <creationDate>September 2023</creationDate>
+    <creationDate>November 2025</creationDate>
     <author>NXD | Marco Rensch</author>
     <authorEmail>support@nx-designs.ch</authorEmail>
     <authorUrl>https://www.nx-designs.ch</authorUrl>
     <copyright>Copyright 2023 by NXD nx-designs</copyright>
     <license>GNU General Public License version 2 or later;</license>
-    <version>1.1.1</version>
+    <version>2.0.0</version>
     <description>COM_MARATHONMANAGER_XML_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <namespace path="src">NXD\Component\MarathonManager</namespace>

@@ -18,6 +18,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Router\Route;
@@ -59,6 +60,8 @@ class RegistrationModel extends FormModel
 
     /**
      * @throws Exception
+     *
+     * @since 1.0.0
      */
     public function getEvent($eventId = null): object
     {
@@ -67,7 +70,8 @@ class RegistrationModel extends FormModel
             $eventId = $app->input->getInt('event_id');
         }
         if (empty($eventId)) {
-            throw new Exception('Event not defined', 404);
+			Log::add('Could not get event id from URL', Log::ERROR, 'com_marathonmanager.registration');
+            throw new Exception('Event ID not defined', 400);
         }
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
@@ -78,6 +82,7 @@ class RegistrationModel extends FormModel
         $event = $db->loadObject();
 
         if (empty($event)) {
+			Log::add('Could not get event with id ' . $eventId, Log::ERROR, 'com_marathonmanager.registration');
             throw new Exception('Event not found', 404);
         }
 
@@ -94,7 +99,7 @@ class RegistrationModel extends FormModel
         // Set the map option id for this event
         $this->eventMapOptionId = $event->map_option_id;
 
-        //Check if current user is already registered for this event
+        //Check if the current user is already registered for this event
         $user = Factory::getApplication()->getIdentity();
         $event->alreadyRegistered = $this->isRegistered($event->id, $user->id);
 
@@ -121,6 +126,7 @@ class RegistrationModel extends FormModel
         if (empty($mapoption)) {
             $app = Factory::getApplication();
             $app->enqueueMessage('Map Option not found', 'error');
+			Log::add('Map Option not found for event id ' . $this->eventMapOptionId, Log::ERROR, 'com_marathonmanager.registration');
             return null;
         }
 
@@ -130,9 +136,10 @@ class RegistrationModel extends FormModel
 
     /**
      * @throws Exception
+     *
+     * @since 1.0.0
      */
-    protected
-    function loadFormData()
+    protected function loadFormData()
     {
         $app = Factory::getApplication();
         $currentEventId = Factory::getApplication()->input->getInt('id');
@@ -171,7 +178,7 @@ class RegistrationModel extends FormModel
         $eventId = Factory::getApplication()->input->getInt('event_id');
 
         if (empty($userId) || empty($eventId)) {
-            throw new Exception('Forbidden', 401);
+            throw new Exception('Forbidden', 403);
         }
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
@@ -185,6 +192,7 @@ class RegistrationModel extends FormModel
         $registration = $db->loadObject();
 
         if (empty($registration)) {
+			Log::add('Could not get registration for user ' . $userId . ' and event ' . $eventId, Log::ERROR, 'com_marathonmanager.registration');
             throw new Exception('Registration not found', 404);
         }
 
@@ -197,12 +205,16 @@ class RegistrationModel extends FormModel
         return $registration;
     }
 
-    /**
-     * @param $form
-     * @param $data
-     * @param $group
-     * @return array|boolean
-     */
+	/**
+	 * @param $form
+	 * @param $data
+	 * @param $group
+	 *
+	 * @return array|boolean
+	 * @throws Exception
+	 *
+	 * @since 2.0.0
+	 */
     public
     function validate($form, $data, $group = null): bool|array
     {
@@ -213,6 +225,8 @@ class RegistrationModel extends FormModel
 
     /**
      * @throws Exception
+     *
+     * @since 1.0.0
      */
     public
     function save($data): bool
@@ -220,8 +234,6 @@ class RegistrationModel extends FormModel
         $app   = Factory::getApplication();
         $user  = $app->getIdentity();
         $table = $this->getTable();
-
-
 
         // new element tasks
         if (!isset($data['id']) || (int) $data['id'] === 0)
@@ -299,7 +311,7 @@ class RegistrationModel extends FormModel
         $status = $db->execute();
 
         if($status) {
-            $this->handleNewsletterSubscriptions($data);
+			$this->handleNewsletterSubscriptions($data);
             $this->sendConfirmationMail($data);
 
             // Clear the user state
@@ -323,8 +335,10 @@ class RegistrationModel extends FormModel
         $newsletterModel = new NewsletterModel();
 
         // Enlist for newsletter if requested
-        if($data['newsletter_enlist'] && $generalNewsletterListId = $params->get('newsletter_list_id', null)) {
+	    $generalNewsletterListId = $params->get('newsletter_list_id', null);
+        if($data['newsletter_enlist'] && $generalNewsletterListId) {
 			if(!$newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name'])){
+				Log::add(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $data['contact_email']), Log::WARNING);
 				$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $data['contact_email']), 'warning');
 				return;
 			}
@@ -333,20 +347,33 @@ class RegistrationModel extends FormModel
             if($subscriptionStatus){
                 $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_SUCCESS_SUBSCRIBE_NEWSLETTER'), 'success');
             }else{
-                $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
+	            Log::add(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $newsletterModel->getUser()->email), Log::WARNING);
+	            $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
             }
         }
 
         // Enlist for last info newsletter
-        $event = $this->getEvent($data['event_id']);
+	    try
+	    {
+		    $event = $this->getEvent($data['event_id']);
+        }catch (Exception $e){
+			Log::add('Could not get event for last info newsletter: ' . $e->getMessage(), Log::ERROR);
+			return;
+	    }
+
         if($event && $event->lastinfos_newsletter_list_id)
         {
+			Log::add('NewsletterModel::saveUser() > Save or get user to link with last info newsletter (id: '.$event->lastinfos_newsletter_list_id.')', Log::INFO);
             if(!$newsletterModel->saveUser($data['contact_email'], $data['contact_first_name'], $data['contact_last_name'])){
-				$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $data['contact_email']), 'warning');
+	            Log::add(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $data['contact_email']), Log::WARNING);
+	            $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $data['contact_email']), 'warning');
 				return;
 			}
+
+			Log::add('NewsletterModel::subscribeToList() > Subscribing address '.$newsletterModel->getUser()->email.' (acymailing id: '.$newsletterModel->getUser()->id.') to last info newsletter (id: '.$event->lastinfos_newsletter_list_id.')', Log::INFO);
             if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
-                $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
+	            Log::add(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $newsletterModel->getUser()->email), Log::WARNING);
+	            $app->enqueueMessage(Text::sprintf('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $newsletterModel->getUser()->email), 'warning');
             }
         }
 
@@ -356,13 +383,17 @@ class RegistrationModel extends FormModel
             foreach ($participants as $participant) {
                 if($participant->email){
                     $newsletterModel = new NewsletterModel();
+					Log::add('NewsletterModel::saveUser() > Save or get runner to link with last info newsletter (id: '.$event->lastinfos_newsletter_list_id.')', Log::INFO);
                     if(!$newsletterModel->saveUser($participant->email, $participant->first_name, $participant->last_name, $data['created_by'])){
-						$app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $participant->email), 'warning');
+	                    Log::add(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $participant->email), Log::WARNING);
+	                    $app->enqueueMessage(Text::_('COM_MARATHONMANAGER_ERROR_SUBSCRIBE_LASTINFO_NEWSLETTER', $participant->email), 'warning');
 						return;
                     }
                     if($event && $event->lastinfos_newsletter_list_id)
                     {
+						Log::add('NewsletterModel::subscribeToList() > Enlist runner '.$newsletterModel->getUser()->email.' (acymailing id: '.$newsletterModel->getUser()->id.') to last info newsletter (id: '.$event->lastinfos_newsletter_list_id.')', Log::INFO);;
                         if(!$newsletterModel->subscribeToList($event->lastinfos_newsletter_list_id)){
+							Log::add('NewsletterModel::subscribeToList() > Could not subscribe user to last info newsletter', Log::ERROR);
                             error_log('Could not subscribe user to last info newsletter');
                             error_log(print_r($newsletterModel->getUser(), true));
                             error_log('Last info newsletter id: ' . $event->lastinfos_newsletter_list_id);

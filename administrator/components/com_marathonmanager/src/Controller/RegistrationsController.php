@@ -14,8 +14,10 @@ namespace NXD\Component\MarathonManager\Administrator\Controller;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactory;
+use Joomla\CMS\Router\Route;
 
 /**
  * Events Controller
@@ -40,4 +42,5 @@ class RegistrationsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
+
 }

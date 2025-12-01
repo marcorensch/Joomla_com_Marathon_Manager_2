@@ -130,6 +130,7 @@ $action = Route::_('index.php?option=com_marathonmanager&layout=' . $layout . $t
                                 <?php echo $this->getForm()->renderField('contact_phone'); ?>
                                 <?php echo $this->getForm()->renderField('contact_email'); ?>
                                 <?php echo $this->getForm()->renderField('team_language_id'); ?>
+                                <?php echo $this->getForm()->renderField('resendConfirmationBtn'); ?>
                             </div>
                         </fieldset>
                     </div>

@@ -16,10 +16,12 @@ namespace NXD\Component\MarathonManager\Site\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use NXD\Component\MarathonManager\Site\Model\RegistrationModel;
 
 class RegistrationController extends FormController
 {
@@ -31,8 +33,9 @@ class RegistrationController extends FormController
         $url = $this->getReturnPage();
         $app->redirect(Route::_($url, false));
     }
-    public function submit($key = null, $urlVar = null)
+    public function submit($key = null, $urlVar = null): bool
     {
+		/* @var $model RegistrationModel */
         $app = Factory::getApplication();
         $model = $this->getModel('Registration');
         $form = $model->getForm();
@@ -42,13 +45,20 @@ class RegistrationController extends FormController
         $validData = $model->validate($form, $data);
 
         if(!$validData) {
+			Log::add("MarathonManager::Site.RegistrationController: Invalid Data from Registration Form received: \n" . var_export($data, true), Log::ERROR, 'com_marathonmanager.registration');
             error_log('Invalid Data from Registration Form: ' . var_export($data, true));
             $url =  isset($data['event_id']) ? 'index.php?option=com_marathonmanager&view=registration&layout=edit&event_id=' . $data['event_id'] : $this->getReturnPage();
             $this->setRedirect(Route::_($url, false));
             return false;
         }
         // Store the registration data.
-        $status = $model->save($validData);
+	    try
+	    {
+		    $status = $model->save($validData);
+	    }catch (\Exception $e) {
+			Log::add('Could not save registration data: ' . $e->getMessage(), Log::ERROR);
+			$status = false;
+	    }
 
         if ($status) {
             $url = $this->getReturnPage();

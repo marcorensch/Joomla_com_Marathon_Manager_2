@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Helper\ContentHelper;
+use NXD\Component\MarathonManager\Administrator\Model\RegistrationsModel;
 
 class HtmlView extends BaseHtmlView
 {
@@ -27,7 +28,7 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null): void
     {
-		/* @var \NXD\Component\MarathonManager\Administrator\Model\RegistrationsModel $model */
+		/* @var RegistrationsModel $model */
 	    $model = $this->getModel();
         $this->items = $model->getItems();
         $this->pagination = $model->getPagination();
@@ -52,11 +53,11 @@ class HtmlView extends BaseHtmlView
 	    $toolbar = $this->getDocument()->getToolbar();
 
 	    // Add New Button if user has permissions to create
-        if ($user->authorise('core.create', 'com_marathonmanager')) {
+        if ($user->authorise('registration.create', 'com_marathonmanager')) {
             ToolbarHelper::addNew('registration.add');
         }
 
-        if ($user->authorise('core.edit.state', 'com_marathonmanager'))
+        if ($user->authorise('registration.edit.state', 'com_marathonmanager'))
         {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
@@ -70,7 +71,7 @@ class HtmlView extends BaseHtmlView
             $childBar->unpublish('registrations.unpublish')->listCheck(true);
             $childBar->archive('registrations.archive')->listCheck(true);
 
-            if ($user->authorise('core.admin', 'com_marathonmanager'))
+            if ($user->authorise('registrations.admin', 'com_marathonmanager'))
             {
                 $childBar->checkin('registrations.checkin')->listCheck(true);
             }
@@ -81,7 +82,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $user->authorise('core.delete', 'com_marathonmanager'))
+        if ($this->state->get('filter.published') == -2 && $user->authorise('registration.delete', 'com_marathonmanager'))
         {
             $toolbar->delete('registrations.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
