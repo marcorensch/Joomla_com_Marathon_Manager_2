@@ -32,7 +32,6 @@
 
     <files folder="components/com_marathonmanager">
         <folder>language</folder>
-        <folder>services</folder>
         <folder>src</folder>
         <folder>tmpl</folder>
         <folder>layouts</folder>
